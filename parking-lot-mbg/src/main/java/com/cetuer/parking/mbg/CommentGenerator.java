@@ -1,4 +1,4 @@
-package com.cetuer.parking;
+package com.cetuer.parking.mbg;
 
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;

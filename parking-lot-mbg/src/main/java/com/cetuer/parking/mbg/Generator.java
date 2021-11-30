@@ -1,4 +1,4 @@
-package com.cetuer.parking;
+package com.cetuer.parking.mbg;
 
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
