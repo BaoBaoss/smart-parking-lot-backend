@@ -25,6 +25,7 @@
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
 
+        <knife4j.version>2.0.9</knife4j.version>
         <mybatis-generator.version>1.4.0</mybatis-generator.version>
         <hutool.version>5.7.7</hutool.version>
         <druid.version>1.2.8</druid.version>
@@ -60,6 +61,17 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--Knife4j API文档生产工具-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
             <!--Hutool Java工具包-->
             <dependency>
