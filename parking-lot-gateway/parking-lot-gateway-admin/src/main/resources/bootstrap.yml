@@ -1,0 +1,30 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-admin
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        server-addr: 192.168.6.6:8848
+      discovery:
+        server-addr: 192.168.6.6:8848
+
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # 控制台地址
+        dashboard: 192.168.6.6:8858
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 192.168.6.6:8848
+            dataId: sentinel-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
