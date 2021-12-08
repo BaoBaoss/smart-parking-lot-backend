@@ -19,7 +19,12 @@ public enum ResultCode {
     /**
      * 操作失败
      */
-    FAIL(9999, "操作失败");
+    FAIL(9999, "操作失败"),
+
+    /**
+     * 服务限流
+     */
+    SERVICE_IS_RATE_LIMIT(5001, "服务限流");
 
     /**
      * 自定义状态码
