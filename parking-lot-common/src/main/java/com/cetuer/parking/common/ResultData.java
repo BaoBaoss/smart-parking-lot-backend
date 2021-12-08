@@ -1,5 +1,7 @@
 package com.cetuer.parking.common;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,27 +11,22 @@ import lombok.Data;
  * @date 2021/11/30 22:26
  */
 @Data
+@ApiModel(description = "统一响应")
 public class ResultData<T> {
+
     /**
-     * 状态码
-     *
      * @see ResultCode
      */
+    @ApiModelProperty(value = "状态码", required = true)
     private int status;
 
-    /**
-     * 操作描述
-     **/
+    @ApiModelProperty(value = "操作描述", required = true)
     private String message;
 
-    /**
-     * 数据
-     **/
+    @ApiModelProperty(value = "数据", required = true)
     private T data;
 
-    /**
-     * 调用接口时间
-     */
+    @ApiModelProperty(value = "调用接口时间", required = true)
     private long timestamp;
 
     public ResultData() {

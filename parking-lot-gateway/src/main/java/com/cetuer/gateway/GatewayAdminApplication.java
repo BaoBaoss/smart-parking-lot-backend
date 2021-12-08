@@ -1,7 +1,8 @@
-package com.cetuer.gateway.admin;
+package com.cetuer.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 /**
  * 后台网关启动类
  *

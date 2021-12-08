@@ -10,11 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>parking-lot-gateway</artifactId>
-    <packaging>pom</packaging>
     <description>网关模块</description>
-    <modules>
-        <module>parking-lot-gateway-admin</module>
-    </modules>
 
     <dependencies>
         <!--网关依赖-->
@@ -46,6 +42,21 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-datasource-nacos</artifactId>
+        </dependency>
+        <!--Openfeign远程调用-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--Loadbalancer-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!--knife4j文档ui依赖-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>
