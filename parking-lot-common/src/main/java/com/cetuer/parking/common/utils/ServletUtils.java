@@ -1,6 +1,7 @@
 package com.cetuer.parking.common.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cetuer.parking.common.domain.ResultData;
 import com.cetuer.parking.common.enums.ResultCode;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -37,7 +38,7 @@ public class ServletUtils {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         ResultData<Void> result = ResultData.fail(code, appendInfo);
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
+        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }
 }
