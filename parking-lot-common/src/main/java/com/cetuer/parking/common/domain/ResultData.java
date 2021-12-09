@@ -1,5 +1,6 @@
-package com.cetuer.parking.common;
+package com.cetuer.parking.common.domain;
 
+import com.cetuer.parking.common.enums.ResultCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -56,9 +57,21 @@ public class ResultData<T> {
      * @return 统一返回结果
      */
     public static <T> ResultData<T> fail(ResultCode failCode) {
+        return fail(failCode, null);
+    }
+
+    /**
+     * 返回失败结果
+     *
+     * @param failCode 失败状态码
+     * @param appendInfo 追加错误信息
+     * @param <T>  数据类型
+     * @return 统一返回结果
+     */
+    public static <T> ResultData<T> fail(ResultCode failCode, String appendInfo) {
         ResultData<T> resultData = new ResultData<>();
         resultData.setStatus(failCode.getCode());
-        resultData.setMessage(failCode.getMessage());
+        resultData.setMessage(failCode.getMessage() + (appendInfo == null ? "" : appendInfo));
         resultData.setData(null);
         return resultData;
     }

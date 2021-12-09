@@ -2,14 +2,8 @@ package com.cetuer.gateway.handler;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.fastjson.JSONObject;
-import com.cetuer.parking.common.ResultCode;
-import com.cetuer.parking.common.ResultData;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import com.cetuer.parking.common.enums.ResultCode;
+import com.cetuer.parking.common.utils.ServletUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
@@ -22,19 +16,6 @@ import reactor.core.publisher.Mono;
  */
 public class SentinelFallbackHandler implements WebExceptionHandler {
 
-    /**
-     * webflux响应
-     *
-     * @return Mono<Void>
-     */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response) {
-        response.setStatusCode(HttpStatus.OK);
-        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        ResultData<Void> result = ResultData.fail(ResultCode.SERVICE_IS_RATE_LIMIT);
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result).getBytes());
-        return response.writeWith(Mono.just(dataBuffer));
-    }
-
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
         if (exchange.getResponse().isCommitted()) {
@@ -46,6 +27,6 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         return GatewayCallbackManager
                 .getBlockHandler()
                 .handleRequest(exchange, ex)
-                .flatMap(response -> webFluxResponseWriter(exchange.getResponse()));
+                .flatMap(response -> ServletUtils.webFluxResponseWriter(exchange.getResponse(), ResultCode.SERVICE_IS_RATE_LIMIT));
     }
 }

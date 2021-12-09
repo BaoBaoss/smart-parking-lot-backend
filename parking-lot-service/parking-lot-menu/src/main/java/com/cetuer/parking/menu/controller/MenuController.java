@@ -1,6 +1,6 @@
 package com.cetuer.parking.menu.controller;
 
-import com.cetuer.parking.common.ResultData;
+import com.cetuer.parking.common.domain.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

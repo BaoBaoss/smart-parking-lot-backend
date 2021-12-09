@@ -1,4 +1,4 @@
-package com.cetuer.parking.common;
+package com.cetuer.parking.common.enums;
 
 import lombok.Getter;
 
@@ -11,21 +11,13 @@ import lombok.Getter;
 @Getter
 public enum ResultCode {
 
-    /**
-     * 操作成功
-     */
     SUCCESS(2000, "操作成功"),
 
-    /**
-     * 操作失败
-     */
     FAIL(9999, "操作失败"),
 
-    /**
-     * 服务限流
-     */
-    SERVICE_IS_RATE_LIMIT(5001, "服务限流");
+    SERVICE_IS_RATE_LIMIT(5001, "服务限流"),
 
+    GATEWAY_ERROR(5002, "网关错误 ");
     /**
      * 自定义状态码
      **/
