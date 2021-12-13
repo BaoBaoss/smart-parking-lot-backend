@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.menu.mapper.MenuMapper">
+    <resultMap id="MenuResult" type="Menu">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
+        <result column="order_num" jdbcType="INTEGER" property="orderNum"/>
+        <result column="route_path" jdbcType="VARCHAR" property="routePath"/>
+        <result column="component_path" jdbcType="VARCHAR" property="componentPath"/>
+        <result column="menu_type" jdbcType="CHAR" property="menuType"/>
+        <result column="visible" jdbcType="INTEGER" property="visible"/>
+        <result column="perms" jdbcType="VARCHAR" property="perms"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="selectMenuVo">
+        select id,
+               menu_id,
+               parent_id,
+               menu_name,
+               order_num,
+               route_path,
+               component_path,
+               menu_type,
+               visible,
+               perms,
+               icon,
+               create_time,
+               update_time
+        from menu
+    </sql>
+
+    <select id="selectMenuList" parameterType="Menu" resultMap="MenuResult">
+        <include refid="selectMenuVo"/>
+        <where>
+            <if test="menuName != null and menuName != ''">
+                AND menu_name like concat('%', #{menuName}, '%')
+            </if>
+            <if test="visible != null and visible != ''">
+                AND visible = #{visible}
+            </if>
+        </where>
+        order by parent_id, order_num
+    </select>
+
+    <select id="selectMenuTreeAll" resultMap="MenuResult">
+        <include refid="selectMenuVo"/>
+        where menu_type in ('M', 'C')
+        order by parent_id, order_num
+    </select>
+</mapper>
