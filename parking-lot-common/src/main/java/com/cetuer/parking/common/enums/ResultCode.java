@@ -17,7 +17,9 @@ public enum ResultCode {
 
     SERVICE_IS_RATE_LIMIT(5001, "服务限流"),
 
-    GATEWAY_ERROR(5002, "网关错误 ");
+    GATEWAY_ERROR(5002, "网关错误 "),
+
+    SERVICE_INNER_ERROR(5000, "微服务内部错误 ");
     /**
      * 自定义状态码
      **/
