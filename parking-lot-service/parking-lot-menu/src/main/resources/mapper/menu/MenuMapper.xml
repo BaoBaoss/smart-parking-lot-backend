@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.menu.mapper.MenuMapper">
-    <resultMap id="MenuResult" type="Menu">
+    <resultMap id="MenuResultMap" type="Menu">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
@@ -18,7 +18,7 @@
     </resultMap>
 
     <sql id="selectMenuVo">
-        select id,
+        SELECT id,
                menu_id,
                parent_id,
                menu_name,
@@ -31,10 +31,10 @@
                icon,
                create_time,
                update_time
-        from menu
+        FROM menu
     </sql>
 
-    <select id="selectMenuList" parameterType="Menu" resultMap="MenuResult">
+    <select id="selectMenuList" parameterType="Menu" resultMap="MenuResultMap">
         <include refid="selectMenuVo"/>
         <where>
             <if test="menuName != null and menuName != ''">
@@ -47,7 +47,7 @@
         order by parent_id, order_num
     </select>
 
-    <select id="selectMenuTreeAll" resultMap="MenuResult">
+    <select id="selectMenuTreeAll" resultMap="MenuResultMap">
         <include refid="selectMenuVo"/>
         where menu_type in ('M', 'C')
         order by parent_id, order_num

@@ -1,7 +1,7 @@
 package com.cetuer.gateway.handler;
 
 import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.utils.ServletUtils;
+import com.cetuer.parking.common.utils.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;
@@ -32,9 +32,9 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
 
         if (ex instanceof ResponseStatusException) {
             ResponseStatusException responseStatusException = (ResponseStatusException) ex;
-            return ServletUtils.webFluxResponseWriter(response, ResultCode.GATEWAY_ERROR, responseStatusException.getStatus().toString());
+            return ServletUtil.webFluxResponseWriter(response, ResultCode.GATEWAY_ERROR, responseStatusException.getStatus().toString());
         } else {
-            return ServletUtils.webFluxResponseWriter(response, ResultCode.GATEWAY_ERROR);
+            return ServletUtil.webFluxResponseWriter(response, ResultCode.GATEWAY_ERROR);
         }
     }
 }

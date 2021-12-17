@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  *
  * @author Cetuer
  */
-public class ServletUtils {
+public class ServletUtil {
     /**
      * webflux 响应
      * @param response ServerHttpResponse

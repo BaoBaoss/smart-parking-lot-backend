@@ -7,6 +7,7 @@ import com.cetuer.parking.menu.domain.vo.MetaVo;
 import com.cetuer.parking.menu.domain.vo.RouterVo;
 import com.cetuer.parking.menu.mapper.MenuMapper;
 import com.cetuer.parking.menu.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,10 @@ import java.util.stream.Collectors;
  * @date 2021/12/9 21:19
  */
 @Service
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MenuServiceImpl implements MenuService {
 
-    @Autowired
-    private MenuMapper menuMapper;
+    private final MenuMapper menuMapper;
 
     /**
      * 查找菜单列表

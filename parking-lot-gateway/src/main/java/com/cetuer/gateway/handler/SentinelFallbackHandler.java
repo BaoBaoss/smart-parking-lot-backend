@@ -3,7 +3,7 @@ package com.cetuer.gateway.handler;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.utils.ServletUtils;
+import com.cetuer.parking.common.utils.ServletUtil;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
@@ -27,6 +27,6 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         return GatewayCallbackManager
                 .getBlockHandler()
                 .handleRequest(exchange, ex)
-                .flatMap(response -> ServletUtils.webFluxResponseWriter(exchange.getResponse(), ResultCode.SERVICE_IS_RATE_LIMIT));
+                .flatMap(response -> ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.SERVICE_IS_RATE_LIMIT));
     }
 }

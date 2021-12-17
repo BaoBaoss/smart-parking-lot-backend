@@ -1,8 +1,8 @@
 server:
-  port: 9091
+  port: 9092
 spring:
   application:
-    name: service-menu
+    name: service-user
   profiles:
     active: dev
   cloud:

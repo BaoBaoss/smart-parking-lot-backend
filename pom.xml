@@ -8,6 +8,8 @@
         <module>parking-lot-mbg</module>
         <module>parking-lot-common</module>
         <module>parking-lot-service</module>
+        <module>parking-lot-auth</module>
+        <module>parking-lot-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

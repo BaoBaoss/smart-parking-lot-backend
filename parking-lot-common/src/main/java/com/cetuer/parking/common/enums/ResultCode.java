@@ -13,13 +13,15 @@ public enum ResultCode {
 
     SUCCESS(2000, "操作成功"),
 
-    FAIL(9999, "操作失败"),
+    FAIL(5999, "操作失败"),
+
+    SERVICE_INNER_ERROR(5000, "微服务内部错误"),
 
     SERVICE_IS_RATE_LIMIT(5001, "服务限流"),
 
-    GATEWAY_ERROR(5002, "网关错误 "),
+    GATEWAY_ERROR(5002, "网关错误"),
 
-    SERVICE_INNER_ERROR(5000, "微服务内部错误 ");
+    SERVICE_DEMOTION(5003, "服务降级");
     /**
      * 自定义状态码
      **/
