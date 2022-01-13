@@ -19,11 +19,7 @@ import java.util.Optional;
  */
 @RestController
 public class SwaggerHandler {
-
-    @Autowired(required = false)
     private SecurityConfiguration securityConfiguration;
-
-    @Autowired(required = false)
     private UiConfiguration uiConfiguration;
 
     private final SwaggerResourcesProvider swaggerResources;
@@ -31,6 +27,16 @@ public class SwaggerHandler {
     @Autowired
     public SwaggerHandler(SwaggerResourcesProvider swaggerResources) {
         this.swaggerResources = swaggerResources;
+    }
+
+    @Autowired(required = false)
+    public void setSecurityConfiguration(SecurityConfiguration securityConfiguration) {
+        this.securityConfiguration = securityConfiguration;
+    }
+
+    @Autowired(required = false)
+    public void setUiConfiguration(UiConfiguration uiConfiguration) {
+        this.uiConfiguration = uiConfiguration;
     }
 
     /**

@@ -17,12 +17,12 @@ import javax.validation.constraints.NotBlank;
 @ApiModel("界面登录实体")
 @Data
 public class LoginVo {
-    @ApiModelProperty("用户名")
+    @ApiModelProperty(required = true, value = "用户名")
     @NotBlank(message = "用户名不能为空")
     @Length(min = UserConstant.USERNAME_MIN_LENGTH, max = UserConstant.USERNAME_MAX_LENGTH, message = "用户名不在指定范围")
     private String username;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty(required = true, value = "密码")
     @NotBlank(message = "密码不能为空")
     @Length(min = UserConstant.PASSWORD_MIN_LENGTH, max = UserConstant.PASSWORD_MAX_LENGTH, message = "密码不在指定范围")
     private String password;

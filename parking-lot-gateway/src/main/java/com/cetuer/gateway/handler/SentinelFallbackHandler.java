@@ -8,6 +8,8 @@ import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Nonnull;
+
 /**
  * 自定义限流异常处理
  *
@@ -16,8 +18,9 @@ import reactor.core.publisher.Mono;
  */
 public class SentinelFallbackHandler implements WebExceptionHandler {
 
+    @Nonnull
     @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+    public Mono<Void> handle(ServerWebExchange exchange,@Nonnull Throwable ex) {
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
         }

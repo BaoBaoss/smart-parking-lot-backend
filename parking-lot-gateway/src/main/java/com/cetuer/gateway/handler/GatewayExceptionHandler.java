@@ -11,6 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Nonnull;
+
 /**
  * 网关统一异常处理
  *
@@ -21,8 +23,9 @@ import reactor.core.publisher.Mono;
 @Order(-1)
 @Configuration
 public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
+    @Nonnull
     @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+    public Mono<Void> handle(ServerWebExchange exchange,@Nonnull Throwable ex) {
         ServerHttpResponse response = exchange.getResponse();
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);

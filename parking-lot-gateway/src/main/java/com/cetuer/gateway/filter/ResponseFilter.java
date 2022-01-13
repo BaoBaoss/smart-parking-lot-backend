@@ -20,6 +20,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Nonnull;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -51,8 +52,9 @@ public class ResponseFilter implements GlobalFilter, Ordered {
         DataBufferFactory bufferFactory = response.bufferFactory();
         // 响应装饰
         ServerHttpResponseDecorator decoratedResponse = new ServerHttpResponseDecorator(response) {
+            @Nonnull
             @Override
-            public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+            public Mono<Void> writeWith(@Nonnull Publisher<? extends DataBuffer> body) {
                 log.info("global filter HttpResponseBody，Response processing，getStatusCode={}", getStatusCode());
                 if (getStatusCode() != null && body instanceof Flux) {
                     Flux<? extends DataBuffer> fluxBody = Flux.from(body);
