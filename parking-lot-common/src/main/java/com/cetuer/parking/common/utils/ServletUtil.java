@@ -1,9 +1,10 @@
 package com.cetuer.parking.common.utils;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.cetuer.parking.common.domain.ResultData;
 import com.cetuer.parking.common.enums.ResultCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,10 @@ import reactor.core.publisher.Mono;
  *
  * @author Cetuer
  */
+@Slf4j
 public class ServletUtil {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     /**
      * webflux 响应
      * @param response ServerHttpResponse
@@ -38,7 +42,16 @@ public class ServletUtil {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         ResultData<Void> result = ResultData.fail(code, appendInfo);
-        DataBuffer dataBuffer = response.bufferFactory().wrap(JSONObject.toJSONString(result, SerializerFeature.WriteMapNullValue).getBytes());
+        String resultJson = null;
+        try {
+            resultJson = mapper.writeValueAsString(result);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            log.error("序列化失败 ex={}", e.getMessage(), e);
+            resultJson = "返回数据序列化失败！";
+        }
+
+        DataBuffer dataBuffer = response.bufferFactory().wrap(resultJson.getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }
 }

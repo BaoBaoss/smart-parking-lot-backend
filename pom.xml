@@ -30,7 +30,6 @@
         <hutool.version>5.7.17</hutool.version>
         <druid.version>1.2.8</druid.version>
         <mybatis.version>2.2.0</mybatis.version>
-        <fastjson.version>1.2.78</fastjson.version>
     </properties>
 
     <dependencies>
@@ -109,12 +108,6 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-core</artifactId>
                 <version>${mybatis-generator.version}</version>
-            </dependency>
-            <!-- JSON 解析器和生成器 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

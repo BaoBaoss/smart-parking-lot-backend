@@ -32,4 +32,8 @@ public class SecurityUtil {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
+
+    public static void main(String[] args) {
+        System.out.println(encryptPassword("admin"));
+    }
 }

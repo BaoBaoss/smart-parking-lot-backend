@@ -19,7 +19,7 @@ public class LoginUser implements Serializable {
     /**
      * 用户唯一标识
      */
-    private String token;
+    private String uuid;
 
     /**
      * 登录时间
@@ -30,11 +30,6 @@ public class LoginUser implements Serializable {
      * 过期时间
      */
     private Long expireTime;
-
-    /**
-     * 登录IP地址
-     */
-    private String ipaddr;
 
     /**
      * 权限列表
