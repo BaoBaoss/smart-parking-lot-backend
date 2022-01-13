@@ -5,8 +5,8 @@ import com.cetuer.parking.user.api.domain.User;
 import com.cetuer.parking.user.api.model.LoginUser;
 import com.cetuer.parking.user.service.UserService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,14 +29,13 @@ public class UserController {
     private final UserService userService;
 
     /**
-     * 通过用户名查询用户信息
+     * 根据用户名查询用户信息
      * @param username 用户名
      * @return 用户信息
      */
-    @ApiOperation("通过用户名查询用户信息")
-    @ApiImplicitParam(value = "用户名", required = true)
+    @ApiOperation("根据用户名查询用户信息")
     @GetMapping("/info/{username}")
-    public ResultData<LoginUser> info(@PathVariable("username") String username) {
+    public ResultData<LoginUser> info(@ApiParam(value = "用户名", required = true) @PathVariable("username") String username) {
         User user = userService.findUserByUsername(username);
         if(null == user) {
             return ResultData.fail("用户名或密码错误");

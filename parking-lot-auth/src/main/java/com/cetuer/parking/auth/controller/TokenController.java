@@ -6,7 +6,6 @@ import com.cetuer.parking.auth.service.TokenService;
 import com.cetuer.parking.common.domain.ResultData;
 import com.cetuer.parking.user.api.model.LoginUser;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,6 @@ public class TokenController {
     private final TokenService tokenService;
 
     @ApiOperation("登录")
-    @ApiImplicitParam(value = "用户名和密码", required = true)
     @PostMapping("/login")
     public ResultData<String> login(@Validated @RequestBody LoginVo login) {
         LoginUser user = loginService.login(login.getUsername(), login.getPassword());
