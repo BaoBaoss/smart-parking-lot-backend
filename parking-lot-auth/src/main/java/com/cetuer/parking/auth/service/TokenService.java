@@ -3,7 +3,6 @@ package com.cetuer.parking.auth.service;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import com.cetuer.parking.common.constant.CacheConstants;
 import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.service.RedisService;
 import com.cetuer.parking.user.api.model.LoginUser;
@@ -53,8 +52,8 @@ public class TokenService {
      */
     public void refreshToken(LoginUser loginUser) {
         loginUser.setLoginTime(System.currentTimeMillis());
-        loginUser.setExpireTime(loginUser.getLoginTime() + TimeUnit.MINUTES.toMillis(CacheConstants.EXPIRE_TIME));
+        loginUser.setExpireTime(loginUser.getLoginTime() + TimeUnit.MINUTES.toMillis(TokenConstants.EXPIRE_TIME));
         //缓存loginUser
-        redisService.set(CacheConstants.LOGIN_TOKEN_KEY + loginUser.getUuid(), loginUser, TimeUnit.MINUTES.toSeconds(CacheConstants.EXPIRE_TIME));
+        redisService.set(TokenConstants.LOGIN_TOKEN_KEY + loginUser.getUuid(), loginUser, TimeUnit.MINUTES.toSeconds(TokenConstants.EXPIRE_TIME));
     }
 }

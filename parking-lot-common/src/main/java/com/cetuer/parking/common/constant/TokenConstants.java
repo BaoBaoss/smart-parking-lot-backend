@@ -7,6 +7,15 @@ package com.cetuer.parking.common.constant;
  */
 public class TokenConstants {
     /**
+     * 过期时间12小时
+     */
+    public final static long EXPIRE_TIME = 60 * 12;
+
+    /**
+     * 刷新时间2小时
+     */
+    public final static long REFRESH_TIME = 60 * 2;
+    /**
      * 令牌自定义标识
      */
     public static final String AUTHENTICATION = "Authorization";
@@ -40,4 +49,9 @@ public class TokenConstants {
      * 用户名字段
      */
     public static final String USERNAME = "username";
+
+    /**
+     * 权限缓存前缀
+     */
+    public final static String LOGIN_TOKEN_KEY = "login_tokens:";
 }

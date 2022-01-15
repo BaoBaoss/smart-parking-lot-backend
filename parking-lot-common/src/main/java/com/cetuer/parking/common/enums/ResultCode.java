@@ -21,7 +21,9 @@ public enum ResultCode {
 
     GATEWAY_ERROR(5002, "网关错误"),
 
-    SERVICE_DEMOTION(5003, "服务降级");
+    SERVICE_DEMOTION(5003, "服务降级"),
+
+    CAPTCHA_FAIL(5004, "验证失败");
     /**
      * 自定义状态码
      **/
