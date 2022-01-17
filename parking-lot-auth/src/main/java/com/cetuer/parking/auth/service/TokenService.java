@@ -31,7 +31,7 @@ public class TokenService {
      * @param loginUser 用户信息
      * @return token
      */
-    public String createToken(LoginUser loginUser) {
+    public Map<String, Object> createToken(LoginUser loginUser) {
         String uuid = IdUtil.fastUUID();
         loginUser.setUuid(uuid);
         refreshToken(loginUser);
@@ -41,8 +41,12 @@ public class TokenService {
         claimsMap.put(TokenConstants.USER_KEY, uuid);
         claimsMap.put(TokenConstants.USER_ID, loginUser.getUser().getId());
         claimsMap.put(TokenConstants.USERNAME, loginUser.getUser().getUsername());
+        // 接口返回信息
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("access_token", JWTUtil.createToken(claimsMap, JWTSignerUtil.hs512(TokenConstants.SECRET.getBytes())));
+        resMap.put("expires_in", loginUser.getExpireTime());
 
-        return JWTUtil.createToken(claimsMap, JWTSignerUtil.hs512(TokenConstants.SECRET.getBytes()));
+        return resMap;
     }
 
 

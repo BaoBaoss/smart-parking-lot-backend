@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * token 控制
  *
@@ -32,7 +34,7 @@ public class TokenController {
 
     @ApiOperation("登录")
     @PostMapping("/login")
-    public ResultData<String> login(@Validated @RequestBody LoginVo login) {
+    public ResultData<Map<String, Object>> login(@Validated @RequestBody LoginVo login) {
         LoginUser user = loginService.login(login.getUsername(), login.getPassword());
         return ResultData.success(tokenService.createToken(user));
     }
