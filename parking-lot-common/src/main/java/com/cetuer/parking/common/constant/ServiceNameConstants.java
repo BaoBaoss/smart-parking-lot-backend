@@ -10,13 +10,9 @@ public class ServiceNameConstants {
     /**
      * 认证服务
      */
-    public static final String AUTH_SERVICE = "auth";
-    /**
-     * 菜单服务
-     */
-    public static final String MENU_SERVICE = "service-menu";
+    public static final String AUTH_SERVICE = "parking-auth";
     /**
      * 用户服务
      */
-    public static final String USER_SERVICE = "service-user";
+    public static final String ADMIN_SERVICE = "parking-admin";
 }

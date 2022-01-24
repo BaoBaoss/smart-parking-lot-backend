@@ -34,6 +34,6 @@ public class SecurityUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(encryptPassword("admin"));
+        System.out.println(encryptPassword("cetuer"));
     }
 }

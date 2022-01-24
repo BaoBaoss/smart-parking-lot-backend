@@ -5,7 +5,7 @@ import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.service.RedisService;
-import com.cetuer.parking.user.api.model.LoginUser;
+import com.cetuer.parking.admin.api.model.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,12 +37,12 @@ public class TokenService {
         refreshToken(loginUser);
 
         //Jwt存储信息
-        Map<String, Object> claimsMap = new HashMap<>();
+        Map<String, Object> claimsMap = new HashMap<>(4);
         claimsMap.put(TokenConstants.USER_KEY, uuid);
         claimsMap.put(TokenConstants.USER_ID, loginUser.getUser().getId());
         claimsMap.put(TokenConstants.USERNAME, loginUser.getUser().getUsername());
         // 接口返回信息
-        Map<String, Object> resMap = new HashMap<>();
+        Map<String, Object> resMap = new HashMap<>(2);
         resMap.put("access_token", JWTUtil.createToken(claimsMap, JWTSignerUtil.hs512(TokenConstants.SECRET.getBytes())));
         resMap.put("expires_in", loginUser.getExpireTime());
 

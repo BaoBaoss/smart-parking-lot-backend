@@ -7,9 +7,9 @@
         <module>parking-lot-gateway</module>
         <module>parking-lot-mbg</module>
         <module>parking-lot-common</module>
-        <module>parking-lot-service</module>
         <module>parking-lot-auth</module>
         <module>parking-lot-api</module>
+        <module>parking-lot-admin</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

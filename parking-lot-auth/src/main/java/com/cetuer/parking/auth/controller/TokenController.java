@@ -1,10 +1,10 @@
 package com.cetuer.parking.auth.controller;
 
-import com.cetuer.parking.auth.doman.vo.LoginVo;
+import com.cetuer.parking.auth.domain.vo.LoginVo;
 import com.cetuer.parking.auth.service.LoginService;
 import com.cetuer.parking.auth.service.TokenService;
 import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.user.api.model.LoginUser;
+import com.cetuer.parking.admin.api.model.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,8 @@
 server:
-  port: 9100
+  port: 9091
 spring:
   application:
-    name: parking-auth
+    name: parking-admin
   profiles:
     active: dev
   cloud:
