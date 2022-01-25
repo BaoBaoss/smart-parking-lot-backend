@@ -46,6 +46,16 @@ public class ResultData<T> {
     }
 
     /**
+     * 返回成功结果，无数据
+     *
+     * @param <T>  数据类型
+     * @return 统一返回结果
+     */
+    public static <T> ResultData<T> success() {
+        return result(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null);
+    }
+
+    /**
      * 返回失败结果
      *
      * @param failCode 失败状态码
