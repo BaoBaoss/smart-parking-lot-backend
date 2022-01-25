@@ -58,7 +58,13 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if(StrUtil.isEmpty(token)) {
             return unauthorizedResponse(exchange, "令牌为空");
         }
-        JWT jwt = JWTUtil.parseToken(token);
+        JWT jwt;
+        try {
+            jwt = JWTUtil.parseToken(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return unauthorizedResponse(exchange, "令牌解析错误");
+        }
         String userKey = (String) jwt.getPayload(TokenConstants.USER_KEY);
         boolean isLogin = redisService.hasKey(TokenConstants.LOGIN_TOKEN_KEY + userKey);
         if(!isLogin) {
@@ -106,7 +112,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
      * @return Mono<Void>
      */
     private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        log.error("[鉴权异常处理]请求路径:{}", exchange.getRequest().getPath());
+        log.error("[鉴权异常处理]请求路径:{}, 原因:{}", exchange.getRequest().getPath(), msg);
         return ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.UNAUTHORIZED, msg);
     }
 
