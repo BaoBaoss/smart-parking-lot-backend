@@ -26,6 +26,7 @@ public class GatewayExceptionHandler implements ErrorWebExceptionHandler {
     @Nonnull
     @Override
     public Mono<Void> handle(ServerWebExchange exchange,@Nonnull Throwable ex) {
+        ex.printStackTrace();
         ServerHttpResponse response = exchange.getResponse();
         if (exchange.getResponse().isCommitted()) {
             return Mono.error(ex);
