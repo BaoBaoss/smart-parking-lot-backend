@@ -1,12 +1,14 @@
 package com.cetuer.parking.auth.service;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.service.RedisService;
-import com.cetuer.parking.admin.api.model.LoginUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author Cetuer
  * @date 2021/12/19 10:27
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TokenService {
@@ -59,5 +62,23 @@ public class TokenService {
         loginUser.setExpireTime(loginUser.getLoginTime() + TimeUnit.MINUTES.toMillis(TokenConstants.EXPIRE_TIME));
         //缓存loginUser
         redisService.set(TokenConstants.LOGIN_TOKEN_KEY + loginUser.getUuid(), loginUser, TimeUnit.MINUTES.toSeconds(TokenConstants.EXPIRE_TIME));
+    }
+
+    /**
+     * 登出
+     * @param token 令牌
+     */
+    public void logout(String token) {
+        //裁剪前缀
+        if(null != token && token.startsWith(TokenConstants.PREFIX)) {
+            token = token.replaceFirst(TokenConstants.PREFIX, StrUtil.EMPTY);
+            try {
+                String userKey = (String) JWTUtil.parseToken(token).getPayload(TokenConstants.USER_KEY);
+                redisService.del(TokenConstants.LOGIN_TOKEN_KEY + userKey);
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error("[token解析错误] token:{}", token);
+            }
+        }
     }
 }

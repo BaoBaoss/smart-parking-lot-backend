@@ -1,19 +1,17 @@
 package com.cetuer.parking.auth.controller;
 
+import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.auth.domain.vo.LoginVo;
 import com.cetuer.parking.auth.service.LoginService;
 import com.cetuer.parking.auth.service.TokenService;
+import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.admin.api.model.LoginUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -37,5 +35,12 @@ public class TokenController {
     public ResultData<Map<String, Object>> login(@Validated @RequestBody LoginVo login) {
         LoginUser user = loginService.login(login.getUsername(), login.getPassword());
         return ResultData.success(tokenService.createToken(user));
+    }
+
+    @ApiOperation("登出")
+    @DeleteMapping("/logout")
+    public ResultData<Void> logout(@RequestHeader(value = TokenConstants.AUTHENTICATION) String token) {
+        tokenService.logout(token);
+        return ResultData.success();
     }
 }
