@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.admin.mapper.MenuMapper">
-    <resultMap id="MenuResultMap" type="Menu">
+    <resultMap id="MenuResultMap" type="com.cetuer.parking.admin.domain.Menu">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
@@ -34,7 +34,7 @@
         FROM `smart-parking-lot`.menu
     </sql>
 
-    <select id="selectMenuList" parameterType="Menu" resultMap="MenuResultMap">
+    <select id="selectMenuList" parameterType="com.cetuer.parking.admin.domain.Menu" resultMap="MenuResultMap">
         <include refid="selectMenuVo"/>
         <where>
             <if test="menuName != null and menuName != ''">
@@ -56,9 +56,33 @@
     <select id="selectMenuPermsByUserId" parameterType="Integer" resultType="String">
         SELECT DISTINCT m.perms
         FROM `smart-parking-lot`.menu m
-                 LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
-                 LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
-                 LEFT JOIN `smart-parking-lot`.`user` u ON u.id = ur.user_id
-        WHERE m.perms IS NOT NULL AND user_id = #{userId}
+                     LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
+                     LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
+                     LEFT JOIN `smart-parking-lot`.`user` u ON u.id = ur.user_id
+        WHERE m.perms IS NOT NULL
+          AND u.id = #{userId}
+    </select>
+
+    <select id="selectMenuTreeByUserId" parameterType="Integer" resultMap="MenuResultMap">
+        SELECT DISTINCT m.id,
+                        m.menu_id,
+                        m.parent_id,
+                        m.menu_name,
+                        m.order_num,
+                        m.route_path,
+                        m.component_path,
+                        m.menu_type,
+                        m.`visible`,
+                        m.perms,
+                        m.icon,
+                        m.create_time,
+                        m.update_time
+        FROM `smart-parking-lot`.menu m
+                     LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
+                     LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
+                     LEFT JOIN `smart-parking-lot`.`user` u ON u.id = ur.user_id
+        WHERE u.id = #{userId}
+          AND menu_type IN ('M', 'C')
+        ORDER BY m.parent_id, m.order_num
     </select>
 </mapper>

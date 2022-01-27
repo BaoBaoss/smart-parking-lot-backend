@@ -33,4 +33,12 @@ public interface MenuMapper {
      * @return 权限列表
      */
     Set<String> selectMenuPermsByUserId(Integer userId);
+
+    /**
+     * 根据用户id查询菜单树信息
+     *
+     * @param userId 用户id
+     * @return 菜单列表
+     */
+    List<Menu> selectMenuTreeByUserId(Integer userId);
 }

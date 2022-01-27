@@ -27,25 +27,20 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuMapper menuMapper;
 
-    /**
-     * 查找菜单列表
-     *
-     * @param menu 菜单信息
-     * @return 菜单列表
-     */
     @Override
     public List<Menu> selectMenuList(Menu menu) {
         return menuMapper.selectMenuList(menu);
     }
 
-    /**
-     * 查询菜单树信息
-     *
-     * @return 菜单列表
-     */
     @Override
-    public List<Menu> selectMenuTree() {
-        List<Menu> menus = menuMapper.selectMenuTreeAll();
+    public List<Menu> selectMenuTreeByUserId(Integer userId) {
+        List<Menu> menus;
+        //超级管理员显示所有菜单
+        if(User.isAdmin(userId)) {
+            menus = menuMapper.selectMenuTreeAll();
+        } else {
+            menus = menuMapper.selectMenuTreeByUserId(userId);
+        }
         List<Menu> menusByParentId = getMenusByParentId(menus, 0);
         menusByParentId.forEach(menu -> fillMenuChild(menus, menu));
         return menusByParentId;

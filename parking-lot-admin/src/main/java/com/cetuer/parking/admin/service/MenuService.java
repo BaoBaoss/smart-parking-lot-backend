@@ -24,11 +24,12 @@ public interface MenuService {
     List<Menu> selectMenuList(Menu menu);
 
     /**
-     * 查询菜单树信息
+     * 根据用户id查询菜单树信息
      *
+     * @param userId 用户id
      * @return 菜单列表
      */
-    List<Menu> selectMenuTree();
+    List<Menu> selectMenuTreeByUserId(Integer userId);
 
     /**
      * 构建前端路由所需要的菜单
@@ -44,4 +45,5 @@ public interface MenuService {
      * @return 权限列表
      */
     Set<String> selectMenuPermsByUserId(Integer userId);
+
 }

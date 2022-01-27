@@ -3,12 +3,15 @@ package com.cetuer.parking.admin.controller;
 import com.cetuer.parking.admin.domain.Menu;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
 import com.cetuer.parking.admin.service.MenuService;
+import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.domain.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,8 +40,8 @@ public class MenuController {
 
     @ApiOperation("获取路由信息")
     @GetMapping("/getRouters")
-    public ResultData<List<RouterVo>> getRouters() {
-        List<Menu> menus = menuService.selectMenuTree();
+    public ResultData<List<RouterVo>> getRouters(@ApiParam(value = "用户id", required = true) @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        List<Menu> menus = menuService.selectMenuTreeByUserId(userId);
         return ResultData.success(menuService.buildMenus(menus));
     }
 }
