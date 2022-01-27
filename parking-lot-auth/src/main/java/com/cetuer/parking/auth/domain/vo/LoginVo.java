@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
  * @author Cetuer
  * @date 2021/12/17 9:57
  */
-@ApiModel("界面登录实体")
+@ApiModel(description = "用户登录")
 @Data
 public class LoginVo {
     @ApiModelProperty(required = true, value = "用户名")

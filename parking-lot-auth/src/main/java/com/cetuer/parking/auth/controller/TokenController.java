@@ -8,6 +8,7 @@ import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.domain.ResultData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +40,7 @@ public class TokenController {
 
     @ApiOperation("登出")
     @DeleteMapping("/logout")
-    public ResultData<Void> logout(@RequestHeader(value = TokenConstants.AUTHENTICATION) String token) {
+    public ResultData<Void> logout(@ApiParam(value = "令牌", required = true) @RequestHeader(value = TokenConstants.AUTHENTICATION) String token) {
         tokenService.logout(token);
         return ResultData.success();
     }

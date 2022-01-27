@@ -60,7 +60,7 @@ public class UserController {
      */
     @GetMapping("/getInfo")
     @ApiOperation("获取用户信息")
-    public ResultData<Map<String, Object>> getInfo(@RequestHeader(TokenConstants.USER_KEY) String userKey) {
+    public ResultData<Map<String, Object>> getInfo(@ApiParam(value = "用户唯一标识", required = true) @RequestHeader(TokenConstants.USER_KEY) String userKey) {
         Map<String, Object> resMap = new HashMap<>(4);
         LoginUser loginUser = (LoginUser) redisService.get(TokenConstants.LOGIN_TOKEN_KEY + userKey);
         resMap.put("user", loginUser.getUser());
