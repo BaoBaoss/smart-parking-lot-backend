@@ -4,6 +4,8 @@ import lombok.Getter;
 
 /**
  * 状态码
+ * 4开头表示错误来源于用户
+ * 5开头表示错误来源于当前系统
  *
  * @author Cetuer
  * @date 2021/11/30 22:47
@@ -14,42 +16,73 @@ public enum ResultCode {
     /**
      * 操作成功
      */
-    SUCCESS(2000, "操作成功"),
+    SUCCESS(20000, "操作成功"),
 
     /**
      * 操作失败
      */
-    FAIL(5999, "操作失败"),
+    FAIL(99999, "操作失败"),
 
     /**
-     * 未授权
+     * 账户不存在
      */
-    UNAUTHORIZED(4001, "未授权"),
+    ACCOUNT_NOT_EXIST(40201, "账户不存在"),
 
     /**
-     * 微服务内部错误
+     * 账户被停用
      */
-    SERVICE_INNER_ERROR(5000, "微服务内部错误"),
+    ACCOUNT_DISABLE(40202, "账户被停用"),
+
+    /**
+     * 账户密码错误
+     */
+    ACCOUNT_PASSWORD_ERROR(40210, "账户密码错误"),
+
+    /**
+     * 验证码错误
+     */
+    CAPTCHA_FAIL(40240, "验证码错误"),
+
+    /**
+     * 令牌过期
+     */
+    UNAUTHORIZED_TOKEN_EXPIRE(40311, "令牌过期"),
+
+    /**
+     * 令牌为空
+     */
+    UNAUTHORIZED_TOKEN_NULL(40342, "令牌为空"),
+
+    /**
+     * 令牌错误
+     */
+    UNAUTHORIZED_TOKEN_ERROR(40343, "令牌错误"),
+
+    /**
+     * 参数校验错误
+     */
+    PARAMETER_ERROR(40400, "参数校验错误"),
+
+
+    /**
+     * 服务执行出错
+     */
+    SERVICE_ERROR(50001, "服务执行出错"),
 
     /**
      * 服务限流
      */
-    SERVICE_IS_RATE_LIMIT(5001, "服务限流"),
-
-    /**
-     * 网关错误
-     */
-    GATEWAY_ERROR(5002, "网关错误"),
+    SERVICE_LIMIT(50210, "服务限流"),
 
     /**
      * 服务降级
      */
-    SERVICE_DEMOTION(5003, "服务降级"),
+    SERVICE_DEMOTION(50220, "服务降级"),
 
     /**
-     * 验证失败
+     * 网关服务出错
      */
-    CAPTCHA_FAIL(5004, "验证失败");
+    GATEWAY_ERROR(50400, "网关服务出错");
 
     /**
      * 自定义状态码

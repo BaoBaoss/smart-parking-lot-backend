@@ -56,24 +56,24 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         String token = getToken(request);
         if(StrUtil.isEmpty(token)) {
-            return unauthorizedResponse(exchange, "令牌为空");
+            return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_NULL);
         }
         JWT jwt;
         try {
             jwt = JWTUtil.parseToken(token);
         } catch (Exception e) {
             e.printStackTrace();
-            return unauthorizedResponse(exchange, "令牌解析错误");
+            return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_ERROR);
         }
         String userKey = (String) jwt.getPayload(TokenConstants.USER_KEY);
         boolean isLogin = redisService.hasKey(TokenConstants.LOGIN_TOKEN_KEY + userKey);
         if(!isLogin) {
-            return unauthorizedResponse(exchange, "登录状态已过期");
+            return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_EXPIRE);
         }
         Integer userId = (Integer) jwt.getPayload(TokenConstants.USER_ID);
         String username = (String) jwt.getPayload(TokenConstants.USERNAME);
         if(null == userId || StrUtil.isEmpty(username)) {
-            return unauthorizedResponse(exchange, null);
+            return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_ERROR);
         }
         //将用户信息放入请求头
         addHeader(request, TokenConstants.USER_KEY, userKey);
@@ -108,12 +108,12 @@ public class AuthFilter implements GlobalFilter, Ordered {
     /**
      * 未授权返回
      * @param exchange 请求
-     * @param msg 消息
+     * @param resultCode 错误码
      * @return Mono<Void>
      */
-    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
-        log.error("[鉴权异常处理]请求路径:{}, 原因:{}", exchange.getRequest().getPath(), msg);
-        return ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.UNAUTHORIZED, msg);
+    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, ResultCode resultCode) {
+        log.error("[鉴权异常处理]请求路径:{}, 原因:{}", exchange.getRequest().getPath(), resultCode.getMessage());
+        return ServletUtil.webFluxResponseWriter(exchange.getResponse(), resultCode);
     }
 
     /**

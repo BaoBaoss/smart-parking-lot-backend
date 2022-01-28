@@ -42,7 +42,7 @@ public class ResultData<T> {
      * @return 统一返回结果
      */
     public static <T> ResultData<T> success(T data) {
-        return result(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), data);
+        return result(ResultCode.SUCCESS, data);
     }
 
     /**
@@ -52,65 +52,43 @@ public class ResultData<T> {
      * @return 统一返回结果
      */
     public static <T> ResultData<T> success() {
-        return result(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), null);
+        return result(ResultCode.SUCCESS, null);
     }
 
     /**
-     * 返回失败结果
+     * 返回失败结果，无数据
      *
      * @param failCode 失败状态码
      * @param <T>  数据类型
      * @return 统一返回结果
      */
     public static <T> ResultData<T> fail(ResultCode failCode) {
-        return fail(failCode, null);
-    }
-
-    /**
-     * 返回失败结果，使用默认失败状态
-     * @param message 失败原因
-     * @param <T>  数据类型
-     * @return 统一返回结果
-     */
-    public static <T> ResultData<T> fail(String message) {
-        return fail(ResultCode.FAIL.getCode(), message);
+        return result(failCode, null);
     }
 
     /**
      * 返回失败结果
      *
      * @param failCode 失败状态码
-     * @param appendInfo 追加错误信息
+     * @param msg 错误信息
      * @param <T>  数据类型
      * @return 统一返回结果
      */
-    public static <T> ResultData<T> fail(ResultCode failCode, String appendInfo) {
-        return fail(failCode.getCode(), failCode.getMessage() + (appendInfo == null ? "" : " " + appendInfo));
-    }
-
-    /**
-     * 返回失败结果
-     *
-     * @param failCode 失败状态码
-     * @param message 错误信息
-     * @return 统一返回结果
-     */
-    private static <Void> ResultData<Void> fail(int failCode, String message) {
-        return result(failCode, message, null);
+    public static <T> ResultData<T> fail(ResultCode failCode, T msg) {
+        return result(failCode, msg);
     }
 
     /**
      * 返回结果
-     * @param code 状态码
-     * @param message 失败原因
+     * @param resultCode 状态码及其原因
      * @param data 数据
      * @param <T> 数据类型
      * @return 返回结果
      */
-    private static <T> ResultData<T> result(int code, String message, T data) {
+    private static <T> ResultData<T> result(ResultCode resultCode, T data) {
         ResultData<T> resultData = new ResultData<>();
-        resultData.setStatus(code);
-        resultData.setMessage(message);
+        resultData.setStatus(resultCode.getCode());
+        resultData.setMessage(resultCode.getMessage());
         resultData.setData(data);
         return resultData;
     }

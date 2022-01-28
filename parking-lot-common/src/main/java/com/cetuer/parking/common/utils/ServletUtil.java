@@ -24,20 +24,9 @@ public class ServletUtil {
      * @return Mono<Void>
      */
     public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, ResultCode code) {
-        return webFluxResponseWriter(response, code, null);
-    }
-
-    /**
-     * webflux 响应
-     * @param response ServerHttpResponse
-     * @param code 响应码及原因
-     * @param appendInfo 追加信息
-     * @return Mono<Void>
-     */
-    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, ResultCode code, String appendInfo) {
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        ResultData<Void> result = ResultData.fail(code, appendInfo);
+        ResultData<Void> result = ResultData.fail(code);
         DataBuffer dataBuffer = response.bufferFactory().wrap(JSONUtil.toJsonStr(result).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
     }

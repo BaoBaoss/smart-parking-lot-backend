@@ -30,6 +30,6 @@ public class SentinelFallbackHandler implements WebExceptionHandler {
         return GatewayCallbackManager
                 .getBlockHandler()
                 .handleRequest(exchange, ex)
-                .flatMap(response -> ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.SERVICE_IS_RATE_LIMIT));
+                .flatMap(response -> ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.SERVICE_LIMIT));
     }
 }

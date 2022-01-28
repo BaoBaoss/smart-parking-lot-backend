@@ -7,6 +7,7 @@ import com.cetuer.parking.admin.service.RoleService;
 import com.cetuer.parking.admin.service.UserService;
 import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.domain.ResultData;
+import com.cetuer.parking.common.enums.ResultCode;
 import com.cetuer.parking.common.service.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,7 +46,7 @@ public class UserController {
     public ResultData<LoginUser> info(@ApiParam(value = "用户名", required = true) @PathVariable("username") String username) {
         User user = userService.selectUserByUsername(username);
         if(null == user) {
-            return ResultData.fail("用户名或密码错误");
+            return ResultData.fail(ResultCode.ACCOUNT_NOT_EXIST);
         }
         LoginUser loginUser = new LoginUser();
         loginUser.setUser(user);

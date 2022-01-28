@@ -1,5 +1,6 @@
 package com.cetuer.parking.common.exception;
 
+import com.cetuer.parking.common.enums.ResultCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,6 @@ public class ServiceException extends RuntimeException {
     /**
      * 错误原因
      */
-    private String message;
+    private ResultCode reason;
 
 }

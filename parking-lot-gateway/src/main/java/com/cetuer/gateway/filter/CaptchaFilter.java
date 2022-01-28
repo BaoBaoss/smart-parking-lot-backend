@@ -67,7 +67,7 @@ public class CaptchaFilter extends AbstractGatewayFilterFactory<Object> {
                 captchaService.verify(jsonObject.getStr("code"), jsonObject.getStr("uuid"));
             } catch (CaptchaException e) {
                 log.info("验证码错误，信息为：{}", e.getMessage());
-                return ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.CAPTCHA_FAIL, " " + e.getMessage());
+                return ServletUtil.webFluxResponseWriter(exchange.getResponse(), ResultCode.CAPTCHA_FAIL);
             }
 
             return chain.filter(exchange);

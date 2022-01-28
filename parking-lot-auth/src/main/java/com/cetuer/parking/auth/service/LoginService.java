@@ -32,19 +32,16 @@ public class LoginService {
      */
     public LoginUser login(String username, String password) {
         ResultData<LoginUser> resultData = remoteUserService.getUserInfo(username);
-        if(ResultCode.FAIL.getCode() == resultData.getStatus()) {
-            throw new ServiceException(resultData.getMessage());
-        }
-        if(null == resultData.getData()) {
-            throw new ServiceException("登录用户：" + username + " 不存在");
+        if(ResultCode.ACCOUNT_NOT_EXIST.getCode() == resultData.getStatus() || null == resultData.getData()) {
+            throw new ServiceException(ResultCode.ACCOUNT_NOT_EXIST);
         }
         LoginUser userInfo = resultData.getData();
         User user = userInfo.getUser();
         if(UserConstant.DISABLE == user.getStatus()) {
-            throw new ServiceException("对不起，您的账号：" + username + " 已停用");
+            throw new ServiceException(ResultCode.ACCOUNT_DISABLE);
         }
         if(!SecurityUtil.matchesPassword(password, user.getPassword())) {
-            throw new ServiceException("用户不存在/密码错误");
+            throw new ServiceException(ResultCode.ACCOUNT_PASSWORD_ERROR);
         }
         return userInfo;
     }
