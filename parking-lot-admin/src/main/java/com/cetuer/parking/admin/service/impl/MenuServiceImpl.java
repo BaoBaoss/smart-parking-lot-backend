@@ -1,13 +1,13 @@
 package com.cetuer.parking.admin.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.domain.Menu;
 import com.cetuer.parking.admin.domain.vo.MetaVo;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
 import com.cetuer.parking.admin.mapper.MenuMapper;
 import com.cetuer.parking.admin.service.MenuService;
-import com.cetuer.parking.common.constant.MenuConstant;
-import com.cetuer.parking.admin.api.domain.User;
+import com.cetuer.parking.common.core.constant.MenuConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

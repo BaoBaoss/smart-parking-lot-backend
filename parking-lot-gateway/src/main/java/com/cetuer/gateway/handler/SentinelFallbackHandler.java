@@ -2,8 +2,8 @@ package com.cetuer.gateway.handler;
 
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.utils.ServletUtil;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.utils.ServletUtil;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebExceptionHandler;
 import reactor.core.publisher.Mono;

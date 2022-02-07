@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.cetuer.parking.common.core.config.RedisConfig,\
+  com.cetuer.parking.common.core.service.RedisService,\
+  com.cetuer.parking.common.core.aspect.PageAspect

@@ -1,9 +1,9 @@
 package com.cetuer.parking.admin.api.factory;
 
-import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.common.enums.ResultCode;
 import com.cetuer.parking.admin.api.RemoteUserService;
 import com.cetuer.parking.admin.api.model.LoginUser;
+import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.enums.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

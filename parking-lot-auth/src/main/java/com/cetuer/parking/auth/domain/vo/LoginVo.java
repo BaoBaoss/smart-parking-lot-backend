@@ -1,6 +1,6 @@
 package com.cetuer.parking.auth.domain.vo;
 
-import com.cetuer.parking.common.constant.UserConstant;
+import com.cetuer.parking.common.core.constant.UserConstant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

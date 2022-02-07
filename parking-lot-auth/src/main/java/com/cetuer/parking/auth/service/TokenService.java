@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.cetuer.parking.admin.api.model.LoginUser;
-import com.cetuer.parking.common.constant.TokenConstants;
-import com.cetuer.parking.common.service.RedisService;
+import com.cetuer.parking.common.core.constant.TokenConstants;
+import com.cetuer.parking.common.core.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,7 @@ public class TokenService {
 
     /**
      * 创建令牌
+     *
      * @param loginUser 用户信息
      * @return token
      */
@@ -55,6 +56,7 @@ public class TokenService {
 
     /**
      * 刷新令牌
+     *
      * @param loginUser 用戶信息
      */
     public void refreshToken(LoginUser loginUser) {
@@ -66,11 +68,12 @@ public class TokenService {
 
     /**
      * 登出
+     *
      * @param token 令牌
      */
     public void logout(String token) {
         //裁剪前缀
-        if(null != token && token.startsWith(TokenConstants.PREFIX)) {
+        if (null != token && token.startsWith(TokenConstants.PREFIX)) {
             token = token.replaceFirst(TokenConstants.PREFIX, StrUtil.EMPTY);
             try {
                 String userKey = (String) JWTUtil.parseToken(token).getPayload(TokenConstants.USER_KEY);

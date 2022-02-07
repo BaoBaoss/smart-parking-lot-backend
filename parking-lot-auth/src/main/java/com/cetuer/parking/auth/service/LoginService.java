@@ -1,13 +1,13 @@
 package com.cetuer.parking.auth.service;
 
-import com.cetuer.parking.common.constant.UserConstant;
-import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.exception.ServiceException;
-import com.cetuer.parking.common.utils.SecurityUtil;
 import com.cetuer.parking.admin.api.RemoteUserService;
 import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.api.model.LoginUser;
+import com.cetuer.parking.common.core.constant.UserConstant;
+import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.exception.ServiceException;
+import com.cetuer.parking.common.security.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,10 @@
 package com.cetuer.parking.admin.api;
 
-import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.common.constant.ServiceNameConstants;
+
 import com.cetuer.parking.admin.api.factory.RemoteUserFallbackFactory;
 import com.cetuer.parking.admin.api.model.LoginUser;
+import com.cetuer.parking.common.core.constant.ServiceNameConstants;
+import com.cetuer.parking.common.core.domain.ResultData;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

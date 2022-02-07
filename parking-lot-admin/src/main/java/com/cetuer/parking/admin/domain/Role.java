@@ -1,6 +1,6 @@
 package com.cetuer.parking.admin.domain;
 
-import com.cetuer.parking.common.domain.BaseEntity;
+import com.cetuer.parking.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

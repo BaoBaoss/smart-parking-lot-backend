@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.cetuer.parking.common.security.aspect.PermissionAspect,\
+  com.cetuer.parking.common.security.handler.GlobalExceptionHandler

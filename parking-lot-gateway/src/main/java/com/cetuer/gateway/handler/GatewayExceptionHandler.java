@@ -1,7 +1,7 @@
 package com.cetuer.gateway.handler;
 
-import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.utils.ServletUtil;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.utils.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;

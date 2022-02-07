@@ -30,6 +30,8 @@
         <hutool.version>5.7.17</hutool.version>
         <druid.version>1.2.8</druid.version>
         <mybatis.version>2.2.0</mybatis.version>
+        <parking.version>1.0-SNAPSHOT</parking.version>
+        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
     </properties>
 
     <dependencies>
@@ -108,6 +110,30 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper.boot.version}</version>
+            </dependency>
+            <!--通用核心包-->
+            <dependency>
+                <groupId>com.cetuer</groupId>
+                <artifactId>parking-lot-common-core</artifactId>
+                <version>${parking.version}</version>
+            </dependency>
+            <!--通用安全包-->
+            <dependency>
+                <groupId>com.cetuer</groupId>
+                <artifactId>parking-lot-common-security</artifactId>
+                <version>${parking.version}</version>
+            </dependency>
+            <!-- 系统接口 -->
+            <dependency>
+                <groupId>com.cetuer</groupId>
+                <artifactId>api-admin</artifactId>
+                <version>${parking.version}</version>
+            </dependency>
+            <!-- 线程传递值 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

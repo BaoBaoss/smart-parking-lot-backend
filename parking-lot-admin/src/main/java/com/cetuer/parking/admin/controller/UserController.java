@@ -5,11 +5,12 @@ import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.admin.service.MenuService;
 import com.cetuer.parking.admin.service.RoleService;
 import com.cetuer.parking.admin.service.UserService;
-import com.cetuer.parking.common.constant.TokenConstants;
-import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.common.domain.TableInfo;
-import com.cetuer.parking.common.enums.ResultCode;
-import com.cetuer.parking.common.service.RedisService;
+import com.cetuer.parking.common.core.constant.TokenConstants;
+import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.domain.TableInfo;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.service.RedisService;
+import com.cetuer.parking.common.security.annotation.RequirePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -64,6 +65,7 @@ public class UserController {
      */
     @ApiOperation("根据条件分页查询用户列表")
     @GetMapping("/list")
+    @RequirePermission({"system:user:list"})
     public ResultData<TableInfo<User>> listWithPage(User user) {
         List<User> userList = userService.selectUserListWithPage(user);
         return ResultData.success(TableInfo.getInstance(userList));

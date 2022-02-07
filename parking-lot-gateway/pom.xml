@@ -15,8 +15,7 @@
     <dependencies>
         <dependency>
             <groupId>com.cetuer</groupId>
-            <artifactId>parking-lot-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>parking-lot-common-core</artifactId>
         </dependency>
         <!--网关依赖-->
         <dependency>

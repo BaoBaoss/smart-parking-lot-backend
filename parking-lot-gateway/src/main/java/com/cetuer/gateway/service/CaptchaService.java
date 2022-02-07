@@ -1,7 +1,7 @@
 package com.cetuer.gateway.service;
 
-import com.cetuer.parking.common.domain.ResultData;
-import com.cetuer.parking.common.exception.CaptchaException;
+import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.exception.CaptchaException;
 
 import java.util.Map;
 
