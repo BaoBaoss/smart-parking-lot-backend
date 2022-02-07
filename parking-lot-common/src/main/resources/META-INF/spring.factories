@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.cetuer.parking.common.handler.GlobalExceptionHandler,\
   com.cetuer.parking.common.config.RedisConfig,\
-  com.cetuer.parking.common.service.RedisService
+  com.cetuer.parking.common.service.RedisService,\
+  com.cetuer.parking.common.aspect.PageAspect

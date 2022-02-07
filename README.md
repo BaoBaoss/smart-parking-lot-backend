@@ -3,4 +3,4 @@
 
 后续改进：
 - 权限控制改为SpringSecurity框架
-- 更改异常状态码为阿里巴巴Java规范
+- 严格按照阿里巴巴Java手册分包：VO、DTO、BO等

@@ -24,7 +24,7 @@
     <properties>
         <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
         <spring-cloud.version>2020.0.1</spring-cloud.version>
-
+        <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <knife4j.version>2.0.9</knife4j.version>
         <mybatis-generator.version>1.4.0</mybatis-generator.version>
         <hutool.version>5.7.17</hutool.version>
@@ -102,6 +102,12 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-core</artifactId>
                 <version>${mybatis-generator.version}</version>
+            </dependency>
+            <!-- pagehelper 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
