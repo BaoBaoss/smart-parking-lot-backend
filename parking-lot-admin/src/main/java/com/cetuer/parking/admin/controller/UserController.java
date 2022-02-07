@@ -7,6 +7,7 @@ import com.cetuer.parking.admin.service.RoleService;
 import com.cetuer.parking.admin.service.UserService;
 import com.cetuer.parking.common.constant.TokenConstants;
 import com.cetuer.parking.common.domain.ResultData;
+import com.cetuer.parking.common.domain.TableInfo;
 import com.cetuer.parking.common.enums.ResultCode;
 import com.cetuer.parking.common.service.RedisService;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,6 +55,18 @@ public class UserController {
         loginUser.setPermissions(menuService.selectMenuPermsByUserId(user.getId()));
         loginUser.setRoles(roleService.selectRolePermsByUserId(user.getId()));
         return ResultData.success(loginUser);
+    }
+
+    /**
+     * 根据条件分页查询用户列表
+     * @param user 查询条件
+     * @return 用户列表
+     */
+    @ApiOperation("根据条件分页查询用户列表")
+    @GetMapping("/list")
+    public ResultData<TableInfo<User>> listWithPage(User user) {
+        List<User> userList = userService.selectUserListWithPage(user);
+        return ResultData.success(TableInfo.getInstance(userList));
     }
 
     /**

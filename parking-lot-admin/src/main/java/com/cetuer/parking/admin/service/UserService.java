@@ -2,6 +2,8 @@ package com.cetuer.parking.admin.service;
 
 import com.cetuer.parking.admin.api.domain.User;
 
+import java.util.List;
+
 /**
  * 用户操作业务层
  *
@@ -23,4 +25,11 @@ public interface UserService {
      * @return 用户
      */
     User selectUserByUserId(Integer userId);
+
+    /**
+     * 根据条件分页查找用户列表
+     * @param user 条件
+     * @return 用户列表
+     */
+    List<User> selectUserListWithPage(User user);
 }

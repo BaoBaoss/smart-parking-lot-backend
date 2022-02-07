@@ -39,4 +39,19 @@
         <include refid="selectUserVo"/>
         WHERE id = #{userId}
     </select>
+
+    <select id="selectUserList" parameterType="com.cetuer.parking.admin.api.domain.User" resultMap="UserResultMap">
+        <include refid="selectUserVo"/>
+        <where>
+            <if test="username != null and username != ''">
+                AND username like concat('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone like concat('%', #{phone}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

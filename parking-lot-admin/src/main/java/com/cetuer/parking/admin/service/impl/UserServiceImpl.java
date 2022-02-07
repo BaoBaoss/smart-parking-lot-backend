@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 用户操作业务实现层
  *
@@ -27,5 +29,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User selectUserByUserId(Integer userId) {
         return userMapper.selectUserByUserId(userId);
+    }
+
+    @Override
+    public List<User> selectUserListWithPage(User user) {
+        return userMapper.selectUserList(user);
     }
 }

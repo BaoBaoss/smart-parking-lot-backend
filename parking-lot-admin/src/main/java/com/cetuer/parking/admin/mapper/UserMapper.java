@@ -2,6 +2,8 @@ package com.cetuer.parking.admin.mapper;
 
 import com.cetuer.parking.admin.api.domain.User;
 
+import java.util.List;
+
 /**
  * 用户操作数据层
  *
@@ -23,4 +25,11 @@ public interface UserMapper {
      * @return 用户
      */
     User selectUserByUserId(Integer userId);
+
+    /**
+     * 根据条件查找用户列表
+     * @param user 查找条件
+     * @return 用户列表
+     */
+    List<User> selectUserList(User user);
 }
