@@ -54,4 +54,115 @@
             </if>
         </where>
     </select>
+
+    <select id="selectUserListNoAdmin" resultMap="UserResultMap">
+        <include refid="selectUserVo"/>
+        WHERE id NOT IN
+              (
+                      SELECT u.id
+                      FROM `smart-parking-lot`.user u
+                                   LEFT JOIN `smart-parking-lot`.user_role ur on u.id = ur.user_id
+                                   LEFT JOIN `smart-parking-lot`.role r on r.id = ur.role_id
+                      WHERE ur.role_id = 1
+                      )
+
+        <if test="username != null and username != ''">
+            AND username like concat('%', #{username}
+                    , '%')
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone like concat('%'
+                    , #{phone}
+                    , '%')
+        </if>
+    </select>
+
+    <delete id="deleteByIds" parameterType="Integer">
+        DELETE
+        FROM `smart-parking-lot`.user WHERE id IN
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <insert id="insertUser" parameterType="com.cetuer.parking.admin.api.domain.User" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO `smart-parking-lot`.user(
+        <if test="username != null and username != ''">
+            username,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone,
+        </if>
+        <if test="email != null and email != ''">
+            email,
+        </if>
+        <if test="nickname != null and nickname != ''">
+            nickname,
+        </if>
+        <if test="note != null and note != ''">
+            note,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+        create_time)values(
+        <if test="username != null and username != ''">
+            #{username},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+        <if test="phone != null and phone != ''">
+            #{phone},
+        </if>
+        <if test="email != null and email != ''">
+            #{email},
+        </if>
+        <if test="nickname != null and nickname != ''">
+            #{nickname},
+        </if>
+        <if test="note != null and note != ''">
+            #{note},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+        sysdate())
+    </insert>
+
+    <update id="updateUser" parameterType="com.cetuer.parking.admin.api.domain.User">
+        UPDATE `smart-parking-lot`.user
+        <set>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

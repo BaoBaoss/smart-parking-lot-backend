@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 
 /**
  * 微服务内部错误全局异常处理
@@ -41,20 +44,27 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 参数校验异常
+     * 注解Validated参数校验异常
      * @param e 异常信息
      * @return 返回
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultData<String> validException(MethodArgumentNotValidException e) {
+    public ResultData<String> validatedException(MethodArgumentNotValidException e) {
         e.printStackTrace();
         log.error("参数校验错误 ex={}", e.getMessage());
-        StringBuilder sb = new StringBuilder();
-        for (ObjectError error : e.getAllErrors()) {
-            sb.append(error.getDefaultMessage());
-            sb.append(System.lineSeparator());
-        }
-        return ResultData.fail(ResultCode.PARAMETER_ERROR, sb.toString());
+        return ResultData.fail(ResultCode.PARAMETER_ERROR, e.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(System.lineSeparator())));
+    }
+
+    /**
+     * 注解valid参数校验异常
+     * @param e 异常信息
+     * @return 返回
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResultData<String> validException(ConstraintViolationException e) {
+        e.printStackTrace();
+        log.error("参数校验错误 ex={}", e.getMessage());
+        return ResultData.fail(ResultCode.PARAMETER_ERROR, e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(System.lineSeparator())));
     }
 
     /**

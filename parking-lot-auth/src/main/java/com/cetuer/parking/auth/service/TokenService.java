@@ -4,9 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import com.cetuer.parking.admin.api.RemoteUserService;
 import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.service.RedisService;
+import com.cetuer.parking.common.security.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class TokenService {
 
     private final RedisService redisService;
+    private final RemoteUserService remoteUserService;
 
     /**
      * 创建令牌
@@ -82,6 +85,21 @@ public class TokenService {
                 e.printStackTrace();
                 log.error("[token解析错误] token:{}", token);
             }
+        }
+    }
+
+    /**
+     * 刷新已登录用户的信息
+     *
+     * @param userKey 用户标识
+     */
+    public void refreshLoginUser(String userKey) {
+        LoginUser refreshUser = SecurityUtil.getLoginUser(userKey);
+        if (refreshUser != null) {
+            LoginUser userInfo = remoteUserService.getUserInfo(refreshUser.getUser().getUsername()).getData();
+            refreshUser.setRoles(userInfo.getRoles());
+            refreshUser.setPermissions(userInfo.getPermissions());
+            refreshToken(refreshUser);
         }
     }
 }

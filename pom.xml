@@ -129,6 +129,12 @@
                 <artifactId>api-admin</artifactId>
                 <version>${parking.version}</version>
             </dependency>
+            <!-- 认证接口 -->
+            <dependency>
+                <groupId>com.cetuer</groupId>
+                <artifactId>api-auth</artifactId>
+                <version>${parking.version}</version>
+            </dependency>
             <!-- 线程传递值 -->
             <dependency>
                 <groupId>com.alibaba</groupId>

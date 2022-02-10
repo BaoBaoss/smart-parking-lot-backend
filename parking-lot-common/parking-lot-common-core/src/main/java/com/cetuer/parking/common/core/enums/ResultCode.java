@@ -24,6 +24,11 @@ public enum ResultCode {
     FAIL(99999, "操作失败"),
 
     /**
+     * 账户已存在
+     */
+    ACCOUNT_EXIST(40111, "账户已存在"),
+
+    /**
      * 账户不存在
      */
     ACCOUNT_NOT_EXIST(40201, "账户不存在"),
@@ -39,14 +44,14 @@ public enum ResultCode {
     ACCOUNT_PASSWORD_ERROR(40210, "账户密码错误"),
 
     /**
-     * 访问未授权
-     */
-    NO_PERMISSION(40301, "访问未授权"),
-
-    /**
      * 验证码错误
      */
     CAPTCHA_FAIL(40240, "验证码错误"),
+
+    /**
+     * 访问未授权
+     */
+    NO_PERMISSION(40301, "访问未授权"),
 
     /**
      * 令牌过期
@@ -68,6 +73,15 @@ public enum ResultCode {
      */
     PARAMETER_ERROR(40400, "参数校验错误"),
 
+    /**
+     * 当前用户不可删除
+     */
+    CURRENT_ACCOUNT_DELETE_ERROR(40507, "当前用户不可删除"),
+
+    /**
+     * 超级管理员账户不可操作
+     */
+    ADMIN_ACCOUNT_OPERATION_ERROR(40508, "超级管理员账户不可操作"),
 
     /**
      * 服务执行出错

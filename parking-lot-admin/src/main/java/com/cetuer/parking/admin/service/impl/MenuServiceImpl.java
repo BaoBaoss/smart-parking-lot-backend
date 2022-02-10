@@ -1,12 +1,12 @@
 package com.cetuer.parking.admin.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.domain.Menu;
 import com.cetuer.parking.admin.domain.vo.MetaVo;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
 import com.cetuer.parking.admin.mapper.MenuMapper;
 import com.cetuer.parking.admin.service.MenuService;
+import com.cetuer.parking.admin.util.AdminUtil;
 import com.cetuer.parking.common.core.constant.MenuConstant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MenuServiceImpl implements MenuService {
-
     private final MenuMapper menuMapper;
 
     @Override
@@ -36,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
     public List<Menu> selectMenuTreeByUserId(Integer userId) {
         List<Menu> menus;
         //超级管理员显示所有菜单
-        if(User.isAdmin(userId)) {
+        if(AdminUtil.isAdminUser(userId)) {
             menus = menuMapper.selectMenuTreeAll();
         } else {
             menus = menuMapper.selectMenuTreeByUserId(userId);
@@ -111,8 +110,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Set<String> selectMenuPermsByUserId(Integer userId) {
         Set<String> perms = new HashSet<>();
-        //管理员拥有所有权限
-        if(User.isAdmin(userId)) {
+        if(AdminUtil.hasAllPermission(userId)) {
             perms.add("*:*:*");
         } else {
             perms.addAll(menuMapper.selectMenuPermsByUserId(userId));

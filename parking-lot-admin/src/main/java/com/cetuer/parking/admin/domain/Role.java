@@ -31,4 +31,20 @@ public class Role extends BaseEntity {
     @ApiModelProperty(value = "是否启用：1->启用；0->停用")
     private Integer status;
 
+    /**
+     * 是否为超级管理员角色
+     * @param roleId 角色ID
+     * @return true->是超级管理员角色; false->不是超级管理员角色
+     */
+    public static boolean isAdmin(Integer roleId) {
+        return getAdminId().equals(roleId);
+    }
+
+    /**
+     * 获取超级管理员角色ID
+     * @return 超级管理员角色ID
+     */
+    public static Integer getAdminId() {
+        return 1;
+    }
 }

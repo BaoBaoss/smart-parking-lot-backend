@@ -29,7 +29,40 @@ public interface UserService {
     /**
      * 根据条件分页查找用户列表
      * @param user 条件
+     * @param isAdmin 是否可以查询管理员用户
      * @return 用户列表
      */
-    List<User> selectUserListWithPage(User user);
+    List<User> selectUserListByPage(User user, boolean isAdmin);
+
+    /**
+     * 根据用户ids批量删除用户
+     * @param ids id列表
+     * @return 删除个数
+     */
+    Integer deleteByIds(Integer[] ids);
+
+    /**
+     * 新增用户
+     * @param user 用户
+     */
+    void insertUser(User user);
+
+    /**
+     * 修改用户
+     * @param user 用户信息
+     */
+    void updateUser(User user);
+
+    /**
+     * 重置密码
+     * @param user 用户id和密码
+     */
+    void resetPwd(User user);
+
+    /**
+     * 更新用户与角色关联
+     * @param userId 用户
+     * @param roleIds 角色
+     */
+    void updateUserRole(Integer userId, Integer[] roleIds);
 }

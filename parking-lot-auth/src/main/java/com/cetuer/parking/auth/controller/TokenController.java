@@ -44,4 +44,11 @@ public class TokenController {
         tokenService.logout(token);
         return ResultData.success();
     }
+
+    @ApiOperation(("刷新已登录用户信息"))
+    @GetMapping("/refreshLoginUser/{userKey}")
+    public ResultData<Void> refreshLoginUser(@PathVariable("userKey") String userKey) {
+        tokenService.refreshLoginUser(userKey);
+        return ResultData.success();
+    }
 }

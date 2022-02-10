@@ -1,12 +1,18 @@
 package com.cetuer.parking.admin.service.impl;
 
-import com.cetuer.parking.admin.mapper.UserMapper;
-import com.cetuer.parking.admin.service.UserService;
+import cn.hutool.core.util.ObjectUtil;
 import com.cetuer.parking.admin.api.domain.User;
+import com.cetuer.parking.admin.domain.UserRole;
+import com.cetuer.parking.admin.mapper.UserMapper;
+import com.cetuer.parking.admin.mapper.UserRoleMapper;
+import com.cetuer.parking.admin.service.UserService;
+import com.cetuer.parking.common.security.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +26,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
+    private final UserRoleMapper userRoleMapper;
 
     @Override
     public User selectUserByUsername(String username) {
@@ -32,7 +39,56 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> selectUserListWithPage(User user) {
-        return userMapper.selectUserList(user);
+    public List<User> selectUserListByPage(User user, boolean isAdmin) {
+        return isAdmin ? userMapper.selectUserList(user) : userMapper.selectUserListNoAdmin(user);
+    }
+
+    @Override
+    @Transactional
+    public Integer deleteByIds(Integer[] ids) {
+        userRoleMapper.deleteByUserIds(ids);
+        return userMapper.deleteByIds(ids);
+    }
+
+    @Override
+    @Transactional
+    public void insertUser(User user) {
+        user.setPassword(SecurityUtil.encryptPassword(user.getPassword()));
+        userMapper.insertUser(user);
+        insertUserRole(user.getId(), user.getRoleIds());
+    }
+
+    private void insertUserRole(Integer userId, Integer[] roleIds) {
+        if (ObjectUtil.isNotNull(roleIds)) {
+            List<UserRole> userRoleList = new ArrayList<>();
+            for (Integer roleId : roleIds) {
+                userRoleList.add(new UserRole(userId, roleId));
+            }
+            if (userRoleList.size() > 0) {
+                userRoleMapper.insertUserRole(userRoleList);
+            }
+        }
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(User user) {
+        user.setPassword(SecurityUtil.encryptPassword(user.getPassword()));
+        userRoleMapper.deleteByUserIds(new Integer[]{user.getId()});
+        insertUserRole(user.getId(), user.getRoleIds());
+        userMapper.updateUser(user);
+    }
+
+    @Override
+    public void resetPwd(User user) {
+        user.setPassword(SecurityUtil.encryptPassword(user.getPassword()));
+        userMapper.updateUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserRole(Integer userId, Integer[] roleIds) {
+        userRoleMapper.deleteByUserIds(new Integer[]{userId});
+        insertUserRole(userId, roleIds);
     }
 }

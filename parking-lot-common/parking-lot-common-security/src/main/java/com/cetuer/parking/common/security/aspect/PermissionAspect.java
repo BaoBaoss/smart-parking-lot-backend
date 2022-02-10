@@ -7,6 +7,7 @@ import com.cetuer.parking.common.core.utils.ServletUtil;
 import com.cetuer.parking.common.security.annotation.RequirePermission;
 import com.cetuer.parking.common.security.enums.PermissionLogical;
 import com.cetuer.parking.common.security.exception.NoPermissionException;
+import com.cetuer.parking.common.security.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -48,7 +49,7 @@ public class PermissionAspect {
     public void hasPermission(RequirePermission permission) throws NoPermissionException {
         String[] permissions = permission.value();
         String userKey = ServletUtil.getHeader(TokenConstants.USER_KEY);
-        LoginUser loginUser = (LoginUser) redisService.get(TokenConstants.LOGIN_TOKEN_KEY + userKey);
+        LoginUser loginUser = SecurityUtil.getLoginUser(userKey);
         if (null == loginUser) {
             throw new NoPermissionException("用户过期");
         }

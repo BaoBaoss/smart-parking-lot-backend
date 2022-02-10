@@ -18,6 +18,11 @@
             <groupId>com.cetuer</groupId>
             <artifactId>parking-lot-common-security</artifactId>
         </dependency>
+        <!--认证接口-->
+        <dependency>
+            <groupId>com.cetuer</groupId>
+            <artifactId>api-auth</artifactId>
+        </dependency>
         <!--web启动依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

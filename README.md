@@ -4,3 +4,4 @@
 后续改进：
 - 权限控制改为SpringSecurity框架
 - 严格按照阿里巴巴Java手册分包：VO、DTO、BO等
+- 事务处理，最好用Seata

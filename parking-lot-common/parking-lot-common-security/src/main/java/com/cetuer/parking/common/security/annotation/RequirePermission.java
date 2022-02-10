@@ -26,5 +26,5 @@ public @interface RequirePermission {
      * 验证模式：AND->所有权限都需校验通过；OR->任意一个权限校验通过
      * @return 验证模式
      */
-    PermissionLogical logical() default PermissionLogical.AND;
+    PermissionLogical logical() default PermissionLogical.OR;
 }
