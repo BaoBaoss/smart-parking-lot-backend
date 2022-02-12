@@ -165,4 +165,8 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <update id="updateAvatar">
+        UPDATE `smart-parking-lot`.user SET avatar = #{avatar} WHERE id = #{id}
+    </update>
 </mapper>

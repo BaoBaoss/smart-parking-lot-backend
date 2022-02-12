@@ -15,6 +15,7 @@
     <modules>
         <module>api-admin</module>
         <module>api-auth</module>
+        <module>api-file</module>
     </modules>
     <dependencies>
         <!--通用模块-->

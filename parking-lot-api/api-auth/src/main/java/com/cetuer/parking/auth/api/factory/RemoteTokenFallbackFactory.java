@@ -1,6 +1,5 @@
 package com.cetuer.parking.auth.api.factory;
 
-import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.auth.api.RemoteTokenService;
 import com.cetuer.parking.common.core.domain.ResultData;
 import com.cetuer.parking.common.core.enums.ResultCode;

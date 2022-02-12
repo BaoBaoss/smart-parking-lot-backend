@@ -1,6 +1,7 @@
 package com.cetuer.parking.admin.mapper;
 
 import com.cetuer.parking.admin.api.domain.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -58,4 +59,11 @@ public interface UserMapper {
      * @param user 用户信息
      */
     void updateUser(User user);
+
+    /**
+     * 更新头像地址
+     * @param id 用户id
+     * @param avatar 头像地址
+     */
+    void updateAvatar(@Param("id") Integer id, @Param("avatar") String avatar);
 }

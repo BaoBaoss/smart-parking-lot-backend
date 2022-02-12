@@ -94,6 +94,27 @@ public enum ResultCode {
     ADMIN_ACCOUNT_OPERATION_ERROR(40508, "超级管理员账户不可操作"),
 
     /**
+     * 用户上传文件出错
+     */
+    FILE_UPLOAD_ERROR(40700, "用户上传文件出错"),
+
+    /**
+     * 用户上传文件名称过长
+     */
+    FILE_NAME_LENGTH_ERROR(40706, "用户上传文件名称过长"),
+
+
+    /**
+     * 用户上传文件太大
+     */
+    FILE_SIZE_LIMIT_ERROR(40702, "用户上传文件太大"),
+
+    /**
+     * 文件删除失败
+     */
+    FILE_DELETE_ERROR(40702, "文件删除失败"),
+
+    /**
      * 服务执行出错
      */
     SERVICE_ERROR(50001, "服务执行出错"),

@@ -92,4 +92,9 @@ public class UserServiceImpl implements UserService {
         userRoleMapper.deleteByUserIds(new Integer[]{userId});
         insertUserRole(userId, roleIds);
     }
+
+    @Override
+    public void updateAvatar(Integer id, String avatar) {
+        userMapper.updateAvatar(id, avatar);
+    }
 }

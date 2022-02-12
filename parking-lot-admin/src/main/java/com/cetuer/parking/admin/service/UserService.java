@@ -66,4 +66,11 @@ public interface UserService {
      * @param roleIds 角色
      */
     void updateUserRole(Integer userId, Set<Integer> roleIds);
+
+    /**
+     * 更新用户头像
+     * @param id 用户id
+     * @param avatar 头像访问地址
+     */
+    void updateAvatar(Integer id, String avatar);
 }

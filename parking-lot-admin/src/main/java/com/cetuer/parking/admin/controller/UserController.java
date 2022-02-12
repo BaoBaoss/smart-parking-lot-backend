@@ -1,6 +1,7 @@
 package com.cetuer.parking.admin.controller;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.admin.service.MenuService;
@@ -16,6 +17,7 @@ import com.cetuer.parking.common.core.exception.ServiceException;
 import com.cetuer.parking.common.core.validation.UserGroup;
 import com.cetuer.parking.common.security.annotation.RequirePermission;
 import com.cetuer.parking.common.security.utils.SecurityUtil;
+import com.cetuer.parking.file.api.RemoteFileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -44,6 +47,7 @@ public class UserController {
     private final RoleService roleService;
     private final MenuService menuService;
     private final RemoteTokenService remoteTokenService;
+    private final RemoteFileService remoteFileService;
 
     /**
      * 根据用户名查询用户信息
@@ -266,5 +270,26 @@ public class UserController {
         userService.resetPwd(user);
         remoteTokenService.refreshLoginUser(userKey);
         return ResultData.success();
+    }
+
+    /**
+     * 头像上传
+     * @param avatarFile 头像文件
+     * @return 访问地址
+     */
+    @ApiOperation("头像上传")
+    @PostMapping("/avatar")
+    public ResultData<String> avatar(MultipartFile avatarFile, @RequestHeader(TokenConstants.USER_KEY) String userKey) {
+        if(avatarFile.isEmpty()) {
+            throw new ServiceException(ResultCode.FILE_UPLOAD_ERROR);
+        }
+        User user = SecurityUtil.getLoginUser(userKey).getUser();
+        String imgUrl = remoteFileService.upload(avatarFile).getData();
+        if(!StrUtil.isEmpty(user.getAvatar())) {
+            remoteFileService.delete(user.getAvatar());
+        }
+        userService.updateAvatar(user.getId(), imgUrl);
+        remoteTokenService.refreshLoginUser(userKey);
+        return ResultData.success(imgUrl);
     }
 }
