@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 角色操作 业务实现层
@@ -42,6 +43,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Integer> selectRoleIdsByUserId(Integer userId) {
-        return roleMapper.selectRoleIdsByUserId(userId);
+        return roleMapper.selectRolesByUserId(userId).stream().map(Role::getId).collect(Collectors.toList());
+    }
+
+    @Override
+    public String selectRoleGroupByUserId(Integer userId) {
+        return roleMapper.selectRolesByUserId(userId).stream().map(Role::getName).collect(Collectors.joining(","));
     }
 }

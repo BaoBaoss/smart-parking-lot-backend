@@ -26,9 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户操作
@@ -210,8 +208,63 @@ public class UserController {
     @ApiOperation("用户添加角色")
     @PutMapping("/updateUserRole")
     @RequirePermission("system:user:edit")
-    public ResultData<Void> updateUserRole(@Valid @NotNull(message = "用户id不能为空") Integer userId, Integer[] roleIds) {
+    public ResultData<Void> updateUserRole(@Valid @NotNull(message = "用户id不能为空") Integer userId, Set<Integer> roleIds) {
         userService.updateUserRole(userId, roleIds);
+        return ResultData.success();
+    }
+
+    /**
+     * 获取个人信息
+     * @param userId 用户唯一标识
+     * @return 个人信息
+     */
+    @ApiOperation("获取个人信息")
+    @GetMapping("/profileInfo")
+    public ResultData<Map<String, Object>> profileInfo(@RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        Map<String, Object> res = new HashMap<>(2);
+        res.put("user", userService.selectUserByUserId(userId));
+        res.put("roleGroup", roleService.selectRoleGroupByUserId(userId));
+        return ResultData.success(res);
+    }
+
+    /**
+     * 修改个人信息
+     * @param user 个人信息
+     * @return 无
+     */
+    @ApiOperation("修改个人信息")
+    @PutMapping("/updateProfile")
+    public ResultData<Void> updateProfile(@RequestBody User user, @RequestHeader(TokenConstants.USER_KEY) String userKey) {
+        User reliableUser = SecurityUtil.getLoginUser(userKey).getUser();
+        user.setId(reliableUser.getId());
+        user.setUsername(reliableUser.getUsername());
+        user.setPassword(null);
+        user.setRoleIds(new HashSet<>(roleService.selectRoleIdsByUserId(user.getId())));
+        userService.updateUser(user);
+        remoteTokenService.refreshLoginUser(userKey);
+        return ResultData.success();
+    }
+
+    /**
+     * 修改个人密码
+     * @param oldPwd 旧密码
+     * @param newPwd 新密码
+     * @param userKey 用户标识
+     * @return 无
+     */
+    @ApiOperation("修改个人密码")
+    @PutMapping("/updateProfilePwd")
+    public ResultData<Void> updateProfilePwd(String oldPwd, String newPwd, @RequestHeader(TokenConstants.USER_KEY) String userKey) {
+        User user = SecurityUtil.getLoginUser(userKey).getUser();
+        if(!SecurityUtil.matchesPassword(oldPwd, user.getPassword())) {
+            throw new ServiceException(ResultCode.ACCOUNT_PASSWORD_ERROR);
+        }
+        if(SecurityUtil.matchesPassword(newPwd, user.getPassword())) {
+            throw new ServiceException(ResultCode.OLD_NEW_PASSWORD_EQUAL);
+        }
+        user.setPassword(newPwd);
+        userService.resetPwd(user);
+        remoteTokenService.refreshLoginUser(userKey);
         return ResultData.success();
     }
 }

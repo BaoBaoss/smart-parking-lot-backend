@@ -3,6 +3,7 @@ package com.cetuer.parking.admin.service;
 import com.cetuer.parking.admin.api.domain.User;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户操作业务层
@@ -64,5 +65,5 @@ public interface UserService {
      * @param userId 用户
      * @param roleIds 角色
      */
-    void updateUserRole(Integer userId, Integer[] roleIds);
+    void updateUserRole(Integer userId, Set<Integer> roleIds);
 }

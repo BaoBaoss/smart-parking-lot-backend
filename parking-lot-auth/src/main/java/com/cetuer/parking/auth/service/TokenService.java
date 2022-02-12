@@ -97,9 +97,8 @@ public class TokenService {
         LoginUser refreshUser = SecurityUtil.getLoginUser(userKey);
         if (refreshUser != null) {
             LoginUser userInfo = remoteUserService.getUserInfo(refreshUser.getUser().getUsername()).getData();
-            refreshUser.setRoles(userInfo.getRoles());
-            refreshUser.setPermissions(userInfo.getPermissions());
-            refreshToken(refreshUser);
+            userInfo.setUuid(refreshUser.getUuid());
+            refreshToken(userInfo);
         }
     }
 }

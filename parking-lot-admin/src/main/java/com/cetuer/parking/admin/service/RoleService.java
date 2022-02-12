@@ -31,4 +31,12 @@ public interface RoleService {
      * @return 角色id列表
      */
     List<Integer> selectRoleIdsByUserId(Integer userId);
+
+    /**
+     * 查询用户所属角色组
+     *
+     * @param userId 用户唯一标识
+     * @return 角色组
+     */
+    String selectRoleGroupByUserId(Integer userId);
 }

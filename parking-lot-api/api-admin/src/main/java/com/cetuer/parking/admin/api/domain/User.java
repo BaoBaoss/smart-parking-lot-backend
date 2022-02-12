@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * @author Cetuer
@@ -56,5 +57,5 @@ public class User extends BaseEntity {
     private Integer status;
 
     @ApiModelProperty(value = "新增或修改用户角色id列表")
-    private Integer[] roleIds;
+    private Set<Integer> roleIds;
 }

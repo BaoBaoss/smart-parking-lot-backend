@@ -44,9 +44,19 @@ public enum ResultCode {
     ACCOUNT_PASSWORD_ERROR(40210, "账户密码错误"),
 
     /**
+     * 用户登录已过期
+     */
+    ACCOUNT_LOGIN_EXPIRE(40230, "用户登录已过期"),
+
+    /**
      * 验证码错误
      */
     CAPTCHA_FAIL(40240, "验证码错误"),
+
+    /**
+     * 新旧密码相同
+     */
+    OLD_NEW_PASSWORD_EQUAL(40242, "新旧密码相同"),
 
     /**
      * 访问未授权

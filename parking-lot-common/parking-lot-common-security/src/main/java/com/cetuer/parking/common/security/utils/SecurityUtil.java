@@ -1,9 +1,12 @@
 package com.cetuer.parking.common.security.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.cetuer.parking.admin.api.model.LoginUser;
 import com.cetuer.parking.common.core.constant.TokenConstants;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.exception.ServiceException;
 import com.cetuer.parking.common.core.service.RedisService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -37,6 +40,9 @@ public class SecurityUtil {
      * @return 结果
      */
     public static boolean matchesPassword(String rawPassword, String encodedPassword) {
+        if (StrUtil.isEmpty(rawPassword) || StrUtil.isEmpty(encodedPassword)) {
+            return false;
+        }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
@@ -45,20 +51,14 @@ public class SecurityUtil {
      * 根据userKey获取登录用户
      *
      * @param userKey 用户唯一标识
-     * @return 登录用户，如果未登录则返回null
+     * @return 登录用户，如果未登录则抛出异常
      */
     public static LoginUser getLoginUser(String userKey) {
-        return (LoginUser) SpringUtil.getBean(RedisService.class).get(TokenConstants.LOGIN_TOKEN_KEY + userKey);
-    }
-
-    /**
-     * 检查用户是否已经登录
-     *
-     * @param userKey 用户唯一标识
-     * @return true->已登录；false->未登录
-     */
-    public static boolean isLoginUser(String userKey) {
-        return getLoginUser(userKey) != null;
+        LoginUser loginUser = (LoginUser) SpringUtil.getBean(RedisService.class).get(TokenConstants.LOGIN_TOKEN_KEY + userKey);
+        if (ObjectUtil.isNull(loginUser)) {
+            throw new ServiceException(ResultCode.ACCOUNT_LOGIN_EXPIRE);
+        }
+        return loginUser;
     }
 
     public static void main(String[] args) {

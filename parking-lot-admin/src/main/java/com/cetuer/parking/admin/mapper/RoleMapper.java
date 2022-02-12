@@ -30,7 +30,7 @@ public interface RoleMapper {
      * @param userId 用户id
      * @return 角色id列表
      */
-    List<Integer> selectRoleIdsByUserId(Integer userId);
+    List<Role> selectRolesByUserId(Integer userId);
 
     /**
      * 根据用户id判断是否是超级管理员角色

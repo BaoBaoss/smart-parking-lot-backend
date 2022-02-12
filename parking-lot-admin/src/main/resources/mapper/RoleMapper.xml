@@ -33,8 +33,14 @@
         <include refid="selectRoleVo"/>
     </select>
 
-    <select id="selectRoleIdsByUserId" resultType="Integer">
-        SELECT r.id
+    <select id="selectRolesByUserId" resultMap="RoleResultMap">
+        SELECT r.id,
+               r.`name`,
+               r.`key`,
+               r.`order`,
+               r.`status`,
+               r.create_time,
+               r.update_time
         FROM `smart-parking-lot`.role r
                      LEFT JOIN `smart-parking-lot`.user_role ur ON r.id = ur.role_id
                      LEFT JOIN `smart-parking-lot`.`user` u ON ur.user_id = u.id
@@ -46,6 +52,7 @@
         FROM `smart-parking-lot`.role r
                      LEFT JOIN `smart-parking-lot`.user_role ur ON r.id = ur.role_id
                      LEFT JOIN `smart-parking-lot`.`user` u ON ur.user_id = u.id
-        WHERE ur.user_id = #{userId} AND ur.role_id = 1
+        WHERE ur.user_id = #{userId}
+          AND ur.role_id = 1
     </select>
 </mapper>

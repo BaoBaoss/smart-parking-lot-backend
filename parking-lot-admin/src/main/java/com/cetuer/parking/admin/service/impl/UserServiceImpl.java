@@ -1,6 +1,6 @@
 package com.cetuer.parking.admin.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.domain.UserRole;
 import com.cetuer.parking.admin.mapper.UserMapper;
@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户操作业务实现层
@@ -58,8 +59,8 @@ public class UserServiceImpl implements UserService {
         insertUserRole(user.getId(), user.getRoleIds());
     }
 
-    private void insertUserRole(Integer userId, Integer[] roleIds) {
-        if (ObjectUtil.isNotNull(roleIds)) {
+    private void insertUserRole(Integer userId, Set<Integer> roleIds) {
+        if (CollectionUtil.isNotEmpty(roleIds)) {
             List<UserRole> userRoleList = new ArrayList<>();
             for (Integer roleId : roleIds) {
                 userRoleList.add(new UserRole(userId, roleId));
@@ -87,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUserRole(Integer userId, Integer[] roleIds) {
+    public void updateUserRole(Integer userId, Set<Integer> roleIds) {
         userRoleMapper.deleteByUserIds(new Integer[]{userId});
         insertUserRole(userId, roleIds);
     }
