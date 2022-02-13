@@ -4,7 +4,6 @@
     <resultMap id="RoleResultMap" type="com.cetuer.parking.admin.domain.Role">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="key" jdbcType="VARCHAR" property="key"/>
         <result column="order" jdbcType="INTEGER" property="order"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -14,20 +13,12 @@
     <sql id="selectRoleVo">
         SELECT id,
                `name`,
-               `key`,
                `order`,
                `status`,
                create_time,
                update_time
         FROM `smart-parking-lot`.role
     </sql>
-    <select id="selectRolePermsByUserId" parameterType="Integer" resultType="String">
-        SELECT DISTINCT r.`key`
-        FROM `smart-parking-lot`.role r
-                     LEFT JOIN `smart-parking-lot`.user_role ur ON r.id = ur.role_id
-                     LEFT JOIN `smart-parking-lot`.`user` u ON ur.user_id = u.id
-        WHERE user_id = #{userId}
-    </select>
 
     <select id="selectRoleAll" resultMap="RoleResultMap">
         <include refid="selectRoleVo"/>
@@ -36,7 +27,6 @@
     <select id="selectRolesByUserId" resultMap="RoleResultMap">
         SELECT r.id,
                r.`name`,
-               r.`key`,
                r.`order`,
                r.`status`,
                r.create_time,

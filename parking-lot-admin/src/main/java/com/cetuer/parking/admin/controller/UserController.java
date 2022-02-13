@@ -65,7 +65,6 @@ public class UserController {
         LoginUser loginUser = new LoginUser();
         loginUser.setUser(user);
         loginUser.setPermissions(menuService.selectMenuPermsByUserId(user.getId()));
-        loginUser.setRoles(roleService.selectRolePermsByUserId(user.getId()));
         return ResultData.success(loginUser);
     }
 
@@ -126,7 +125,6 @@ public class UserController {
         remoteTokenService.refreshLoginUser(userKey);
         LoginUser loginUser = SecurityUtil.getLoginUser(userKey);
         resMap.put("user", loginUser.getUser());
-        resMap.put("roles", loginUser.getRoles());
         resMap.put("permissions", loginUser.getPermissions());
         return ResultData.success(resMap);
     }

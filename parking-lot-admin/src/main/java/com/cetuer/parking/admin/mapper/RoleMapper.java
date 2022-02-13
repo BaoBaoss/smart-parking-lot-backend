@@ -12,12 +12,6 @@ import java.util.Set;
  * @date 2022/1/22 10:39
  */
 public interface RoleMapper {
-    /**
-     * 根据用户ID查找其角色权限
-     * @param userId 用户ID
-     * @return 权限列表
-     */
-    Set<String> selectRolePermsByUserId(Integer userId);
 
     /**
      * 查找所有角色信息

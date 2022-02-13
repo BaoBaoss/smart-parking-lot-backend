@@ -44,12 +44,6 @@ public class LoginUser implements Serializable {
     private Set<String> permissions;
 
     /**
-     * 角色列表
-     */
-    @ApiModelProperty("角色列表")
-    private Set<String> roles;
-
-    /**
      * 用户信息
      */
     @ApiModelProperty("用户信息")
