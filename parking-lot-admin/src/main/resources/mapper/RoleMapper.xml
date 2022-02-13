@@ -45,4 +45,17 @@
         WHERE ur.user_id = #{userId}
           AND ur.role_id = 1
     </select>
+
+    <select id="selectRoleList"  parameterType="com.cetuer.parking.admin.domain.Role" resultMap="RoleResultMap">
+        <include refid="selectRoleVo" />
+        <where>
+            <if test="name != null and name != ''">
+                AND name like concat('%', #{name}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY `order`
+    </select>
 </mapper>

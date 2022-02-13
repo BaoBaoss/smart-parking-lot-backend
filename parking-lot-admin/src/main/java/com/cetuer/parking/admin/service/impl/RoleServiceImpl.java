@@ -35,4 +35,9 @@ public class RoleServiceImpl implements RoleService {
     public String selectRoleGroupByUserId(Integer userId) {
         return roleMapper.selectRolesByUserId(userId).stream().map(Role::getName).collect(Collectors.joining(","));
     }
+
+    @Override
+    public List<Role> selectRoleListByPage(Role role) {
+        return roleMapper.selectRoleList(role);
+    }
 }

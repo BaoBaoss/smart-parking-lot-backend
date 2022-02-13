@@ -22,9 +22,6 @@ public class Role extends BaseEntity {
     @ApiModelProperty(value = "角色名称")
     private String name;
 
-    @ApiModelProperty(value = "角色权限字符串")
-    private String key;
-
     @ApiModelProperty(value = "显示顺序")
     private Integer order;
 

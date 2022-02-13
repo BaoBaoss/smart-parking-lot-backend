@@ -5,9 +5,11 @@ import com.cetuer.parking.admin.service.RoleService;
 import com.cetuer.parking.admin.util.AdminUtil;
 import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.domain.TableInfo;
 import com.cetuer.parking.common.security.annotation.RequirePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -53,5 +55,19 @@ public class RoleController {
     @RequirePermission({"system:role:query", "system:user:edit"})
     public ResultData<List<Integer>> listRoleByUserId(@PathVariable("userId") Integer userId) {
         return ResultData.success(roleService.selectRoleIdsByUserId(userId));
+    }
+
+    /**
+     * 根据条件分页查询角色列表
+     *
+     * @param role 查询条件
+     * @return 用户列表
+     */
+    @ApiOperation("根据条件分页查询角色列表")
+    @GetMapping("/listByPage")
+    @RequirePermission({"system:role:list"})
+    public ResultData<TableInfo<Role>> listByPage(@ApiParam("查询条件") Role role) {
+        List<Role> roleList = roleService.selectRoleListByPage(role);
+        return ResultData.success(TableInfo.getInstance(roleList));
     }
 }

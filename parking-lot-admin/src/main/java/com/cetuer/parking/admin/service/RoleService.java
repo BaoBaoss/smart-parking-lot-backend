@@ -32,4 +32,11 @@ public interface RoleService {
      * @return 角色组
      */
     String selectRoleGroupByUserId(Integer userId);
+
+    /**
+     * 根据条件分页查找角色列表
+     * @param role 条件
+     * @return 角色列表
+     */
+    List<Role> selectRoleListByPage(Role role);
 }

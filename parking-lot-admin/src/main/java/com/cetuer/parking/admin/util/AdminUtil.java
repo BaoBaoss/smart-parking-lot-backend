@@ -43,7 +43,7 @@ public class AdminUtil {
     }
 
     /**
-     * 是否有所有权限
+     * 是否拥有超级权限
      * @param userId 用户id
      * @return true->有；false->没有
      */

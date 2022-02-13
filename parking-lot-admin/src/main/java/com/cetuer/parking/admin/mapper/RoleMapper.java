@@ -3,7 +3,6 @@ package com.cetuer.parking.admin.mapper;
 import com.cetuer.parking.admin.domain.Role;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 角色 数据层
@@ -32,4 +31,11 @@ public interface RoleMapper {
      * @return true->是；false->否
      */
     Boolean isAdminRole(Integer userId);
+
+    /**
+     * 根据条件分页查找角色列表
+     * @param role 条件
+     * @return 角色列表
+     */
+    List<Role> selectRoleList(Role role);
 }
