@@ -39,4 +39,17 @@ public interface RoleService {
      * @return 角色列表
      */
     List<Role> selectRoleListByPage(Role role);
+
+    /**
+     * 根据角色名查找角色
+     * @param roleName 角色名
+     * @return 角色
+     */
+    Role selectRoleByRoleName(String roleName);
+
+    /**
+     * 新增角色
+     * @param role 角色
+     */
+    void insertRole(Role role);
 }

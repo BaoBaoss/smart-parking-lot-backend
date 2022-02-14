@@ -22,20 +22,17 @@ public class Menu extends BaseEntity {
 
     private static final long serialVersionUID = 3656835356761076055L;
 
-    @ApiModelProperty(value = "主键")
-    private Integer id;
-
     @ApiModelProperty(value = "菜单id")
-    private Integer menuId;
+    private Integer id;
 
     @ApiModelProperty(value = "父菜单id")
     private Integer parentId;
 
     @ApiModelProperty(value = "菜单名称")
-    private String menuName;
+    private String name;
 
     @ApiModelProperty(value = "显示顺序")
-    private Integer orderNum;
+    private Integer order;
 
     @ApiModelProperty(value = "路由地址")
     private String routePath;
@@ -44,7 +41,7 @@ public class Menu extends BaseEntity {
     private String componentPath;
 
     @ApiModelProperty(value = "菜单类型：M->目录；C->菜单；A->按钮")
-    private String menuType;
+    private String type;
 
     @ApiModelProperty(value = "是否显示：1->显示；0->隐藏")
     private Integer visible;

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.cetuer.parking.admin.domain.Menu;
 import com.cetuer.parking.admin.domain.vo.MetaVo;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
+import com.cetuer.parking.admin.domain.vo.TreeSelect;
 import com.cetuer.parking.admin.mapper.MenuMapper;
 import com.cetuer.parking.admin.service.MenuService;
 import com.cetuer.parking.admin.util.AdminUtil;
@@ -27,34 +28,26 @@ public class MenuServiceImpl implements MenuService {
     private final MenuMapper menuMapper;
 
     @Override
-    public List<Menu> selectMenuList(Menu menu) {
-        return menuMapper.selectMenuList(menu);
+    public List<Menu> selectMenuList(Integer userId) {
+        if (AdminUtil.isAdminUser(userId)) {
+            return menuMapper.selectMenuListAll();
+        }
+        return menuMapper.selectMenuList(userId);
     }
 
     @Override
     public List<Menu> selectMenuTreeByUserId(Integer userId) {
         List<Menu> menus;
         //超级管理员显示所有菜单
-        if(AdminUtil.isAdminUser(userId)) {
+        if (AdminUtil.isAdminUser(userId)) {
             menus = menuMapper.selectMenuTreeAll();
         } else {
             menus = menuMapper.selectMenuTreeByUserId(userId);
         }
-        List<Menu> menusByParentId = getMenusByParentId(menus, 0);
-        menusByParentId.forEach(menu -> fillMenuChild(menus, menu));
-        return menusByParentId;
-    }
-
-
-    /**
-     * 根据提供的菜单列表找出所有父级菜单为parentId的菜单项
-     *
-     * @param menus    提供的菜单列表
-     * @param parentId 父级菜单id
-     * @return 找到的菜单项集合
-     */
-    public List<Menu> getMenusByParentId(List<Menu> menus, int parentId) {
-        return menus.stream().filter(menu -> menu.getParentId() == parentId).collect(Collectors.toList());
+        Map<Boolean, List<Menu>> groupMenus = getChildMenu(menus, 0);
+        List<Menu> topMenus = groupMenus.get(true);
+        topMenus.forEach(menu -> fillMenuChild(groupMenus.get(false), menu));
+        return topMenus;
     }
 
     /**
@@ -64,20 +57,21 @@ public class MenuServiceImpl implements MenuService {
      * @param menu  需要填充的菜单
      */
     public void fillMenuChild(List<Menu> menus, Menu menu) {
-        List<Menu> childList = getChildMenu(menus, menu);
+        Map<Boolean, List<Menu>> groupMenus = getChildMenu(menus, menu.getId());
+        List<Menu> childList = groupMenus.get(true);
         menu.setChildren(childList);
-        childList.forEach(child -> fillMenuChild(menus, child));
+        childList.forEach(child -> fillMenuChild(groupMenus.get(false), child));
     }
 
     /**
-     * 获取子菜单
+     * 根据父菜单ID获取其子菜单
      *
-     * @param menus 菜单列表
-     * @param menu  菜单项
-     * @return 子菜单列表
+     * @param menus        菜单列表
+     * @param parentMenuId 父菜单ID
+     * @return Map.get(true)->子菜单列表 Map.get(false)->除子菜单列表以外的集合
      */
-    public List<Menu> getChildMenu(List<Menu> menus, Menu menu) {
-        return menus.stream().filter(m -> Objects.equals(m.getParentId(), menu.getMenuId())).collect(Collectors.toList());
+    public Map<Boolean, List<Menu>> getChildMenu(List<Menu> menus, Integer parentMenuId) {
+        return menus.stream().collect(Collectors.partitioningBy(m -> Objects.equals(m.getParentId(), parentMenuId)));
     }
 
     /**
@@ -95,9 +89,9 @@ public class MenuServiceImpl implements MenuService {
             router.setName(StrUtil.upperFirst(menu.getRoutePath()));
             router.setPath(getRouterPath(menu));
             router.setComponent(getComponent(menu));
-            router.setMeta(new MetaVo(menu.getMenuName(), menu.getIcon()));
+            router.setMeta(new MetaVo(menu.getName(), menu.getIcon()));
             List<Menu> childMenu = menu.getChildren();
-            if (!childMenu.isEmpty() && MenuConstant.TYPE_DIR.equals(menu.getMenuType())) {
+            if (!childMenu.isEmpty() && MenuConstant.TYPE_DIR.equals(menu.getType())) {
                 router.setAlwaysShow(true);
                 router.setRedirect("noRedirect");
                 router.setChildren(buildMenus(childMenu));
@@ -110,12 +104,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public Set<String> selectMenuPermsByUserId(Integer userId) {
         Set<String> perms = new HashSet<>();
-        if(AdminUtil.hasAllPermission(userId)) {
+        if (AdminUtil.hasAllPermission(userId)) {
             perms.add("*:*:*");
         } else {
             perms.addAll(menuMapper.selectMenuPermsByUserId(userId));
         }
         return perms;
+    }
+
+    @Override
+    public List<TreeSelect> buildMenuTreeSelect(List<Menu> menuList) {
+        Map<Boolean, List<Menu>> groupMenus = getChildMenu(menuList, 0);
+        List<Menu> topMenus = groupMenus.get(true);
+        topMenus.forEach(m -> fillMenuChild(groupMenus.get(false), m));
+        return topMenus.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
     /**
@@ -127,7 +129,7 @@ public class MenuServiceImpl implements MenuService {
     public String getRouterPath(Menu menu) {
         String routerPath = menu.getRoutePath();
         // 非外链并且是一级目录（类型为目录）
-        if (0 == menu.getParentId() && MenuConstant.TYPE_DIR.equals(menu.getMenuType())){
+        if (0 == menu.getParentId() && MenuConstant.TYPE_DIR.equals(menu.getType())) {
             routerPath = "/" + menu.getRoutePath();
         }
         return routerPath;
@@ -156,6 +158,6 @@ public class MenuServiceImpl implements MenuService {
      * @return true->是; false->否
      */
     public boolean isParentView(Menu menu) {
-        return menu.getParentId() != 0 && MenuConstant.TYPE_DIR.equals(menu.getMenuType());
+        return menu.getParentId() != 0 && MenuConstant.TYPE_DIR.equals(menu.getType());
     }
 }

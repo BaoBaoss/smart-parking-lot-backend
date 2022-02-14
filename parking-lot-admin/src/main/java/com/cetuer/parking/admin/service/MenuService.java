@@ -3,6 +3,7 @@ package com.cetuer.parking.admin.service;
 
 import com.cetuer.parking.admin.domain.Menu;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
+import com.cetuer.parking.admin.domain.vo.TreeSelect;
 
 import java.util.List;
 import java.util.Set;
@@ -17,11 +18,11 @@ import java.util.Set;
 public interface MenuService {
 
     /**
-     * 查找菜单列表
-     * @param menu 菜单信息
+     * 根据用户id查找其拥有的所有菜单
+     * @param userId 用户id
      * @return 菜单列表
      */
-    List<Menu> selectMenuList(Menu menu);
+    List<Menu> selectMenuList(Integer userId);
 
     /**
      * 根据用户id查询菜单树信息
@@ -46,4 +47,11 @@ public interface MenuService {
      */
     Set<String> selectMenuPermsByUserId(Integer userId);
 
+    /**
+     * 构建前端所需要下拉树结构
+     *
+     * @param menuList 菜单列表
+     * @return 下拉树结构列表
+     */
+    List<TreeSelect> buildMenuTreeSelect(List<Menu> menuList);
 }

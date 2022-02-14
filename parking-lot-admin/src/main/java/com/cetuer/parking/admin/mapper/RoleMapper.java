@@ -38,4 +38,17 @@ public interface RoleMapper {
      * @return 角色列表
      */
     List<Role> selectRoleList(Role role);
+
+    /**
+     * 根据角色名查找角色
+     * @param roleName 角色名
+     * @return 角色
+     */
+    Role selectRoleByRoleName(String roleName);
+
+    /**
+     * 插入角色
+     * @param role 角色
+     */
+    void insertRole(Role role);
 }

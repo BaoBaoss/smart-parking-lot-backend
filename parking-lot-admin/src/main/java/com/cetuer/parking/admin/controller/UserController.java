@@ -210,7 +210,7 @@ public class UserController {
     @ApiOperation("用户添加角色")
     @PutMapping("/updateUserRole")
     @RequirePermission("system:user:edit")
-    public ResultData<Void> updateUserRole(@Valid @NotNull(message = "用户id不能为空") Integer userId, Set<Integer> roleIds) {
+    public ResultData<Void> updateUserRole(@Valid @NotNull(message = "用户id不能为空") Integer userId, @RequestParam(value = "roleIds", required = false) Set<Integer> roleIds) {
         userService.updateUserRole(userId, roleIds);
         return ResultData.success();
     }

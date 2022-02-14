@@ -13,12 +13,13 @@ import java.util.Set;
  * @date 2021/12/9 21:18
  */
 public interface MenuMapper {
+
     /**
-     * 查找菜单列表
-     * @param menu 菜单信息
+     * 根据用户id查找其拥有的所有菜单
+     * @param userId 用户id
      * @return 菜单列表
      */
-    List<Menu> selectMenuList(Menu menu);
+    List<Menu> selectMenuList(Integer userId);
 
     /**
      * 查询菜单树信息
@@ -41,4 +42,10 @@ public interface MenuMapper {
      * @return 菜单列表
      */
     List<Menu> selectMenuTreeByUserId(Integer userId);
+
+    /**
+     * 查找所有菜单
+     * @return 菜单列表
+     */
+    List<Menu> selectMenuListAll();
 }

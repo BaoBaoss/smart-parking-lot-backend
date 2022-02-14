@@ -6,6 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Set;
+
 /**
  * @author Cetuer
  */
@@ -20,13 +24,18 @@ public class Role extends BaseEntity {
     private Integer id;
 
     @ApiModelProperty(value = "角色名称")
+    @NotBlank(message = "角色名不能为空")
     private String name;
 
     @ApiModelProperty(value = "显示顺序")
+    @NotNull(message = "角色顺序不能为空")
     private Integer order;
 
     @ApiModelProperty(value = "是否启用：1->启用；0->停用")
     private Integer status;
+
+    @ApiModelProperty(value = "新增或修改角色菜单id列表")
+    private Set<Integer> menuIds;
 
     /**
      * 是否为超级管理员角色

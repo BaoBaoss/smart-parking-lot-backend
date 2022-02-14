@@ -5,7 +5,6 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>parking-lot-gateway</module>
-        <module>parking-lot-mbg</module>
         <module>parking-lot-common</module>
         <module>parking-lot-auth</module>
         <module>parking-lot-api</module>
@@ -27,7 +26,6 @@
         <spring-cloud.version>2020.0.1</spring-cloud.version>
         <pagehelper.boot.version>1.4.1</pagehelper.boot.version>
         <knife4j.version>2.0.9</knife4j.version>
-        <mybatis-generator.version>1.4.0</mybatis-generator.version>
         <hutool.version>5.7.17</hutool.version>
         <druid.version>1.2.8</druid.version>
         <mybatis.version>2.2.0</mybatis.version>
@@ -99,12 +97,6 @@
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
-            </dependency>
-            <!--Mybatis代码生成器-->
-            <dependency>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-core</artifactId>
-                <version>${mybatis-generator.version}</version>
             </dependency>
             <!-- pagehelper 分页插件 -->
             <dependency>

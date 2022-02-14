@@ -6,12 +6,15 @@ import com.cetuer.parking.admin.util.AdminUtil;
 import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.domain.ResultData;
 import com.cetuer.parking.common.core.domain.TableInfo;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.exception.ServiceException;
 import com.cetuer.parking.common.security.annotation.RequirePermission;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,5 +72,33 @@ public class RoleController {
     public ResultData<TableInfo<Role>> listByPage(@ApiParam("查询条件") Role role) {
         List<Role> roleList = roleService.selectRoleListByPage(role);
         return ResultData.success(TableInfo.getInstance(roleList));
+    }
+
+    /**
+     * 检查角色名是否唯一
+     *
+     * @param roleName 角色名
+     * @return true->唯一；false->不唯一
+     */
+    @ApiOperation("检查角色名是否唯一")
+    @GetMapping("/check/{roleName}")
+    public ResultData<Boolean> checkRoleNameUnique(@PathVariable("roleName") String roleName) {
+        return ResultData.success(roleService.selectRoleByRoleName(roleName) == null);
+    }
+
+    /**
+     * 新增角色
+     * @param role 角色
+     * @return 无
+     */
+    @ApiOperation("新增角色")
+    @PostMapping
+    @RequirePermission("system:role:add")
+    public ResultData<Void> add(@Validated @RequestBody Role role) {
+        if(!checkRoleNameUnique(role.getName()).getData()) {
+            throw new ServiceException(ResultCode.ROLE_NAME_EXIST);
+        }
+        roleService.insertRole(role);
+        return ResultData.success();
     }
 }

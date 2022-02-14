@@ -29,6 +29,11 @@ public enum ResultCode {
     ACCOUNT_EXIST(40111, "账户已存在"),
 
     /**
+     * 角色名已存在
+     */
+    ROLE_NAME_EXIST(40154, "角色名已存在"),
+
+    /**
      * 账户不存在
      */
     ACCOUNT_NOT_EXIST(40201, "账户不存在"),
