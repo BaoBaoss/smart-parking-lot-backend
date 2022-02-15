@@ -12,4 +12,12 @@
             (#{item.roleId}, #{item.menuId})
         </foreach>
     </insert>
+
+    <delete id="deleteByRoleIds" parameterType="Integer">
+        DELETE
+        FROM `smart-parking-lot`.role_menu WHERE role_id IN
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
 </mapper>

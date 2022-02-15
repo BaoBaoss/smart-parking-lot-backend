@@ -54,4 +54,11 @@ public interface MenuService {
      * @return 下拉树结构列表
      */
     List<TreeSelect> buildMenuTreeSelect(List<Menu> menuList);
+
+    /**
+     * 根据角色id查找其拥有的菜单id列表
+     * @param roleId 角色id
+     * @return 菜单id列表
+     */
+    List<Integer> selectMenuIdsByRoleId(Integer roleId);
 }

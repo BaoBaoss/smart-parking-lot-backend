@@ -120,6 +120,11 @@ public class MenuServiceImpl implements MenuService {
         return topMenus.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Integer> selectMenuIdsByRoleId(Integer roleId) {
+        return menuMapper.selectMenuIdsByRoleId(roleId);
+    }
+
     /**
      * 获取路由地址
      *

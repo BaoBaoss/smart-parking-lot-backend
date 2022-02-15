@@ -60,6 +60,18 @@ public class RoleServiceImpl implements RoleService {
         insertRoleMenu(role.getId(), role.getMenuIds());
     }
 
+    @Override
+    public Role selectRoleByRoleId(Integer roleId) {
+        return roleMapper.selectRolesByRoleId(roleId);
+    }
+
+    @Override
+    public void updateRole(Role role) {
+        roleMapper.updateRole(role);
+        roleMenuMapper.deleteByRoleIds(new Integer[]{role.getId()});
+        insertRoleMenu(role.getId(), role.getMenuIds());
+    }
+
     private void insertRoleMenu(Integer roleId, Set<Integer> menuIds) {
         if (CollectionUtil.isNotEmpty(menuIds)) {
             List<RoleMenu> roleMenuList = new ArrayList<>();

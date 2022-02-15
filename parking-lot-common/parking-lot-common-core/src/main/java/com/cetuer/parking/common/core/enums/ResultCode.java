@@ -89,6 +89,11 @@ public enum ResultCode {
     PARAMETER_ERROR(40400, "参数校验错误"),
 
     /**
+     * 超级管理员角色不可操作
+     */
+    ADMIN_ROLE_OPERATION_ERROR(40443, "超级管理员角色不可操作"),
+
+    /**
      * 当前用户不可删除
      */
     CURRENT_ACCOUNT_DELETE_ERROR(40507, "当前用户不可删除"),

@@ -17,4 +17,10 @@ public interface RoleMenuMapper {
      * @param roleMenuList 数据列表
      */
     void insertRoleMenu(List<RoleMenu> roleMenuList);
+
+    /**
+     * 根据角色id列表批量删除数据
+     * @param roleIds 角色id列表
+     */
+    void deleteByRoleIds(Integer[] roleIds);
 }

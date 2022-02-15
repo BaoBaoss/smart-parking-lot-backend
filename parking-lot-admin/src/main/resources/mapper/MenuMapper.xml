@@ -34,17 +34,17 @@
 
     <sql id="selectMenuRelationUserVo">
         SELECT DISTINCT m.id,
-               m.parent_id,
-               m.`name`,
-               m.`order`,
-               m.route_path,
-               m.component_path,
-               m.type,
-               m.`visible`,
-               m.perms,
-               m.icon,
-               m.create_time,
-               m.update_time
+                        m.parent_id,
+                        m.`name`,
+                        m.`order`,
+                        m.route_path,
+                        m.component_path,
+                        m.type,
+                        m.`visible`,
+                        m.perms,
+                        m.icon,
+                        m.create_time,
+                        m.update_time
         FROM `smart-parking-lot`.menu m
                      LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
                      LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
@@ -82,6 +82,12 @@
 
     <select id="selectMenuListAll" resultMap="MenuResultMap">
         <include refid="selectMenuVo"/>
+        ORDER BY parent_id, `order`
+    </select>
+
+    <select id="selectMenuIdsByRoleId" parameterType="Integer" resultType="java.lang.Integer">
+        <include refid="selectMenuRelationUserVo"/>
+        WHERE rm.role_id = #{roleId}
         ORDER BY parent_id, `order`
     </select>
 </mapper>

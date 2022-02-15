@@ -48,4 +48,11 @@ public interface MenuMapper {
      * @return 菜单列表
      */
     List<Menu> selectMenuListAll();
+
+    /**
+     * 根据角色id查找其拥有的菜单id列表
+     * @param roleId 角色id
+     * @return 菜单id列表
+     */
+    List<Integer> selectMenuIdsByRoleId(Integer roleId);
 }

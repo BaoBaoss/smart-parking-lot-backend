@@ -51,4 +51,17 @@ public interface RoleMapper {
      * @param role 角色
      */
     void insertRole(Role role);
+
+    /**
+     * 根据角色ID查找角色
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    Role selectRolesByRoleId(Integer roleId);
+
+    /**
+     * 修改角色
+     * @param role 角色
+     */
+    void updateRole(Role role);
 }

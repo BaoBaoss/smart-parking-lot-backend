@@ -26,11 +26,11 @@
 
     <select id="selectRolesByUserId" resultMap="RoleResultMap">
         SELECT DISTINCT r.id,
-               r.`name`,
-               r.`order`,
-               r.`status`,
-               r.create_time,
-               r.update_time
+                        r.`name`,
+                        r.`order`,
+                        r.`status`,
+                        r.create_time,
+                        r.update_time
         FROM `smart-parking-lot`.role r
                      LEFT JOIN `smart-parking-lot`.user_role ur ON r.id = ur.role_id
                      LEFT JOIN `smart-parking-lot`.`user` u ON ur.user_id = u.id
@@ -88,4 +88,26 @@
         </if>
         sysdate())
     </insert>
+
+    <select id="selectRolesByRoleId" parameterType="Integer" resultMap="RoleResultMap">
+        <include refid="selectRoleVo"/>
+        WHERE id = #{roleId}
+    </select>
+
+    <update id="updateRole" parameterType="com.cetuer.parking.admin.domain.Role">
+        UPDATE `smart-parking-lot`.role
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="order != null">
+                `order` = #{order},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

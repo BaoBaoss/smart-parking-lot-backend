@@ -78,16 +78,18 @@ public class RoleController {
      * 检查角色名是否唯一
      *
      * @param roleName 角色名
-     * @return true->唯一；false->不唯一
+     * @return 不唯一则返回其角色名，唯一则返回null
      */
     @ApiOperation("检查角色名是否唯一")
     @GetMapping("/check/{roleName}")
-    public ResultData<Boolean> checkRoleNameUnique(@PathVariable("roleName") String roleName) {
-        return ResultData.success(roleService.selectRoleByRoleName(roleName) == null);
+    public ResultData<String> checkRoleNameUnique(@PathVariable("roleName") String roleName) {
+        Role role = roleService.selectRoleByRoleName(roleName);
+        return ResultData.success(role == null ? null : role.getName());
     }
 
     /**
      * 新增角色
+     *
      * @param role 角色
      * @return 无
      */
@@ -95,10 +97,45 @@ public class RoleController {
     @PostMapping
     @RequirePermission("system:role:add")
     public ResultData<Void> add(@Validated @RequestBody Role role) {
-        if(!checkRoleNameUnique(role.getName()).getData()) {
+        if (checkRoleNameUnique(role.getName()).getData() != null) {
             throw new ServiceException(ResultCode.ROLE_NAME_EXIST);
         }
         roleService.insertRole(role);
+        return ResultData.success();
+    }
+
+    /**
+     * 根据角色ID查询角色
+     *
+     * @param roleId 角色ID
+     * @return 角色
+     */
+    @ApiOperation("根据角色ID查询角色")
+    @GetMapping("/{roleId}")
+    @RequirePermission(("system:role:query"))
+    public ResultData<Role> getInfo(@PathVariable Integer roleId) {
+        return ResultData.success(roleService.selectRoleByRoleId(roleId));
+    }
+
+    /**
+     * 修改角色
+     *
+     * @param role 角色
+     * @return 无
+     */
+    @ApiOperation("修改角色")
+    @PutMapping
+    @RequirePermission("system:role:edit")
+    public ResultData<Void> edit(@Validated @RequestBody Role role) {
+        if (Role.isAdmin(role.getId())) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
+        String existRoleName = checkRoleNameUnique(role.getName()).getData();
+        //已存在的角色名不和此角色原本角色名相等
+        if (existRoleName != null && !existRoleName.equals(roleService.selectRoleByRoleId(role.getId()).getName())) {
+            throw new ServiceException(ResultCode.ROLE_NAME_EXIST);
+        }
+        roleService.updateRole(role);
         return ResultData.success();
     }
 }
