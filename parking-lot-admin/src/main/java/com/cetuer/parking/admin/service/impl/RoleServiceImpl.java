@@ -5,13 +5,17 @@ import com.cetuer.parking.admin.domain.Role;
 import com.cetuer.parking.admin.domain.RoleMenu;
 import com.cetuer.parking.admin.mapper.RoleMapper;
 import com.cetuer.parking.admin.mapper.RoleMenuMapper;
+import com.cetuer.parking.admin.mapper.UserRoleMapper;
 import com.cetuer.parking.admin.service.RoleService;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.exception.ServiceException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
     private final RoleMenuMapper roleMenuMapper;
+    private final UserRoleMapper userRoleMapper;
 
     @Override
     public List<Role> selectRoleAll() {
@@ -70,6 +75,26 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.updateRole(role);
         roleMenuMapper.deleteByRoleIds(new Integer[]{role.getId()});
         insertRoleMenu(role.getId(), role.getMenuIds());
+    }
+
+    @Override
+    public void deleteByRoleIds(Integer[] roleIds) {
+        Arrays.stream(roleIds).forEach(roleId -> {
+            if(countUserByRoleId(roleId) > 0) {
+                throw new ServiceException(ResultCode.ROLE_ALREADY_ALLOCATION);
+            }
+        });
+        roleMenuMapper.deleteByRoleIds(roleIds);
+        roleMapper.deleteByRoleIds(roleIds);
+    }
+
+    /**
+     * 根据角色id查询使用此角色的用户数
+     * @param roleId 角色ID
+     * @return 用户数
+     */
+    private Integer countUserByRoleId(Integer roleId) {
+        return userRoleMapper.countUserByRoleId(roleId);
     }
 
     private void insertRoleMenu(Integer roleId, Set<Integer> menuIds) {

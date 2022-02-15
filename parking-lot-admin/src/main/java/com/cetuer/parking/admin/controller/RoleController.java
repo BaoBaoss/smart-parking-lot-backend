@@ -1,5 +1,6 @@
 package com.cetuer.parking.admin.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.cetuer.parking.admin.domain.Role;
 import com.cetuer.parking.admin.service.RoleService;
 import com.cetuer.parking.admin.util.AdminUtil;
@@ -136,6 +137,23 @@ public class RoleController {
             throw new ServiceException(ResultCode.ROLE_NAME_EXIST);
         }
         roleService.updateRole(role);
+        return ResultData.success();
+    }
+
+
+    /**
+     * 根据角色id批量删除角色
+     * @param roleIds 角色id列表
+     * @return 无
+     */
+    @ApiOperation("删除角色")
+    @DeleteMapping("/{roleIds}")
+    @RequirePermission("system:role:remove")
+    public ResultData<Void> remove(@PathVariable("roleIds") Integer[] roleIds) {
+        if(ArrayUtil.contains(roleIds, Role.getAdminId())) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
+        roleService.deleteByRoleIds(roleIds);
         return ResultData.success();
     }
 }

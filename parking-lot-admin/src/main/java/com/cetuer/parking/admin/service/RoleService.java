@@ -65,4 +65,10 @@ public interface RoleService {
      * @param role 角色
      */
     void updateRole(Role role);
+
+    /**
+     * 根据角色id列表删除角色
+     * @param roleIds 角色id列表
+     */
+    void deleteByRoleIds(Integer[] roleIds);
 }

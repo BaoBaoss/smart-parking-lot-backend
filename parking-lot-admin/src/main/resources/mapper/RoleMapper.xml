@@ -38,7 +38,7 @@
     </select>
 
     <select id="isAdminRole" parameterType="Integer" resultType="java.lang.Boolean">
-        SELECT COUNT(*)
+        SELECT COUNT(1)
         FROM `smart-parking-lot`.role r
                      LEFT JOIN `smart-parking-lot`.user_role ur ON r.id = ur.role_id
                      LEFT JOIN `smart-parking-lot`.`user` u ON ur.user_id = u.id
@@ -110,4 +110,12 @@
         </set>
         WHERE id = #{id}
     </update>
+
+    <delete id="deleteByRoleIds" parameterType="Integer">
+        DELETE
+        FROM `smart-parking-lot`.role WHERE id IN
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
 </mapper>

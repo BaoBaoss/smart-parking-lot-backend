@@ -94,6 +94,11 @@ public enum ResultCode {
     ADMIN_ROLE_OPERATION_ERROR(40443, "超级管理员角色不可操作"),
 
     /**
+     * 角色已被分配，无法删除
+     */
+    ROLE_ALREADY_ALLOCATION(40444, "角色已被分配，无法删除"),
+
+    /**
      * 当前用户不可删除
      */
     CURRENT_ACCOUNT_DELETE_ERROR(40507, "当前用户不可删除"),

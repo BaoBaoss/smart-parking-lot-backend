@@ -26,5 +26,10 @@ public interface UserRoleMapper {
     void insertUserRole(List<UserRole> userRoleList);
 
 
-
+    /**
+     * 根据角色id查询使用此角色的用户数
+     * @param roleId 角色ID
+     * @return 用户数
+     */
+    Integer countUserByRoleId(Integer roleId);
 }

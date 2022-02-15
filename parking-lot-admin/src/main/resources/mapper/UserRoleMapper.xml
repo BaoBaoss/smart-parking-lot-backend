@@ -20,4 +20,8 @@
             (#{item.userId}, #{item.roleId})
         </foreach>
     </insert>
+
+    <select id="countUserByRoleId" parameterType="Integer" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM `smart-parking-lot`.user_role WHERE role_id = #{roleId}
+    </select>
 </mapper>
