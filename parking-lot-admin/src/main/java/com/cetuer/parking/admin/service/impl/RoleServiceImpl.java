@@ -3,6 +3,7 @@ package com.cetuer.parking.admin.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.cetuer.parking.admin.domain.Role;
 import com.cetuer.parking.admin.domain.RoleMenu;
+import com.cetuer.parking.admin.domain.UserRole;
 import com.cetuer.parking.admin.mapper.RoleMapper;
 import com.cetuer.parking.admin.mapper.RoleMenuMapper;
 import com.cetuer.parking.admin.mapper.UserRoleMapper;
@@ -86,6 +87,16 @@ public class RoleServiceImpl implements RoleService {
         });
         roleMenuMapper.deleteByRoleIds(roleIds);
         roleMapper.deleteByRoleIds(roleIds);
+    }
+
+    @Override
+    public void cancelAuthUser(Integer[] userIds, Integer roleId) {
+        userRoleMapper.deleteByUserIdsAndRoleId(userIds, roleId);
+    }
+
+    @Override
+    public void authUsers(Integer roleId, Integer[] userIds) {
+        userRoleMapper.insertUserRole(Arrays.stream(userIds).map(userId -> new UserRole(userId, roleId)).collect(Collectors.toList()));
     }
 
     /**

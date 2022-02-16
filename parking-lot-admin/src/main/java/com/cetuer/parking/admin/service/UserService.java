@@ -73,4 +73,22 @@ public interface UserService {
      * @param avatar 头像访问地址
      */
     void updateAvatar(Integer id, String avatar);
+
+    /**
+     * 根据角色id分页查询分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 分配此角色用户列表
+     */
+    List<User> selectAllocatedListByPage(Integer roleId, String username, String phone);
+
+    /**
+     * 根据角色id分页查询未分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 未分配此角色用户列表
+     */
+    List<User> selectUnallocatedListByPage(Integer roleId, String username, String phone);
 }

@@ -1,8 +1,10 @@
 package com.cetuer.parking.admin.controller;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.cetuer.parking.admin.api.domain.User;
 import com.cetuer.parking.admin.domain.Role;
 import com.cetuer.parking.admin.service.RoleService;
+import com.cetuer.parking.admin.service.UserService;
 import com.cetuer.parking.admin.util.AdminUtil;
 import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.domain.ResultData;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleController {
     private final RoleService roleService;
+    private final UserService userService;
 
     /**
      * 根据当前登录用户权限获取所有角色列表，如果是超级管理员可以获得超级管理员角色，其它用户获取不到超级管理员角色
@@ -154,6 +157,64 @@ public class RoleController {
             throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
         }
         roleService.deleteByRoleIds(roleIds);
+        return ResultData.success();
+    }
+
+
+    /**
+     * 根据角色id分页查询分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 分配此角色用户列表
+     */
+    @ApiOperation("分页查询分配此角色用户列表")
+    @GetMapping("/allocatedList")
+    @RequirePermission("system:role:query")
+    public ResultData<TableInfo<User>> allocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone) {
+        return ResultData.success(TableInfo.getInstance(userService.selectAllocatedListByPage(roleId, username, phone)));
+    }
+
+
+    /**
+     * 角色批量取消授权用户
+     * @param userIds 用户id列表
+     * @param roleId 角色id
+     * @return 无
+     */
+    @ApiOperation("角色取消授权用户")
+    @PutMapping("/cancelAuthUser")
+    @RequirePermission("system:role:edit")
+    public ResultData<Void> cancelAuthUser(Integer[] userIds, Integer roleId) {
+        roleService.cancelAuthUser(userIds, roleId);
+        return ResultData.success();
+    }
+
+    /**
+     * 根据角色id分页查询未分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 未分配此角色用户列表
+     */
+    @ApiOperation("分页查询未分配此角色用户列表")
+    @GetMapping("/unallocatedList")
+    @RequirePermission("system:role:query")
+    public ResultData<TableInfo<User>> unallocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone) {
+        return ResultData.success(TableInfo.getInstance(userService.selectUnallocatedListByPage(roleId, username, phone)));
+    }
+
+    /**
+     * 批量授权用户
+     * @param roleId 角色id
+     * @param userIds 用户id列表
+     * @return 无
+     */
+    @ApiOperation("批量授权用户")
+    @PutMapping("/authUsers")
+    @RequirePermission("system:role:edit")
+    public ResultData<Void> authUsers(Integer roleId, Integer[] userIds) {
+        roleService.authUsers(roleId, userIds);
         return ResultData.success();
     }
 }

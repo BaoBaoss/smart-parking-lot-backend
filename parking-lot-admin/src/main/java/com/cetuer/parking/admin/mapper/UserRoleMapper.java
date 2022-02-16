@@ -1,6 +1,7 @@
 package com.cetuer.parking.admin.mapper;
 
 import com.cetuer.parking.admin.domain.UserRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,4 +33,11 @@ public interface UserRoleMapper {
      * @return 用户数
      */
     Integer countUserByRoleId(Integer roleId);
+
+    /**
+     * 根据用户id和角色id删除数据
+     * @param userIds 用户id列表
+     * @param roleId 角色id
+     */
+    void deleteByUserIdsAndRoleId(@Param("userIds") Integer[] userIds, @Param("roleId") Integer roleId);
 }

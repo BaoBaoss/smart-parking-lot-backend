@@ -167,6 +167,49 @@
     </update>
 
     <update id="updateAvatar">
-        UPDATE `smart-parking-lot`.user SET avatar = #{avatar} WHERE id = #{id}
+        UPDATE `smart-parking-lot`.user
+        SET avatar = #{avatar}
+        WHERE id = #{id}
     </update>
+
+    <select id="selectAllocatedList" resultMap="UserResultMap">
+        SELECT DISTINCT u.id,
+                        u.username,
+                        u.nickname,
+                        u.email,
+                        u.phone,
+                        u.status,
+                        u.create_time
+        FROM `smart-parking-lot`.`user` u
+                     LEFT JOIN `smart-parking-lot`.user_role ur ON u.id = ur.user_id
+                WHERE role_id = #{roleId}
+        <if test="username != null and username != ''">
+            AND username like concat('%', #{username}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone like concat('%', #{phone}, '%')
+        </if>
+    </select>
+
+    <select id="selectUnallocatedList" resultMap="UserResultMap">
+        SELECT id,
+               username,
+               nickname,
+               email,
+               phone,
+               status,
+               create_time
+        FROM `smart-parking-lot`.`user`
+                WHERE id NOT IN (
+                SELECT u.id
+                FROM `smart-parking-lot`.`user` u
+                             INNER JOIN `smart-parking-lot`.user_role ur ON u.id = ur.user_id
+                WHERE role_id = #{roleId})
+        <if test="username != null and username != ''">
+            AND username like concat('%', #{username}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone like concat('%', #{phone}, '%')
+        </if>
+    </select>
 </mapper>

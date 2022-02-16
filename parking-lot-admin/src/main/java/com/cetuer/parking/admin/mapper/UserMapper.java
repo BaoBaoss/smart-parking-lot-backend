@@ -66,4 +66,22 @@ public interface UserMapper {
      * @param avatar 头像地址
      */
     void updateAvatar(@Param("id") Integer id, @Param("avatar") String avatar);
+
+    /**
+     * 根据角色id查询分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 分配此角色用户列表
+     */
+    List<User> selectAllocatedList(@Param("roleId") Integer roleId, @Param("username") String username, @Param("phone") String phone);
+
+    /**
+     * 根据角色id查询未分配此角色用户列表
+     * @param roleId 角色id
+     * @param username 搜索条件：用户名
+     * @param phone 搜索条件：手机号码
+     * @return 分配此角色用户列表
+     */
+    List<User> selectUnallocatedList(@Param("roleId") Integer roleId, @Param("username") String username, @Param("phone") String phone);
 }

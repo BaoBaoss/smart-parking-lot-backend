@@ -71,4 +71,18 @@ public interface RoleService {
      * @param roleIds 角色id列表
      */
     void deleteByRoleIds(Integer[] roleIds);
+
+    /**
+     * 角色批量取消授权用户
+     * @param userIds 用户id列表
+     * @param roleId 角色id
+     */
+    void cancelAuthUser(Integer[] userIds, Integer roleId);
+
+    /**
+     * 批量授权用户
+     * @param roleId 角色id
+     * @param userIds 用户id列表
+     */
+    void authUsers(Integer roleId, Integer[] userIds);
 }

@@ -97,4 +97,15 @@ public class UserServiceImpl implements UserService {
     public void updateAvatar(Integer id, String avatar) {
         userMapper.updateAvatar(id, avatar);
     }
+
+    @Override
+    public List<User> selectAllocatedListByPage(Integer roleId, String username, String phone) {
+        return userMapper.selectAllocatedList(roleId, username, phone);
+    }
+
+    @Override
+    public List<User> selectUnallocatedListByPage(Integer roleId, String username, String phone) {
+        return userMapper.selectUnallocatedList(roleId, username, phone);
+    }
+
 }
