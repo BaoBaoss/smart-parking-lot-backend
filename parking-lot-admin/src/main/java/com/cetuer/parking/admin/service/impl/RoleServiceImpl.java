@@ -50,8 +50,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> selectRoleListByPage(Role role) {
-        return roleMapper.selectRoleList(role);
+    public List<Role> selectRoleListByPage(Role role, boolean isAdmin, List<Integer> oneselfRoles) {
+        return isAdmin ? roleMapper.selectRoleList(role) : roleMapper.selectRoleListNoAdminAndOneself(role, oneselfRoles);
     }
 
     @Override

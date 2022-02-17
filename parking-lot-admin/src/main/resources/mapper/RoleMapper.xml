@@ -118,4 +118,19 @@
             #{roleId}
         </foreach>
     </delete>
+
+    <select id="selectRoleListNoAdminAndOneself" resultMap="RoleResultMap">
+        <include refid="selectRoleVo"/>
+        WHERE id NOT IN (1
+        <foreach collection="oneselfRoles" item="oneselfRole">
+            , #{oneselfRole}
+        </foreach>)
+        <if test="role.name != null and role.name != ''">
+            AND name like concat('%', #{role.name}, '%')
+        </if>
+        <if test="role.status != null">
+            AND status = #{role.status}
+        </if>
+        ORDER BY `order`
+    </select>
 </mapper>

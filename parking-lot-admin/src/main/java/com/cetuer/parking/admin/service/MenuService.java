@@ -18,11 +18,17 @@ import java.util.Set;
 public interface MenuService {
 
     /**
-     * 根据用户id查找其拥有的所有菜单
+     * 根据用户id查找其拥有的菜单列表
      * @param userId 用户id
      * @return 菜单列表
      */
     List<Menu> selectMenuList(Integer userId);
+
+    /**
+     * 查找所有菜单
+     * @return 菜单列表
+     */
+    List<Menu> selectMenuListAll();
 
     /**
      * 根据用户id查询菜单树信息

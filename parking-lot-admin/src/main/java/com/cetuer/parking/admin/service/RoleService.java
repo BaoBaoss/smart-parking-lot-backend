@@ -36,9 +36,11 @@ public interface RoleService {
     /**
      * 根据条件分页查找角色列表
      * @param role 条件
+     * @param  isAdmin 是否可以查询管理员角色
+     * @param oneselfRole 自己拥有的角色
      * @return 角色列表
      */
-    List<Role> selectRoleListByPage(Role role);
+    List<Role> selectRoleListByPage(Role role, boolean isAdmin, List<Integer> oneselfRoles);
 
     /**
      * 根据角色名查找角色

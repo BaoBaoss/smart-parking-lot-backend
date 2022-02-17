@@ -76,6 +76,7 @@ public class UserController {
      */
     @ApiOperation("检查用户名是否唯一")
     @GetMapping("/check/{username}")
+    @RequirePermission({"system:user:add", "system:user:edit"})
     public ResultData<Boolean> checkUsernameUnique(@PathVariable("username") String username) {
         return ResultData.success(userService.selectUserByUsername(username) == null);
     }
@@ -88,7 +89,7 @@ public class UserController {
      */
     @ApiOperation("根据用户id获取用户信息")
     @GetMapping("/{id}")
-    @RequirePermission({"system:user:query", "system:user:edit"})
+    @RequirePermission("system:user:edit")
     public ResultData<User> info(@PathVariable("id") Integer id, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
         //只有登录用户为超级管理员才能获取超级管理员信息
         if (AdminUtil.isAdminUser(id) && !AdminUtil.isAdminUser(userId)) {
@@ -107,7 +108,7 @@ public class UserController {
      */
     @ApiOperation("根据条件分页查询用户列表")
     @GetMapping("/listByPage")
-    @RequirePermission({"system:user:list"})
+    @RequirePermission("system:user:list")
     public ResultData<TableInfo<User>> listByPage(@ApiParam("查询条件") User user, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
         List<User> userList = userService.selectUserListByPage(user, AdminUtil.hasAllPermission(userId));
         return ResultData.success(TableInfo.getInstance(userList));

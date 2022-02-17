@@ -48,12 +48,13 @@
         FROM `smart-parking-lot`.menu m
                      LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
                      LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
-                     LEFT JOIN `smart-parking-lot`.`user` u ON u.id = ur.user_id
+                     LEFT JOIN `smart-parking-lot`.role r ON r.id = ur.role_id
     </sql>
 
     <select id="selectMenuList" parameterType="Integer" resultMap="MenuResultMap">
         <include refid="selectMenuRelationUserVo"/>
-        WHERE u.id = #{userId}
+        WHERE r.status = 1
+          AND ur.user_id = #{userId}
         ORDER BY parent_id, `order`
     </select>
 
@@ -68,14 +69,16 @@
         FROM `smart-parking-lot`.menu m
                      LEFT JOIN `smart-parking-lot`.role_menu rm ON m.id = rm.menu_id
                      LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
-                     LEFT JOIN `smart-parking-lot`.`user` u ON u.id = ur.user_id
+                     LEFT JOIN `smart-parking-lot`.role r ON r.id = ur.role_id
         WHERE m.perms IS NOT NULL
-          AND u.id = #{userId}
+          AND r.status = 1
+          AND ur.user_id = #{userId}
     </select>
 
     <select id="selectMenuTreeByUserId" parameterType="Integer" resultMap="MenuResultMap">
         <include refid="selectMenuRelationUserVo"/>
-        WHERE u.id = #{userId}
+        WHERE r.status = 1
+          AND ur.user_id = #{userId}
           AND type IN ('M', 'C')
         ORDER BY m.parent_id, m.order
     </select>

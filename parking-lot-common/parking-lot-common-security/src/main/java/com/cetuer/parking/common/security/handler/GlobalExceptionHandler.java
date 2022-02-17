@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoPermissionException.class)
-    public ResultData<Void> noPermissionException(NoPermissionException e, HttpServletRequest request) {
+    public ResultData<String> noPermissionException(NoPermissionException e, HttpServletRequest request) {
         log.error("请求地址'{}',权限码校验失败'{}'", request.getRequestURI(), e.getMessage());
-        return ResultData.fail(ResultCode.NO_PERMISSION);
+        return ResultData.fail(ResultCode.NO_PERMISSION, "需要" + e.getMessage() + "权限");
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.cetuer.parking.admin.mapper;
 
 import com.cetuer.parking.admin.domain.Role;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -70,4 +71,12 @@ public interface RoleMapper {
      * @param roleIds 角色id列表
      */
     void deleteByRoleIds(Integer[] roleIds);
+
+    /**
+     * 根据条件分页查找角色列表(无管理员角色和自己拥有的角色)
+     * @param role 条件
+     * @param oneselfRoles  自己拥有的角色id列表
+     * @return 角色列表
+     */
+    List<Role> selectRoleListNoAdminAndOneself(@Param("role") Role role, @Param("oneselfRoles") List<Integer> oneselfRoles);
 }

@@ -56,7 +56,6 @@ public class MenuController {
 
     /**
      * 根据用户查询前端需要的下拉树式结构
-     * @param userId 用户ID
      * @return 下拉树结构
      */
     @ApiOperation("查询菜单下拉树")

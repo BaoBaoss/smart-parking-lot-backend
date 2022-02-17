@@ -44,7 +44,7 @@ public class RoleController {
      * @return 角色列表
      */
     @ApiOperation("获取所有角色列表")
-    @RequirePermission({"system:role:query", "system:user:edit", "system:user:add"})
+    @RequirePermission({"system:user:edit", "system:user:add"})
     @GetMapping("/list")
     public ResultData<List<Role>> list(@RequestHeader(TokenConstants.USER_ID) Integer userId) {
         List<Role> roles = roleService.selectRoleAll();
@@ -59,22 +59,23 @@ public class RoleController {
      */
     @ApiOperation("根据用户id获取其拥有的角色列表id")
     @GetMapping({"/list/{userId}"})
-    @RequirePermission({"system:role:query", "system:user:edit"})
+    @RequirePermission("system:user:edit")
     public ResultData<List<Integer>> listRoleByUserId(@PathVariable("userId") Integer userId) {
         return ResultData.success(roleService.selectRoleIdsByUserId(userId));
     }
 
     /**
-     * 根据条件分页查询角色列表
+     * 根据条件分页查询角色列表 (非管理员角色查询不到管理员角色和自己拥有的角色)
      *
      * @param role 查询条件
+     * @param userId 当前登录角色
      * @return 用户列表
      */
     @ApiOperation("根据条件分页查询角色列表")
     @GetMapping("/listByPage")
-    @RequirePermission({"system:role:list"})
-    public ResultData<TableInfo<Role>> listByPage(@ApiParam("查询条件") Role role) {
-        List<Role> roleList = roleService.selectRoleListByPage(role);
+    @RequirePermission("system:role:list")
+    public ResultData<TableInfo<Role>> listByPage(@ApiParam("查询条件") Role role,  @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        List<Role> roleList = roleService.selectRoleListByPage(role, AdminUtil.isAdminUser(userId), roleService.selectRoleIdsByUserId(userId));
         return ResultData.success(TableInfo.getInstance(roleList));
     }
 
@@ -86,6 +87,7 @@ public class RoleController {
      */
     @ApiOperation("检查角色名是否唯一")
     @GetMapping("/check/{roleName}")
+    @RequirePermission({"system:role:add", "system:role:edit"})
     public ResultData<String> checkRoleNameUnique(@PathVariable("roleName") String roleName) {
         Role role = roleService.selectRoleByRoleName(roleName);
         return ResultData.success(role == null ? null : role.getName());
@@ -116,7 +118,7 @@ public class RoleController {
      */
     @ApiOperation("根据角色ID查询角色")
     @GetMapping("/{roleId}")
-    @RequirePermission(("system:role:query"))
+    @RequirePermission(("system:role:edit"))
     public ResultData<Role> getInfo(@PathVariable Integer roleId) {
         return ResultData.success(roleService.selectRoleByRoleId(roleId));
     }
@@ -170,8 +172,11 @@ public class RoleController {
      */
     @ApiOperation("分页查询分配此角色用户列表")
     @GetMapping("/allocatedList")
-    @RequirePermission("system:role:query")
-    public ResultData<TableInfo<User>> allocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone) {
+    @RequirePermission("system:role:edit")
+    public ResultData<TableInfo<User>> allocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        if(Role.isAdmin(roleId) && !AdminUtil.isAdminUser(userId)) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
         return ResultData.success(TableInfo.getInstance(userService.selectAllocatedListByPage(roleId, username, phone)));
     }
 
@@ -185,7 +190,10 @@ public class RoleController {
     @ApiOperation("角色取消授权用户")
     @PutMapping("/cancelAuthUser")
     @RequirePermission("system:role:edit")
-    public ResultData<Void> cancelAuthUser(Integer[] userIds, Integer roleId) {
+    public ResultData<Void> cancelAuthUser(Integer[] userIds, Integer roleId, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        if(Role.isAdmin(roleId) && !AdminUtil.isAdminUser(userId)) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
         roleService.cancelAuthUser(userIds, roleId);
         return ResultData.success();
     }
@@ -199,8 +207,11 @@ public class RoleController {
      */
     @ApiOperation("分页查询未分配此角色用户列表")
     @GetMapping("/unallocatedList")
-    @RequirePermission("system:role:query")
-    public ResultData<TableInfo<User>> unallocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone) {
+    @RequirePermission("system:role:edit")
+    public ResultData<TableInfo<User>> unallocatedListByPage(@RequestParam("roleId") Integer roleId, @RequestParam(value = "username", required = false) String username, @RequestParam(value = "phone", required = false) String phone, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        if(Role.isAdmin(roleId) && !AdminUtil.isAdminUser(userId)) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
         return ResultData.success(TableInfo.getInstance(userService.selectUnallocatedListByPage(roleId, username, phone)));
     }
 
@@ -213,7 +224,10 @@ public class RoleController {
     @ApiOperation("批量授权用户")
     @PutMapping("/authUsers")
     @RequirePermission("system:role:edit")
-    public ResultData<Void> authUsers(Integer roleId, Integer[] userIds) {
+    public ResultData<Void> authUsers(Integer roleId, Integer[] userIds, @RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        if(Role.isAdmin(roleId) && !AdminUtil.isAdminUser(userId)) {
+            throw new ServiceException(ResultCode.ADMIN_ROLE_OPERATION_ERROR);
+        }
         roleService.authUsers(roleId, userIds);
         return ResultData.success();
     }

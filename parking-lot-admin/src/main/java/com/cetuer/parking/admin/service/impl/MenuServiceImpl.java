@@ -29,10 +29,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> selectMenuList(Integer userId) {
-        if (AdminUtil.isAdminUser(userId)) {
+        if(AdminUtil.isAdminUser(userId)) {
             return menuMapper.selectMenuListAll();
         }
         return menuMapper.selectMenuList(userId);
+    }
+
+    @Override
+    public List<Menu> selectMenuListAll() {
+        return menuMapper.selectMenuListAll();
     }
 
     @Override

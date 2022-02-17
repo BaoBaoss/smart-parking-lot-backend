@@ -57,15 +57,7 @@
 
     <select id="selectUserListNoAdmin" resultMap="UserResultMap">
         <include refid="selectUserVo"/>
-        WHERE id NOT IN
-              (
-                      SELECT u.id
-                      FROM `smart-parking-lot`.user u
-                                   LEFT JOIN `smart-parking-lot`.user_role ur on u.id = ur.user_id
-                                   LEFT JOIN `smart-parking-lot`.role r on r.id = ur.role_id
-                      WHERE ur.role_id = 1
-                      )
-
+        WHERE id != 1
         <if test="username != null and username != ''">
             AND username like concat('%', #{username}
                     , '%')
