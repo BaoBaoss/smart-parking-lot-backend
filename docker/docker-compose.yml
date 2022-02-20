@@ -1,0 +1,120 @@
+version: '3.9'
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:cetuer
+    build: ./mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/conf:/etc/mysql
+      - ./mysql/log:/var/log/mysql
+      - ./mysql/data:/var/lib/mysql
+    command: [
+      'mysqld',
+      '--innodb-buffer-pool-size=80M',
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--default-time-zone=+8:00',
+      '--lower-case-table-names=1'
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  redis:
+    container_name: redis
+    image: redis:cetuer
+    build: ./redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
+      - ./redis/data:/data
+    command: redis-server /etc/redis/redis.conf
+  nacos:
+    container_name: nacos
+    image: nacos/nacos-server:1.4.1
+    ports:
+      - "8848:8848"
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+    environment:
+      SPRING_DATASOURCE_PLATFORM: mysql
+      MODE: standalone
+      MYSQL_SERVICE_HOST: mysql # 指定mysql容器名称
+      MYSQL_SERVICE_DB_NAME: nacos
+      MYSQL_SERVICE_PORT: 3306 # mysql容器内部端口
+      MYSQL_SERVICE_USER: root
+      MYSQL_SERVICE_PASSWORD: root
+      MYSQL_SERVICE_DB_PARAM: characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&serverTimezone=GMT%2B8
+      JVM_XMS: 64m
+      JVM_XMX: 64m
+      JVM_XMN: 16m
+    depends_on:
+      - mysql
+  minio:
+    container_name: minio
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    command: [ "server", "/data", "--console-address", ":9001", "--address", ":9000"]
+    environment:
+      - MINIO_ROOT_USER=root
+      - MINIO_ROOT_PASSWORD=Zqb..990826
+  parking-gateway:
+    container_name: parking-gateway
+    build: ./parking/gateway
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - redis
+      - nacos
+    links:
+      - redis
+      - nacos
+  parking-auth:
+    container_name: parking-auth
+    build: ./parking/auth
+    ports:
+      - "9100:9100"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - redis
+      - nacos
+    links:
+      - redis
+      - nacos
+  parking-admin:
+    container_name: parking-admin
+    build: ./parking/admin
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - redis
+      - nacos
+      - mysql
+    links:
+      - redis
+      - nacos
+      - mysql
+  parking-file:
+    container_name: parking-file
+    build: ./parking/file
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - minio
+      - nacos
+    links:
+      - minio
+      - nacos
