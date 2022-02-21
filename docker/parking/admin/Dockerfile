@@ -10,5 +10,7 @@ RUN mkdir -p /home/parking
 WORKDIR /home/parking
 # 复制jar
 COPY ./jar/parking-lot-admin.jar /home/parking/parking-lot-admin.jar
+# 暴露端口
+EXPOSE 9091
 # 启动服务
 ENTRYPOINT ["java", "-Xms64m", "-Xmx128m", "-jar", "parking-lot-admin.jar"]
