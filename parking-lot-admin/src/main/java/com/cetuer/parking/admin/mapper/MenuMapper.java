@@ -55,4 +55,37 @@ public interface MenuMapper {
      * @return 菜单id列表
      */
     List<Integer> selectMenuIdsByRoleId(Integer roleId);
+
+    /**
+     * 根据条件分页查询菜单列表
+     * @param menu 分页条件
+     * @return 菜单列表
+     */
+    List<Menu> selectMenuListByPage(Menu menu);
+
+    /**
+     * 新增菜单
+     * @param menu 菜单信息
+     */
+    void insertMenu(Menu menu);
+
+    /**
+     * 根据菜单编号查找菜单
+     * @param menuId 菜单编号
+     * @return 菜单
+     */
+    Menu selectMenuById(Integer menuId);
+
+    /**
+     * 修改菜单
+     * @param menu 菜单
+     */
+    void updateMenu(Menu menu);
+
+    /**
+     * 根据菜单id查找子菜单数量
+     * @param menuId 菜单id
+     * @return 子菜单数量
+     */
+    Integer selectChildCountById(Integer menuId);
 }

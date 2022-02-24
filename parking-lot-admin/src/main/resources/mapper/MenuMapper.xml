@@ -10,6 +10,7 @@
         <result column="component_path" jdbcType="VARCHAR" property="componentPath"/>
         <result column="type" jdbcType="CHAR" property="type"/>
         <result column="visible" jdbcType="INTEGER" property="visible"/>
+        <result column="status" javaType="INTEGER" property="status"/>
         <result column="perms" jdbcType="VARCHAR" property="perms"/>
         <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -25,6 +26,7 @@
                component_path,
                type,
                `visible`,
+               `status`,
                perms,
                icon,
                create_time,
@@ -41,6 +43,7 @@
                         m.component_path,
                         m.type,
                         m.`visible`,
+                        m.`status`,
                         m.perms,
                         m.icon,
                         m.create_time,
@@ -61,6 +64,7 @@
     <select id="selectMenuTreeAll" resultMap="MenuResultMap">
         <include refid="selectMenuVo"/>
         WHERE type IN ('M', 'C')
+          AND status = 1
         ORDER BY parent_id, `order`
     </select>
 
@@ -71,6 +75,7 @@
                      LEFT JOIN `smart-parking-lot`.user_role ur ON rm.role_id = ur.role_id
                      LEFT JOIN `smart-parking-lot`.role r ON r.id = ur.role_id
         WHERE m.perms IS NOT NULL
+          AND m.status = 1
           AND r.status = 1
           AND ur.user_id = #{userId}
     </select>
@@ -78,6 +83,7 @@
     <select id="selectMenuTreeByUserId" parameterType="Integer" resultMap="MenuResultMap">
         <include refid="selectMenuRelationUserVo"/>
         WHERE r.status = 1
+          AND m.status = 1
           AND ur.user_id = #{userId}
           AND type IN ('M', 'C')
         ORDER BY m.parent_id, m.order
@@ -92,5 +98,134 @@
         <include refid="selectMenuRelationUserVo"/>
         WHERE rm.role_id = #{roleId}
         ORDER BY parent_id, `order`
+    </select>
+
+    <select id="selectMenuListByPage" parameterType="com.cetuer.parking.admin.domain.Menu" resultMap="MenuResultMap">
+        <include refid="selectMenuVo"/>
+        <where>
+            <if test="name != null and name != ''">
+                AND name like concat('%', #{name}, '%')
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY parent_id, `order`
+    </select>
+
+    <insert id="insertMenu" parameterType="com.cetuer.parking.admin.domain.Menu">
+        INSERT INTO `smart-parking-lot`.menu(
+        <if test="parentId != null">
+            parent_id,
+        </if>
+        <if test="name != null and name != ''">
+            name,
+        </if>
+        <if test="order != null">
+            `order`,
+        </if>
+        <if test="routePath != null and routePath != ''">
+            route_path,
+        </if>
+        <if test="componentPath != null and componentPath != ''">
+            component_path,
+        </if>
+        <if test="type != null and type != ''">
+            type,
+        </if>
+        <if test="visible != null">
+            visible,
+        </if>
+        <if test="status != null">
+            status,
+        </if>
+        <if test="perms != null and perms != ''">
+            perms,
+        </if>
+        <if test="icon != null and icon != ''">
+            icon,
+        </if>
+        create_time) values (
+        <if test="parentId != null">
+            #{parentId},
+        </if>
+        <if test="name != null and name != ''">
+            #{name},
+        </if>
+        <if test="order != null">
+            #{order},
+        </if>
+        <if test="routePath != null and routePath != ''">
+            #{routePath},
+        </if>
+        <if test="componentPath != null and componentPath != ''">
+            #{componentPath},
+        </if>
+        <if test="type != null and type != ''">
+            #{type},
+        </if>
+        <if test="visible != null">
+            #{visible},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+        <if test="perms != null and perms != ''">
+            #{perms},
+        </if>
+        <if test="icon != null and icon != ''">
+            #{icon},
+        </if>
+        sysdate())
+    </insert>
+
+    <select id="selectMenuById" parameterType="Integer" resultMap="MenuResultMap">
+        <include refid="selectMenuVo"/>
+        WHERE id = #{menuId}
+    </select>
+
+    <update id="updateMenu" parameterType="com.cetuer.parking.admin.domain.Menu">
+        UPDATE `smart-parking-lot`.menu
+        <set>
+            <if test="parentId != null">
+                parent_id = #{parentId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="order != null">
+                `order` = #{order},
+            </if>
+            <if test="routePath != null and routePath != ''">
+                route_path = #{routePath},
+            </if>
+            <if test="componentPath != null and componentPath != ''">
+                component_path = #{componentPath},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="visible != null">
+                visible = #{visible},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="perms != null and perms != ''">
+                perms = #{perms},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectChildCountById"  parameterType="Integer" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM `smart-parking-lot`.menu WHERE parent_id = #{menuId}
     </select>
 </mapper>

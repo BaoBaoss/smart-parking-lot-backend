@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +31,11 @@ public class Menu extends BaseEntity {
     private Integer parentId;
 
     @ApiModelProperty(value = "菜单名称")
+    @NotBlank(message = "菜单名不能为空")
     private String name;
 
     @ApiModelProperty(value = "显示顺序")
+    @NotNull(message = "显示顺序不能为空")
     private Integer order;
 
     @ApiModelProperty(value = "路由地址")
@@ -45,6 +49,9 @@ public class Menu extends BaseEntity {
 
     @ApiModelProperty(value = "是否显示：1->显示；0->隐藏")
     private Integer visible;
+
+    @ApiModelProperty(value = "菜单状态：1->正常；0->停用")
+    private Integer status;
 
     @ApiModelProperty(value = "权限标识")
     private String perms;

@@ -6,6 +6,7 @@ import com.cetuer.parking.admin.domain.vo.MetaVo;
 import com.cetuer.parking.admin.domain.vo.RouterVo;
 import com.cetuer.parking.admin.domain.vo.TreeSelect;
 import com.cetuer.parking.admin.mapper.MenuMapper;
+import com.cetuer.parking.admin.mapper.RoleMenuMapper;
 import com.cetuer.parking.admin.service.MenuService;
 import com.cetuer.parking.admin.util.AdminUtil;
 import com.cetuer.parking.common.core.constant.MenuConstant;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MenuServiceImpl implements MenuService {
     private final MenuMapper menuMapper;
+    private final RoleMenuMapper roleMenuMapper;
 
     @Override
     public List<Menu> selectMenuList(Integer userId) {
@@ -33,11 +35,6 @@ public class MenuServiceImpl implements MenuService {
             return menuMapper.selectMenuListAll();
         }
         return menuMapper.selectMenuList(userId);
-    }
-
-    @Override
-    public List<Menu> selectMenuListAll() {
-        return menuMapper.selectMenuListAll();
     }
 
     @Override
@@ -128,6 +125,41 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Integer> selectMenuIdsByRoleId(Integer roleId) {
         return menuMapper.selectMenuIdsByRoleId(roleId);
+    }
+
+    @Override
+    public List<Menu> selectMenuListByPage(Menu menu) {
+        return menuMapper.selectMenuListByPage(menu);
+    }
+
+    @Override
+    public void insertMenu(Menu menu) {
+        menuMapper.insertMenu(menu);
+    }
+
+    @Override
+    public Menu selectMenuById(Integer menuId) {
+        return menuMapper.selectMenuById(menuId);
+    }
+
+    @Override
+    public void updateMenu(Menu menu) {
+        menuMapper.updateMenu(menu);
+    }
+
+    @Override
+    public boolean hasChild(Integer menuId) {
+        return menuMapper.selectChildCountById(menuId) > 0;
+    }
+
+    @Override
+    public boolean hasRole(Integer menuId) {
+        return roleMenuMapper.selectRoleCountByMenuId(menuId) > 0;
+    }
+
+    @Override
+    public void deleteById(Integer menuId) {
+        roleMenuMapper.deleteById(menuId);
     }
 
     /**

@@ -20,4 +20,12 @@
             #{roleId}
         </foreach>
     </delete>
+
+    <select id="selectRoleCountByMenuId" parameterType="Integer" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM `smart-parking-lot`.role_menu WHERE menu_id = #{menuId}
+    </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        DELETE FROM `smart-parking-lot`.menu WHERE id = #{menuId}
+    </delete>
 </mapper>

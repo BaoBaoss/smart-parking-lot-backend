@@ -31,9 +31,13 @@ public class TreeSelect implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<TreeSelect> children;
 
+    @ApiModelProperty("是否不可用")
+    private Boolean disabled;
+
     public TreeSelect(Menu menu) {
         this.id = menu.getId();
         this.label = menu.getName();
         this.children = menu.getChildren().stream().map(TreeSelect::new).collect(Collectors.toList());
+        this.disabled = menu.getStatus() == 0;
     }
 }

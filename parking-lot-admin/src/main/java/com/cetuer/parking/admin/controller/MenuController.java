@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,12 +36,17 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    //@ApiOperation("获取菜单列表")
-    //@GetMapping("/list")
-    //public ResultData<List<Menu>> list(Menu menu) {
-    //    List<Menu> menus = menuService.selectMenuList(menu);
-    //    return ResultData.success(menus);
-    //}
+    /**
+     * 根据条件分页查询菜单列表
+     * @param menu 分页条件
+     * @return 菜单列表
+     */
+    @ApiOperation("根据条件分页查询菜单列表")
+    @GetMapping("/listByPage")
+    @RequirePermission("system:menu:list")
+    public ResultData<List<Menu>> listByPage(Menu menu) {
+        return ResultData.success(menuService.selectMenuListByPage(menu));
+    }
 
     /**
      * 获取菜单路由信息
@@ -60,7 +66,7 @@ public class MenuController {
      */
     @ApiOperation("查询菜单下拉树")
     @GetMapping("/treeSelect")
-    @RequirePermission({"system:menu:query", "system:role:add"})
+    @RequirePermission("system:role:add")
     public ResultData<List<TreeSelect>> treeSelect(@RequestHeader(TokenConstants.USER_ID) Integer userId) {
         List<Menu> menuList = menuService.selectMenuList(userId);
         return ResultData.success(menuService.buildMenuTreeSelect(menuList));
@@ -83,5 +89,65 @@ public class MenuController {
         res.put("menus", menuService.buildMenuTreeSelect(menuList));
         res.put("checkedKeys", menuService.selectMenuIdsByRoleId(roleId));
         return ResultData.success(res);
+    }
+
+    /**
+     * 新增菜单
+     * @param menu 菜单信息
+     * @return 无
+     */
+    @ApiOperation("新增菜单")
+    @PostMapping
+    @RequirePermission("system:menu:add")
+    public ResultData<Void> add(@RequestBody @Validated Menu menu) {
+        menuService.insertMenu(menu);
+        return ResultData.success();
+    }
+
+    /**
+     * 根据菜单编号获取菜单详情
+     * @param menuId 菜单编号
+     * @return 菜单信息
+     */
+    @ApiOperation("根据菜单编号获取菜单详情")
+    @GetMapping("/{menuId}")
+    @RequirePermission("system:menu:edit")
+    public ResultData<Menu> getInfo(@PathVariable Integer menuId) {
+        return ResultData.success(menuService.selectMenuById(menuId));
+    }
+
+    /**
+     * 修改菜单
+     * @param menu 菜单信息
+     * @return 无
+     */
+    @ApiOperation("修改菜单")
+    @PutMapping
+    @RequirePermission("system:menu:edit")
+    public ResultData<Void> edit(@Validated @RequestBody Menu menu) {
+        if(menu.getId().equals(menu.getParentId())) {
+            throw new ServiceException(ResultCode.FAIL, "上级菜单不能选择自己");
+        }
+        menuService.updateMenu(menu);
+        return ResultData.success();
+    }
+
+    /**
+     * 删除菜单
+     * @param menuId 菜单id
+     * @return 无
+     */
+    @ApiOperation("删除菜单")
+    @DeleteMapping("/{menuId}")
+    @RequirePermission("system:menu:remove")
+    public ResultData<Void> del(@PathVariable Integer menuId) {
+        if(menuService.hasChild(menuId)) {
+            throw new ServiceException(ResultCode.FAIL, "存在子菜单，无法删除");
+        }
+        if(menuService.hasRole(menuId)) {
+            throw new ServiceException(ResultCode.FAIL, "菜单已分配，无法删除");
+        }
+        menuService.deleteById(menuId);
+        return ResultData.success();
     }
 }

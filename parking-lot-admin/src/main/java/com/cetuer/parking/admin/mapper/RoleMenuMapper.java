@@ -23,4 +23,17 @@ public interface RoleMenuMapper {
      * @param roleIds 角色id列表
      */
     void deleteByRoleIds(Integer[] roleIds);
+
+    /**
+     * 根据菜单id查找角色数量
+     * @param menuId 菜单id
+     * @return 数量
+     */
+    Integer selectRoleCountByMenuId(Integer menuId);
+
+    /**
+     * 根据菜单id删除菜单
+     * @param menuId 菜单id
+     */
+    void deleteById(Integer menuId);
 }

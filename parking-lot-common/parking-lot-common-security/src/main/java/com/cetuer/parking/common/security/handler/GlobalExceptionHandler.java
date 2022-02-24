@@ -37,10 +37,10 @@ public class GlobalExceptionHandler {
      * @return 返回
      */
     @ExceptionHandler(ServiceException.class)
-    public ResultData<Void> serviceException(ServiceException e) {
+    public ResultData<String> serviceException(ServiceException e) {
         e.printStackTrace();
         log.error("业务错误 ex={}", e.getReason().getMessage());
-        return ResultData.fail(e.getReason());
+        return ResultData.fail(e.getReason(), e.getMsg());
     }
 
     /**

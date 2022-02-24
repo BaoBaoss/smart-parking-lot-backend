@@ -25,12 +25,6 @@ public interface MenuService {
     List<Menu> selectMenuList(Integer userId);
 
     /**
-     * 查找所有菜单
-     * @return 菜单列表
-     */
-    List<Menu> selectMenuListAll();
-
-    /**
      * 根据用户id查询菜单树信息
      *
      * @param userId 用户id
@@ -67,4 +61,50 @@ public interface MenuService {
      * @return 菜单id列表
      */
     List<Integer> selectMenuIdsByRoleId(Integer roleId);
+
+    /**
+     * 根据条件分页查询菜单列表
+     * @param menu 分页条件
+     * @return 菜单列表
+     */
+    List<Menu> selectMenuListByPage(Menu menu);
+
+    /**
+     * 新增菜单
+     * @param menu 菜单信息
+     */
+    void insertMenu(Menu menu);
+
+    /**
+     * 根据菜单编号查找菜单
+     * @param menuId 菜单编号
+     * @return 菜单
+     */
+    Menu selectMenuById(Integer menuId);
+
+    /**
+     * 修改菜单
+     * @param menu 菜单
+     */
+    void updateMenu(Menu menu);
+
+    /**
+     * 根据id判断是否有子菜单
+     * @param menuId 菜单id
+     * @return true -> 有；false -> 没有
+     */
+    boolean hasChild(Integer menuId);
+
+    /**
+     * 根据菜单id查询是否有角色分配此菜单
+     * @param menuId 菜单id
+     * @return true -> 有；false -> 没有
+     */
+    boolean hasRole(Integer menuId);
+
+    /**
+     * 根据菜单id删除菜单
+     * @param menuId 菜单id
+     */
+    void deleteById(Integer menuId);
 }
