@@ -10,6 +10,7 @@
         <module>parking-lot-api</module>
         <module>parking-lot-admin</module>
         <module>parking-lot-file</module>
+        <module>parking-lot-app</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -9,25 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>parking-lot-admin</artifactId>
-    <description>后台管理接口</description>
-
+    <artifactId>parking-lot-app</artifactId>
+    <description>app端接口</description>
 
     <dependencies>
-        <!--安全模块-->
+        <!--通用模块-->
         <dependency>
             <groupId>com.cetuer</groupId>
-            <artifactId>parking-lot-common-security</artifactId>
-        </dependency>
-        <!--认证接口-->
-        <dependency>
-            <groupId>com.cetuer</groupId>
-            <artifactId>api-auth</artifactId>
-        </dependency>
-        <!--文件接口-->
-        <dependency>
-            <groupId>com.cetuer</groupId>
-            <artifactId>api-file</artifactId>
+            <artifactId>parking-lot-common-core</artifactId>
         </dependency>
         <!--web启动依赖-->
         <dependency>

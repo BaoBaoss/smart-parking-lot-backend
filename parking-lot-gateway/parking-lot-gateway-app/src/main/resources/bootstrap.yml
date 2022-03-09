@@ -1,0 +1,36 @@
+server:
+  port: 9089
+spring:
+  main:
+    # 后定义的bean会覆盖之前定义的相同名称的bean
+    allow-bean-definition-overriding: true
+  application:
+    name: gateway-app
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        server-addr: 192.168.6.6:8848
+        # 共享配置
+        shared-configs:
+          - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+      discovery:
+        server-addr: 192.168.6.6:8848
+
+    sentinel:
+      # 取消控制台懒加载
+      eager: true
+      transport:
+        # 控制台地址
+        dashboard: 192.168.6.6:8858
+      # nacos配置持久化
+      datasource:
+        ds1:
+          nacos:
+            server-addr: 192.168.6.6:8848
+            dataId: sentinel-gateway
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow

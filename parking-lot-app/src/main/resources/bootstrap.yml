@@ -1,0 +1,17 @@
+server:
+  port: 9093
+spring:
+  application:
+    name: parking-app
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        server-addr: 192.168.6.6:8848
+        # 共享配置
+        shared-configs:
+          - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+      discovery:
+        server-addr: 192.168.6.6:8848
