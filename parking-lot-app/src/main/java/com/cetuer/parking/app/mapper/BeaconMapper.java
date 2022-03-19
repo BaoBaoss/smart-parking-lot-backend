@@ -16,4 +16,5 @@ public interface BeaconMapper {
      * @return 信标列表
      */
     List<BeaconDevice> selectAll();
+
 }
