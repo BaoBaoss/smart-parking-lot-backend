@@ -39,7 +39,4 @@ public class BeaconDevice extends BaseEntity {
 
     @ApiModelProperty(value="y坐标")
     private Integer y;
-
-    @ApiModelProperty(value="rssi信号")
-    private Integer rssi;
 }

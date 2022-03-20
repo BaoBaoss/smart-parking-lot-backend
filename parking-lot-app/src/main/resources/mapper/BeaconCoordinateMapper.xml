@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.app.mapper.BeaconCoordinateMapper">
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.domain.BeaconCoordinate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="coordinate_id" jdbcType="INTEGER" property="coordinateId"/>
+        <id column="beacon_id" jdbcType="INTEGER" property="beaconId"/>
+        <result column="rssi" jdbcType="INTEGER" property="rssi"/>
+    </resultMap>
+
+    <insert id="insertBeaconCoordinate" parameterType="com.cetuer.parking.app.domain.BeaconCoordinate">
+        INSERT INTO `smart-parking-lot`.beacon_coordinate(coordinate_id, beacon_id, rssi)
+        VALUES (#{coordinateId}, #{beaconId}, #{rssi})
+    </insert>
+</mapper>

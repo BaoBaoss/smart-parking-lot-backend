@@ -12,8 +12,7 @@ import lombok.EqualsAndHashCode;
  * @date 2022/3/12 14:47
  */
 @Data
-@EqualsAndHashCode(callSuper=true)
-public class BeaconPoint extends BaseEntity {
+public class BeaconPoint {
     private static final long serialVersionUID = -4373214856555181777L;
 
     @ApiModelProperty(value="x坐标")

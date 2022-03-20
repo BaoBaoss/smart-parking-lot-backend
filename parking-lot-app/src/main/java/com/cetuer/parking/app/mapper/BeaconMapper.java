@@ -17,4 +17,10 @@ public interface BeaconMapper {
      */
     List<BeaconDevice> selectAll();
 
+    /**
+     * 根据mac查找id
+     * @param mac 物理地址
+     * @return id
+     */
+    Integer selectIdByMac(String mac);
 }
