@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.app.mapper.CoordinateMapper">
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.domain.Coordinate">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="x" jdbcType="INTEGER" property="x"/>
+        <result column="y" jdbcType="INTEGER" property="y"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <select id="selectCoordinateId" parameterType="com.cetuer.parking.app.domain.Coordinate"
+            resultType="java.lang.Integer">
+        SELECT id
+        FROM `smart-parking-lot`.coordinate
+        WHERE x = #{x}
+          AND y = #{y}
+    </select>
+
+    <insert id="insertCoordinate" parameterType="com.cetuer.parking.app.domain.Coordinate" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `smart-parking-lot`.coordinate(x, y, create_time)
+        VALUES (#{x}, #{y}, sysdate())
+    </insert>
+
+    <select id="selectAll" resultType="com.cetuer.parking.app.domain.Coordinate">
+        SELECT * FROM `smart-parking-lot`.coordinate;
+    </select>
+</mapper>

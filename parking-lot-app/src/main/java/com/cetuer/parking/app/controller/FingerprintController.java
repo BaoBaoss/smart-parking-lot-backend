@@ -1,5 +1,8 @@
 package com.cetuer.parking.app.controller;
 
+import com.cetuer.parking.app.domain.BeaconPoint;
+import com.cetuer.parking.app.domain.BeaconRssi;
+import com.cetuer.parking.app.domain.Coordinate;
 import com.cetuer.parking.app.service.FingerprintService;
 import com.cetuer.parking.common.core.domain.ResultData;
 import io.swagger.annotations.Api;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,5 +37,11 @@ public class FingerprintController {
     public ResultData<Void> collectFingerprint(@ApiParam(name = "指纹信息", required = true) @RequestBody Map<String, Map<String, Double>> fingerprint) {
         fingerprintService.collectFingerprint(fingerprint);
         return ResultData.success();
+    }
+
+    @ApiOperation("定位")
+    @PostMapping("/location")
+    public ResultData<Coordinate> location(@ApiParam(name = "信标数据", required = true) @RequestBody List<BeaconRssi> RSSIs) {
+        return ResultData.success(fingerprintService.location(RSSIs));
     }
 }

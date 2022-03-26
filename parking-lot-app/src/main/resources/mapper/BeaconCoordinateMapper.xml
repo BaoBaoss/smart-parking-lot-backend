@@ -12,4 +12,12 @@
         INSERT INTO `smart-parking-lot`.beacon_coordinate(coordinate_id, beacon_id, rssi)
         VALUES (#{coordinateId}, #{beaconId}, #{rssi})
     </insert>
+
+    <select id="selectMacRssiByCoordinateId" resultType="com.cetuer.parking.app.domain.BeaconRssi">
+        SELECT mac, rssi
+        FROM `smart-parking-lot`.beacon_coordinate bc
+                     LEFT JOIN `smart-parking-lot`.coordinate c ON bc.coordinate_id = c.id
+                     LEFT JOIN `smart-parking-lot`.beacon_device bd ON bc.beacon_id = bd.id
+        WHERE coordinate_id = #{coordinateId}
+    </select>
 </mapper>

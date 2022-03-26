@@ -3,6 +3,7 @@ package com.cetuer.parking.app.mapper;
 import com.cetuer.parking.app.domain.BeaconDevice;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * 信标操作数据层
