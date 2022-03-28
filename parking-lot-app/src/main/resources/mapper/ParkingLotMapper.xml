@@ -20,4 +20,10 @@
         SELECT *
         FROM `smart-parking-lot`.parking_lot
     </select>
+    <select id="selectParkingIdByLatLng" resultType="java.lang.Integer">
+        SELECT id
+        FROM `smart-parking-lot`.parking_lot
+        WHERE longitude = #{longitude}
+          AND latitude = #{latitude}
+    </select>
 </mapper>

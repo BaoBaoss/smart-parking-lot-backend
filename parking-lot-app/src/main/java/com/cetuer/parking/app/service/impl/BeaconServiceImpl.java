@@ -23,16 +23,16 @@ public class BeaconServiceImpl implements BeaconService {
     private final BeaconMapper beaconMapper;
 
     @Override
-    public List<BeaconDevice> selectAll() {
-        return beaconMapper.selectAll();
+    public List<BeaconDevice> selectDeviceByParkingLotId(Integer parkingLotId) {
+        return beaconMapper.selectDeviceByParkingLotId(parkingLotId);
     }
 
     @Override
-    public BeaconPoint selectEndPoint() {
+    public BeaconPoint selectEndPointByParkingLotId(Integer parkingLotId) {
         BeaconPoint beaconPoint = new BeaconPoint();
         int maxX = 0;
         int maxY = 0;
-        List<BeaconDevice> deviceList = selectAll();
+        List<BeaconDevice> deviceList = selectDeviceByParkingLotId(parkingLotId);
         for(BeaconDevice device:deviceList) {
             if(device.getX() > maxX) {
                 maxX = device.getX();

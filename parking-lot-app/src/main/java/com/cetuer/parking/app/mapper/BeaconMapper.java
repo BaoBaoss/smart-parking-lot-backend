@@ -13,10 +13,11 @@ import java.util.Set;
 */
 public interface BeaconMapper {
     /**
-     * 查找所有信标
+     * 根据停车场id查找其所有信标
+     * @param parkingLotId 停车场id
      * @return 信标列表
      */
-    List<BeaconDevice> selectAll();
+    List<BeaconDevice> selectDeviceByParkingLotId(Integer parkingLotId);
 
     /**
      * 根据mac查找id

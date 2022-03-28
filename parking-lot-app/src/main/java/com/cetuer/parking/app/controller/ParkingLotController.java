@@ -8,11 +8,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -33,5 +31,18 @@ public class ParkingLotController {
     @GetMapping("/list")
     public ResultData<List<ParkingLot>> list() {
         return ResultData.success(parkingLotService.list());
+    }
+
+    @ApiOperation("根据经纬度获取停车场id")
+    @GetMapping("/parkingIdByLatLng")
+    public ResultData<Integer> parkingIdByLatLng(@ApiParam(name = "停车场经度", required = true)
+                                                 @NotNull(message = "停车场经度不能为空")
+                                                 @RequestParam("longitude")
+                                                         Double longitude,
+                                                 @ApiParam(name = "停车场纬度", required = true)
+                                                 @NotNull(message = "停车场纬度不能为空")
+                                                 @RequestParam("latitude")
+                                                         Double latitude) {
+        return ResultData.success(parkingLotService.parkingIdByLatLng(longitude, latitude));
     }
 }

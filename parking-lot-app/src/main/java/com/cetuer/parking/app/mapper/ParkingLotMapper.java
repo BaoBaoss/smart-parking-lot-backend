@@ -17,4 +17,12 @@ public interface ParkingLotMapper {
      * @return 停车场列表
      */
     List<ParkingLot> selectAll();
+
+    /**
+     * 根据经纬度查询停车场id
+     * @param longitude 经度
+     * @param latitude 纬度
+     * @return 停车场id
+     */
+    Integer selectParkingIdByLatLng(Double longitude, Double latitude);
 }

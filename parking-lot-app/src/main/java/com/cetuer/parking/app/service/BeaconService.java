@@ -4,7 +4,6 @@ import com.cetuer.parking.app.domain.BeaconDevice;
 import com.cetuer.parking.app.domain.BeaconPoint;
 
 import java.util.List;
-import java.util.Map;
 
 /**
 * 信标操作服务层
@@ -15,14 +14,16 @@ import java.util.Map;
 public interface BeaconService {
 
     /**
-     * 查找所有信标
+     * 根据停车场id查找其所有信标
+     * @param parkingLotId 停车场id
      * @return 信标列表
      */
-    List<BeaconDevice> selectAll();
+    List<BeaconDevice> selectDeviceByParkingLotId(Integer parkingLotId);
 
     /**
-     * 查找信标终点坐标
+     * 根据停车场id查找其终点坐标
+     * @param parkingLotId 停车场id
      * @return 终点坐标
      */
-    BeaconPoint selectEndPoint();
+    BeaconPoint selectEndPointByParkingLotId(Integer parkingLotId);
 }

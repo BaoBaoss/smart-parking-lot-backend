@@ -39,4 +39,7 @@ public class BeaconDevice extends BaseEntity {
 
     @ApiModelProperty(value="y坐标")
     private Integer y;
+
+    @ApiModelProperty(value="停车场id")
+    private Integer parkingLotId;
 }

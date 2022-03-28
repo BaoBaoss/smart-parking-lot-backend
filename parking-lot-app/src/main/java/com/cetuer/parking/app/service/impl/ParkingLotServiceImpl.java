@@ -24,4 +24,9 @@ public class ParkingLotServiceImpl implements ParkingLotService {
     public List<ParkingLot> list() {
         return parkingLotMapper.selectAll();
     }
+
+    @Override
+    public Integer parkingIdByLatLng(Double longitude, Double latitude) {
+        return parkingLotMapper.selectParkingIdByLatLng(longitude, latitude);
+    }
 }

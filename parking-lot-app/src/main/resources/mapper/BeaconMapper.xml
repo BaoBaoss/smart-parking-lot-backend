@@ -9,12 +9,13 @@
     <result column="minor" jdbcType="INTEGER" property="minor" />
     <result column="x" jdbcType="INTEGER" property="x" />
     <result column="y" jdbcType="INTEGER" property="y" />
+    <result column="parkingLotId" jdbcType="INTEGER" property="parkingLotId"/>
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
 
-  <select id="selectAll" resultType="com.cetuer.parking.app.domain.BeaconDevice">
-    SELECT * FROM `smart-parking-lot`.beacon_device
+  <select id="selectDeviceByParkingLotId" resultType="com.cetuer.parking.app.domain.BeaconDevice">
+    SELECT * FROM `smart-parking-lot`.beacon_device WHERE parking_lot_id = #{parkingLotId}
   </select>
 
   <select id="selectIdByMac" parameterType="String" resultType="java.lang.Integer">
