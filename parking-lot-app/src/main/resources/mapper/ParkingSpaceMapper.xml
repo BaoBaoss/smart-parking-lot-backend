@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.app.mapper.ParkingSpaceMapper">
+
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.domain.ParkingSpace">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="parkingLotId" column="parking_lot_id" jdbcType="INTEGER"/>
+        <result property="carId" column="car_id" jdbcType="INTEGER"/>
+        <result property="x" column="x" jdbcType="INTEGER"/>
+        <result property="y" column="y" jdbcType="INTEGER"/>
+        <result property="available" column="available" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <update id="updateStatus">
+        UPDATE `smart-parking-lot`.parking_space
+        SET available = #{status}
+        WHERE parking_lot_id = #{parkingId}
+          AND x = #{x}
+          AND y = #{y}
+    </update>
+
+    <select id="selectByParkingId" resultType="com.cetuer.parking.app.domain.ParkingSpace">
+        SELECT *
+        FROM `smart-parking-lot`.parking_space
+        WHERE parking_lot_id = #{parkingLotId}
+    </select>
+</mapper>
