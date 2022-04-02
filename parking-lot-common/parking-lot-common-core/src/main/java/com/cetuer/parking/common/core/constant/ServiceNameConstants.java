@@ -22,4 +22,9 @@ public class ServiceNameConstants {
      * 文件服务
      */
     public static final String FILE_SERVICE = "parking-file";
+
+    /**
+     * app服务
+     */
+    public static final String APP_SERVICE = "parking-app";
 }

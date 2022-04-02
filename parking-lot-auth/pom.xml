@@ -18,6 +18,11 @@
             <groupId>com.cetuer</groupId>
             <artifactId>api-admin</artifactId>
         </dependency>
+        <!--app api模块-->
+        <dependency>
+            <groupId>com.cetuer</groupId>
+            <artifactId>api-app</artifactId>
+        </dependency>
         <!--common模块-->
         <dependency>
             <groupId>com.cetuer</groupId>

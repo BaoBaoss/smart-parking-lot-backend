@@ -13,10 +13,15 @@
     <description>app端接口</description>
 
     <dependencies>
-        <!--通用模块-->
+        <!--安全模块-->
         <dependency>
             <groupId>com.cetuer</groupId>
-            <artifactId>parking-lot-common-core</artifactId>
+            <artifactId>parking-lot-common-security</artifactId>
+        </dependency>
+        <!--app 接口-->
+        <dependency>
+            <groupId>com.cetuer</groupId>
+            <artifactId>api-app</artifactId>
         </dependency>
         <!--web启动依赖-->
         <dependency>

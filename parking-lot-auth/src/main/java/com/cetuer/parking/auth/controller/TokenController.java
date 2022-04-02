@@ -1,6 +1,8 @@
 package com.cetuer.parking.auth.controller;
 
 import com.cetuer.parking.admin.api.model.LoginUser;
+import com.cetuer.parking.app.api.domain.vo.MemberLoginVo;
+import com.cetuer.parking.app.api.model.LoginMember;
 import com.cetuer.parking.auth.domain.vo.LoginVo;
 import com.cetuer.parking.auth.service.LoginService;
 import com.cetuer.parking.auth.service.TokenService;
@@ -36,6 +38,13 @@ public class TokenController {
     public ResultData<Map<String, Object>> login(@Validated @RequestBody LoginVo login) {
         LoginUser user = loginService.login(login.getUsername(), login.getPassword());
         return ResultData.success(tokenService.createToken(user));
+    }
+
+    @ApiOperation("app登录")
+    @PostMapping("/appLogin")
+    public ResultData<String> appLogin(@Validated @RequestBody MemberLoginVo login) {
+        LoginMember member = loginService.appLogin(login.getUsername(), login.getPassword());
+        return ResultData.success(tokenService.createAppToken(member));
     }
 
     @ApiOperation("登出")

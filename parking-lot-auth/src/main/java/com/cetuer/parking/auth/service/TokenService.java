@@ -6,6 +6,7 @@ import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.cetuer.parking.admin.api.RemoteUserService;
 import com.cetuer.parking.admin.api.model.LoginUser;
+import com.cetuer.parking.app.api.model.LoginMember;
 import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.service.RedisService;
 import com.cetuer.parking.common.security.utils.SecurityUtil;
@@ -56,6 +57,26 @@ public class TokenService {
         return resMap;
     }
 
+    /**
+     * 创建app令牌
+     *
+     * @param loginMember 会员信息
+     * @return token
+     */
+    public String createAppToken(LoginMember loginMember) {
+        String uuid = IdUtil.fastUUID();
+        loginMember.setUuid(uuid);
+        refreshAppToken(loginMember);
+
+        //Jwt存储信息
+        Map<String, Object> claimsMap = new HashMap<>(4);
+        claimsMap.put(TokenConstants.USER_KEY, uuid);
+        claimsMap.put(TokenConstants.USER_ID, loginMember.getMember().getId());
+        claimsMap.put(TokenConstants.USERNAME, loginMember.getMember().getUsername());
+        // 返回token
+        return JWTUtil.createToken(claimsMap, JWTSignerUtil.hs512(TokenConstants.SECRET.getBytes()));
+    }
+
 
     /**
      * 刷新令牌
@@ -67,6 +88,18 @@ public class TokenService {
         loginUser.setExpireTime(loginUser.getLoginTime() + TimeUnit.MINUTES.toMillis(TokenConstants.EXPIRE_TIME));
         //缓存loginUser
         redisService.set(TokenConstants.LOGIN_TOKEN_KEY + loginUser.getUuid(), loginUser, TimeUnit.MINUTES.toSeconds(TokenConstants.EXPIRE_TIME));
+    }
+
+    /**
+     * 刷新app令牌
+     *
+     * @param loginMember 会员信息
+     */
+    public void refreshAppToken(LoginMember loginMember) {
+        loginMember.setLoginTime(System.currentTimeMillis());
+        loginMember.setExpireTime(loginMember.getLoginTime() + TimeUnit.MINUTES.toMillis(TokenConstants.EXPIRE_TIME));
+        //loginMember
+        redisService.set(TokenConstants.LOGIN_TOKEN_KEY + loginMember.getUuid(), loginMember, TimeUnit.MINUTES.toSeconds(TokenConstants.EXPIRE_TIME));
     }
 
     /**

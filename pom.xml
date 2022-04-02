@@ -132,6 +132,12 @@
             <!--文件接口-->
             <dependency>
                 <groupId>com.cetuer</groupId>
+                <artifactId>api-app</artifactId>
+                <version>${parking.version}</version>
+            </dependency>
+            <!--app接口-->
+            <dependency>
+                <groupId>com.cetuer</groupId>
                 <artifactId>api-file</artifactId>
                 <version>${parking.version}</version>
             </dependency>
