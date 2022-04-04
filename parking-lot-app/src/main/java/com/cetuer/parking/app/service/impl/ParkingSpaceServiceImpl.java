@@ -1,6 +1,6 @@
 package com.cetuer.parking.app.service.impl;
 
-import com.cetuer.parking.app.domain.ParkingSpace;
+import com.cetuer.parking.app.api.domain.ParkingSpace;
 import com.cetuer.parking.app.mapper.ParkingSpaceMapper;
 import com.cetuer.parking.app.service.ParkingSpaceService;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +38,35 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService{
     @Override
     public void delAllByParkingId(Integer parkingId) {
         parkingSpaceMapper.delAllByParkingId(parkingId);
+    }
+
+    @Override
+    public List<ParkingSpace> selectListByPage(Integer parkingId) {
+        return parkingSpaceMapper.selectByParkingId(parkingId);
+    }
+
+    @Override
+    public void insert(ParkingSpace parkingSpace) {
+        parkingSpaceMapper.insert(parkingSpace);
+    }
+
+    @Override
+    public boolean hasSpace(Integer parkingId, Integer x, Integer y) {
+        return parkingSpaceMapper.selectByLocation(parkingId, x, y) != null;
+    }
+
+    @Override
+    public ParkingSpace selectById(Integer spaceId) {
+        return parkingSpaceMapper.selectById(spaceId);
+    }
+
+    @Override
+    public void update(ParkingSpace parkingSpace) {
+        parkingSpaceMapper.update(parkingSpace);
+    }
+
+    @Override
+    public void del(Integer[] ids) {
+        parkingSpaceMapper.delByIds(ids);
     }
 }

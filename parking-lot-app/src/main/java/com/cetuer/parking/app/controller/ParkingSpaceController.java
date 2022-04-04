@@ -1,8 +1,11 @@
 package com.cetuer.parking.app.controller;
 
-import com.cetuer.parking.app.domain.ParkingSpace;
+import com.cetuer.parking.app.api.domain.ParkingSpace;
 import com.cetuer.parking.app.service.ParkingSpaceService;
 import com.cetuer.parking.common.core.domain.ResultData;
+import com.cetuer.parking.common.core.domain.TableInfo;
+import com.cetuer.parking.common.core.enums.ResultCode;
+import com.cetuer.parking.common.core.exception.ServiceException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -66,6 +69,45 @@ public class ParkingSpaceController {
     @DeleteMapping("/delAll/{parkingId}")
     public ResultData<Void> delAll(@PathVariable("parkingId") Integer parkingId) {
         parkingSpaceService.delAllByParkingId(parkingId);
+        return ResultData.success();
+    }
+
+    @ApiOperation("分页查询车位信息")
+    @GetMapping("/listByPage")
+    public ResultData<TableInfo<ParkingSpace>> listByPage(Integer parkingId) {
+        return ResultData.success(TableInfo.getInstance(parkingSpaceService.selectListByPage(parkingId)));
+    }
+
+    @ApiOperation("新增车位信息")
+    @PostMapping("/add")
+    public ResultData<Void> add(@RequestBody ParkingSpace parkingSpace) {
+        if(parkingSpaceService.hasSpace(parkingSpace.getParkingLotId(), parkingSpace.getX(), parkingSpace.getY())) {
+            throw new ServiceException(ResultCode.ADD_SPACE_HAS_SPACE_ERROR);
+        }
+        parkingSpaceService.insert(parkingSpace);
+        return ResultData.success();
+    }
+
+    @ApiOperation("根据id获取车位信息")
+    @GetMapping("/getSpace/{spaceId}")
+    public ResultData<ParkingSpace> infoById(@PathVariable("spaceId") Integer spaceId) {
+        return ResultData.success(parkingSpaceService.selectById(spaceId));
+    }
+
+    @ApiOperation("修改车位信息")
+    @PutMapping("/update")
+    public ResultData<Void> update(@RequestBody ParkingSpace parkingSpace) {
+        if(parkingSpaceService.hasSpace(parkingSpace.getParkingLotId(), parkingSpace.getX(), parkingSpace.getY())) {
+            throw new ServiceException(ResultCode.ADD_SPACE_HAS_SPACE_ERROR);
+        }
+        parkingSpaceService.update(parkingSpace);
+        return ResultData.success();
+    }
+
+    @ApiOperation("删除车位")
+    @DeleteMapping("/del/{ids}")
+    public ResultData<Void> del(@PathVariable("ids") Integer[] ids) {
+        parkingSpaceService.del(ids);
         return ResultData.success();
     }
 }

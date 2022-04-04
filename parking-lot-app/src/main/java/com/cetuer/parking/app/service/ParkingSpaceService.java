@@ -1,6 +1,6 @@
 package com.cetuer.parking.app.service;
 
-import com.cetuer.parking.app.domain.ParkingSpace;
+import com.cetuer.parking.app.api.domain.ParkingSpace;
 
 import java.util.List;
 
@@ -41,4 +41,45 @@ public interface ParkingSpaceService {
      * @param parkingId 停车场id
      */
     void delAllByParkingId(Integer parkingId);
+
+    /**
+     * 分页查询停车场下车位
+     * @param parkingId 停车场id
+     * @return 车位列表
+     */
+    List<ParkingSpace> selectListByPage(Integer parkingId);
+
+    /**
+     * 插入车位
+     * @param parkingSpace 车位
+     */
+    void insert(ParkingSpace parkingSpace);
+
+    /**
+     * 根据车位坐标判断是否已有停车位
+     * @param parkingId 停车场编号
+     * @param x x坐标
+     * @param y y坐标
+     * @return true -> 有；false -> 没有
+     */
+    boolean hasSpace(Integer parkingId, Integer x, Integer y);
+
+    /**
+     * 根据id获取车位信息
+     * @param spaceId 车位id
+     * @return 车位信息
+     */
+    ParkingSpace selectById(Integer spaceId);
+
+    /**
+     * 修改车位信息
+     * @param parkingSpace 车位
+     */
+    void update(ParkingSpace parkingSpace);
+
+    /**
+     * 批量删除车位
+     * @param ids 车位编号列表
+     */
+    void del(Integer[] ids);
 }

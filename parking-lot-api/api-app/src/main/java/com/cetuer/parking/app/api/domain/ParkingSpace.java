@@ -1,12 +1,10 @@
-package com.cetuer.parking.app.domain;
+package com.cetuer.parking.app.api.domain;
 
 import com.cetuer.parking.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.Date;
 
 /**
  *  停车位实体
@@ -30,10 +28,10 @@ public class ParkingSpace extends BaseEntity {
     private Integer parkingLotId;
 
     /**
-     * 车辆id
+     * 车牌号
      */
-    @ApiModelProperty("车辆id")
-    private Integer carId;
+    @ApiModelProperty("车牌号")
+    private String carId;
 
     /**
      * x坐标

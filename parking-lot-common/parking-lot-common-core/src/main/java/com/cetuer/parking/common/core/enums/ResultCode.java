@@ -114,6 +114,11 @@ public enum ResultCode {
     DELETE_PARKING_HAS_SPACE_ERROR(40509, "此停车场有停车位不可删除"),
 
     /**
+     * 此车位已存在
+     */
+    ADD_SPACE_HAS_SPACE_ERROR(40510, "此车位已存在"),
+
+    /**
      * 用户上传文件出错
      */
     FILE_UPLOAD_ERROR(40700, "用户上传文件出错"),

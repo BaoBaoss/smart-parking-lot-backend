@@ -3,16 +3,29 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.app.mapper.ParkingSpaceMapper">
-    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.domain.ParkingSpace">
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.api.domain.ParkingSpace">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="parkingLotId" column="parking_lot_id" jdbcType="INTEGER"/>
-        <result property="carId" column="car_id" jdbcType="INTEGER"/>
+        <result property="carId" column="car_id" jdbcType="VARCHAR"/>
         <result property="x" column="x" jdbcType="INTEGER"/>
         <result property="y" column="y" jdbcType="INTEGER"/>
         <result property="available" column="available" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <sql id="selectVo">
+        SELECT id,
+               parking_lot_id,
+               car_id,
+               x,
+               y,
+               available,
+               create_time,
+               update_time
+        FROM `smart-parking-lot`.parking_space
+    </sql>
+
     <update id="updateStatus">
         UPDATE `smart-parking-lot`.parking_space
         SET available = #{status}
@@ -21,9 +34,8 @@
           AND y = #{y}
     </update>
 
-    <select id="selectByParkingId" resultType="com.cetuer.parking.app.domain.ParkingSpace">
-        SELECT *
-        FROM `smart-parking-lot`.parking_space
+    <select id="selectByParkingId" resultType="com.cetuer.parking.app.api.domain.ParkingSpace">
+        <include refid="selectVo"/>
         WHERE parking_lot_id = #{parkingLotId}
     </select>
 
@@ -31,5 +43,50 @@
         DELETE
         FROM `smart-parking-lot`.parking_space
         WHERE parking_lot_id = #{parkingId}
+    </delete>
+
+    <insert id="insert">
+        INSERT INTO `smart-parking-lot`.parking_space(parking_lot_id, x, y, create_time)
+        VALUES (#{parkingLotId}, #{x}, #{y}, sysdate())
+    </insert>
+
+    <select id="selectByLocation" resultType="com.cetuer.parking.app.api.domain.ParkingSpace">
+        <include refid="selectVo"/>
+        WHERE parking_lot_id = #{parkingId}
+        AND x = #{x}
+        AND y = #{y}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        WHERE id = #{spaceId}
+    </select>
+
+    <update id="update">
+        UPDATE `smart-parking-lot`.parking_space
+        <set>
+            <if test="carId != null and carId != ''">
+                carId = #{carId},
+            </if>
+            <if test="x != null">
+                x = #{x},
+            </if>
+            <if test="y != null">
+                y = #{y},
+            </if>
+            <if test="available != null">
+                available = #{available},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delByIds">
+        DELETE
+        FROM `smart-parking-lot`.parking_space WHERE id IN
+        <foreach collection="array" item="spaceId" open="(" separator="," close=")">
+            #{spaceId}
+        </foreach>
     </delete>
 </mapper>

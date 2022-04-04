@@ -1,7 +1,7 @@
 package com.cetuer.parking.app.service.impl;
 
 import com.cetuer.parking.app.api.domain.ParkingLot;
-import com.cetuer.parking.app.domain.ParkingSpace;
+import com.cetuer.parking.app.api.domain.ParkingSpace;
 import com.cetuer.parking.app.mapper.ParkingLotMapper;
 import com.cetuer.parking.app.mapper.ParkingSpaceMapper;
 import com.cetuer.parking.app.service.ParkingLotService;
