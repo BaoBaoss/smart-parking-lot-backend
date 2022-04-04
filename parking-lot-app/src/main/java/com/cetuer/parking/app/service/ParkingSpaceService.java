@@ -28,4 +28,17 @@ public interface ParkingSpaceService {
      * @return 无
      */
     Void changeStatus(Integer parkingId, Integer x, Integer y, Integer status);
+
+    /**
+     * 根据停车场id判断是否有停车位
+     * @param parkingId 停车场id
+     * @return true -> 有；false -> 没有
+     */
+    boolean hasSpace(Integer parkingId);
+
+    /**
+     * 根据停车场id删除所有车位
+     * @param parkingId 停车场id
+     */
+    void delAllByParkingId(Integer parkingId);
 }

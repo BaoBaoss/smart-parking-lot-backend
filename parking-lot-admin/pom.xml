@@ -29,6 +29,11 @@
             <groupId>com.cetuer</groupId>
             <artifactId>api-file</artifactId>
         </dependency>
+        <!--app接口-->
+        <dependency>
+            <groupId>com.cetuer</groupId>
+            <artifactId>api-app</artifactId>
+        </dependency>
         <!--web启动依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

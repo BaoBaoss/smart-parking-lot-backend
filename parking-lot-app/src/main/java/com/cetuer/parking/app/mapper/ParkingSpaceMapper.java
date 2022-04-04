@@ -30,4 +30,10 @@ public interface ParkingSpaceMapper {
      * @return 无
      */
     Void updateStatus(@Param("parkingId") Integer parkingId, @Param("x") Integer x, @Param("y") Integer y, @Param("status") Integer status);
+
+    /**
+     * 根据停车场id删除所有车位
+     * @param parkingId 停车场id
+     */
+    void delAllByParkingId(Integer parkingId);
 }

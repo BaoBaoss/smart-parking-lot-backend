@@ -61,4 +61,11 @@ public class ParkingSpaceController {
                                               @RequestParam("status") Integer status) {
         return ResultData.success(parkingSpaceService.changeStatus(parkingId, x, y, status));
     }
+
+    @ApiOperation("删除停车场所有停车位信息")
+    @DeleteMapping("/delAll/{parkingId}")
+    public ResultData<Void> delAll(@PathVariable("parkingId") Integer parkingId) {
+        parkingSpaceService.delAllByParkingId(parkingId);
+        return ResultData.success();
+    }
 }

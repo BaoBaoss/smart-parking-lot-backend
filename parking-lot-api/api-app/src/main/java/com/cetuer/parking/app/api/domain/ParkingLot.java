@@ -1,12 +1,10 @@
-package com.cetuer.parking.app.domain;
+package com.cetuer.parking.app.api.domain;
 
 import com.cetuer.parking.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.math.BigDecimal;
 
 /**
  * 停车场实体类
@@ -50,10 +48,10 @@ public class ParkingLot extends BaseEntity {
     private Integer carportCount;
 
     /**
-     * 停车数
+     * 空余车位
      */
-    @ApiModelProperty(value="停车数")
-    private Integer parkingCount;
+    @ApiModelProperty(value="空余车位")
+    private Integer emptyParking;
 
     /**
      * 收费标准  元/小时

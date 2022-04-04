@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.app.mapper.ParkingSpaceMapper">
-
     <resultMap id="BaseResultMap" type="com.cetuer.parking.app.domain.ParkingSpace">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="parkingLotId" column="parking_lot_id" jdbcType="INTEGER"/>
@@ -27,4 +26,10 @@
         FROM `smart-parking-lot`.parking_space
         WHERE parking_lot_id = #{parkingLotId}
     </select>
+
+    <delete id="delAllByParkingId">
+        DELETE
+        FROM `smart-parking-lot`.parking_space
+        WHERE parking_lot_id = #{parkingId}
+    </delete>
 </mapper>

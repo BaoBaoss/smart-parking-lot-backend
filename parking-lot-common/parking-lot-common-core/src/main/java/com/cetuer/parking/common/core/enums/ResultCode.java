@@ -109,6 +109,11 @@ public enum ResultCode {
     ADMIN_ACCOUNT_OPERATION_ERROR(40508, "超级管理员账户不可操作"),
 
     /**
+     * 此停车场有停车位不可删除
+     */
+    DELETE_PARKING_HAS_SPACE_ERROR(40509, "此停车场有停车位不可删除"),
+
+    /**
      * 用户上传文件出错
      */
     FILE_UPLOAD_ERROR(40700, "用户上传文件出错"),

@@ -29,4 +29,14 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService{
     public Void changeStatus(Integer parkingId, Integer x, Integer y, Integer status) {
         return parkingSpaceMapper.updateStatus(parkingId, x, y, status);
     }
+
+    @Override
+    public boolean hasSpace(Integer parkingId) {
+        return parkingSpaceMapper.selectByParkingId(parkingId).size() > 0;
+    }
+
+    @Override
+    public void delAllByParkingId(Integer parkingId) {
+        parkingSpaceMapper.delAllByParkingId(parkingId);
+    }
 }
