@@ -1,6 +1,7 @@
 package com.cetuer.parking.app.controller;
 
 import com.cetuer.parking.app.api.domain.ParkingLot;
+import com.cetuer.parking.app.service.BeaconService;
 import com.cetuer.parking.app.service.ParkingLotService;
 import com.cetuer.parking.app.service.ParkingSpaceService;
 import com.cetuer.parking.common.core.domain.ResultData;
@@ -31,6 +32,7 @@ public class ParkingLotController {
 
     private final ParkingLotService parkingLotService;
     private final ParkingSpaceService parkingSpaceService;
+    private final BeaconService beaconService;
 
     @ApiOperation("获得所有停车场信息")
     @GetMapping("/list")
@@ -69,6 +71,9 @@ public class ParkingLotController {
     public ResultData<Void> del(@PathVariable("id") Integer parkingId) {
         if(parkingSpaceService.hasSpace(parkingId)) {
             throw new ServiceException(ResultCode.DELETE_PARKING_HAS_SPACE_ERROR);
+        }
+        if(beaconService.hasBeacon(parkingId)) {
+            throw new ServiceException(ResultCode.DELETE_PARKING_HAS_BEACON_ERROR);
         }
         parkingLotService.delById(parkingId);
         return ResultData.success();

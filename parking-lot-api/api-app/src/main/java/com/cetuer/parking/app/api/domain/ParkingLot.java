@@ -54,6 +54,12 @@ public class ParkingLot extends BaseEntity {
     private Integer emptyParking;
 
     /**
+     * 信标数量
+     */
+    @ApiModelProperty(value="信标数量")
+    private Integer beaconCount;
+
+    /**
      * 收费标准  元/小时
      */
     @ApiModelProperty(value="收费标准  元/小时")

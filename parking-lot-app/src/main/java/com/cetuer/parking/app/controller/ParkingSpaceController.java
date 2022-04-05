@@ -82,7 +82,7 @@ public class ParkingSpaceController {
     @PostMapping("/add")
     public ResultData<Void> add(@RequestBody ParkingSpace parkingSpace) {
         if(parkingSpaceService.hasSpace(parkingSpace.getParkingLotId(), parkingSpace.getX(), parkingSpace.getY())) {
-            throw new ServiceException(ResultCode.ADD_SPACE_HAS_SPACE_ERROR);
+            throw new ServiceException(ResultCode.HAS_SPACE_ERROR);
         }
         parkingSpaceService.insert(parkingSpace);
         return ResultData.success();
@@ -98,7 +98,7 @@ public class ParkingSpaceController {
     @PutMapping("/update")
     public ResultData<Void> update(@RequestBody ParkingSpace parkingSpace) {
         if(parkingSpaceService.hasSpace(parkingSpace.getParkingLotId(), parkingSpace.getX(), parkingSpace.getY())) {
-            throw new ServiceException(ResultCode.ADD_SPACE_HAS_SPACE_ERROR);
+            throw new ServiceException(ResultCode.HAS_SPACE_ERROR);
         }
         parkingSpaceService.update(parkingSpace);
         return ResultData.success();

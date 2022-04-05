@@ -114,9 +114,19 @@ public enum ResultCode {
     DELETE_PARKING_HAS_SPACE_ERROR(40509, "此停车场有停车位不可删除"),
 
     /**
+     * 此停车场有蓝牙信标不可删除
+     */
+    DELETE_PARKING_HAS_BEACON_ERROR(40510, "此停车场有蓝牙信标不可删除"),
+
+    /**
      * 此车位已存在
      */
-    ADD_SPACE_HAS_SPACE_ERROR(40510, "此车位已存在"),
+    HAS_SPACE_ERROR(40511, "此车位已存在"),
+
+    /**
+     * 此信标已存在
+     */
+    HAS_BEACON_ERROR(40512, "此信标已存在"),
 
     /**
      * 用户上传文件出错

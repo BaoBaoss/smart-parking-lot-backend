@@ -1,4 +1,4 @@
-package com.cetuer.parking.app.domain;
+package com.cetuer.parking.app.api.domain.vo;
 
 import com.cetuer.parking.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;

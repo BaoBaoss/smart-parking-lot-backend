@@ -2,6 +2,7 @@ package com.cetuer.parking.app.service.impl;
 
 import com.cetuer.parking.app.api.domain.ParkingLot;
 import com.cetuer.parking.app.api.domain.ParkingSpace;
+import com.cetuer.parking.app.mapper.BeaconMapper;
 import com.cetuer.parking.app.mapper.ParkingLotMapper;
 import com.cetuer.parking.app.mapper.ParkingSpaceMapper;
 import com.cetuer.parking.app.service.ParkingLotService;
@@ -23,6 +24,7 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     private final ParkingLotMapper parkingLotMapper;
     private final ParkingSpaceMapper parkingSpaceMapper;
+    private final BeaconMapper beaconMapper;
 
     @Override
     public List<ParkingLot> list() {
@@ -42,6 +44,8 @@ public class ParkingLotServiceImpl implements ParkingLotService {
             parking.setCarportCount(parkingSpaces.size());
             //空余车位
             parking.setEmptyParking((int) parkingSpaces.stream().filter(space -> space.getAvailable() == 1).count());
+            //信标数量
+            parking.setBeaconCount(beaconMapper.selectCountByParkingId(parking.getId()));
         }).collect(Collectors.toList());
     }
 
