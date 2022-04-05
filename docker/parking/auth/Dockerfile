@@ -13,4 +13,4 @@ COPY ./jar/parking-lot-auth.jar /home/parking/parking-lot-auth.jar
 # 暴露端口
 EXPOSE 9100
 # 启动服务
-ENTRYPOINT ["java","-Xms64m", "-Xmx128m", "-jar", "parking-lot-auth.jar"]
+ENTRYPOINT ["java","-Xms32m", "-Xmx64m", "-jar", "parking-lot-auth.jar"]

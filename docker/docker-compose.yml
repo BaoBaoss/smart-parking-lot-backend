@@ -64,11 +64,24 @@ services:
     environment:
       - MINIO_ROOT_USER=root
       - MINIO_ROOT_PASSWORD=Zqb..990826
-  parking-gateway:
-    container_name: parking-gateway
-    build: ./parking/gateway
+  parking-gateway-admin:
+    container_name: parking-gateway-admin
+    build: parking/gateway-admin
     ports:
       - "9090:9090"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - redis
+      - nacos
+    links:
+      - redis
+      - nacos
+  parking-gateway-app:
+    container_name: parking-gateway-app
+    build: parking/gateway-app
+    ports:
+      - "9089:9089"
     volumes:
       - ./parking/logs:/home/parking/logs
     depends_on:
@@ -95,6 +108,21 @@ services:
     build: ./parking/admin
     ports:
       - "9091:9091"
+    volumes:
+      - ./parking/logs:/home/parking/logs
+    depends_on:
+      - redis
+      - nacos
+      - mysql
+    links:
+      - redis
+      - nacos
+      - mysql
+  parking-app:
+    container_name: parking-app
+    build: ./parking/app
+    ports:
+      - "9093:9093"
     volumes:
       - ./parking/logs:/home/parking/logs
     depends_on:
