@@ -1,13 +1,10 @@
 package com.cetuer.parking.app.api.domain;
 
 import com.cetuer.parking.common.core.domain.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 /**
  * 会员实体
@@ -67,18 +64,5 @@ public class Member extends BaseEntity {
      */
     @ApiModelProperty(value="性别：0->未知；1->男；2->女")
     private Integer gender;
-
-    /**
-     * 出生日期
-     */
-    @ApiModelProperty(value="出生日期")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime birthday;
-
-    /**
-     * 账户余额
-     */
-    @ApiModelProperty(value="账户余额")
-    private Integer accountBalance;
 
 }

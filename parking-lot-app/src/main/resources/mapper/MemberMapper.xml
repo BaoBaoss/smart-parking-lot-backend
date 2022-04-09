@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.app.mapper.MemberMapper">
-
     <resultMap id="BaseResultMap" type="com.cetuer.parking.app.api.domain.Member">
         <id property="id" column="id" jdbcType="INTEGER"/>
         <result property="username" column="username" jdbcType="VARCHAR"/>
@@ -13,18 +12,121 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
         <result property="gender" column="gender" jdbcType="INTEGER"/>
-        <result property="birthday" column="birthday" jdbcType="DATE"/>
-        <result property="accountBalance" column="account_balance" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
+    <sql id="selectVo">
+        SELECT id,
+               username,
+               nickname,
+               phone,
+               `status`,
+               avatar,
+               gender,
+               create_time,
+               update_time
+        FROM `smart-parking-lot`.member
+    </sql>
     <insert id="insert">
         INSERT INTO `smart-parking-lot`.member(username, `password`)
         VALUES (#{username}, #{password})
     </insert>
     <select id="selectByUsername" resultType="com.cetuer.parking.app.api.domain.Member">
-        SELECT *
-        FROM `smart-parking-lot`.member
+        <include refid="selectVo"/>
         WHERE username = #{username}
     </select>
+
+    <select id="selectListByPage" parameterType="com.cetuer.parking.app.api.domain.Member"
+            resultType="com.cetuer.parking.app.api.domain.Member">
+        <include refid="selectVo"/>
+        <where>
+            <if test="username != null and username != ''">
+                AND username like concat('%', #{username}, '%')
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND phone like concat('%', #{phone}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByMemberId" resultType="com.cetuer.parking.app.api.domain.Member">
+        <include refid="selectVo"/>
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertMember">
+        INSERT INTO `smart-parking-lot`.member(
+        <if test="username != null and username != ''">
+            username,
+        </if>
+        <if test="password != null and password != ''">
+            password,
+        </if>
+        <if test="nickname != null and nickname != ''">
+            nickname,
+        </if>
+        <if test="phone != null and phone != ''">
+            phone,
+        </if>
+        <if test="status != null">
+            `status`,
+        </if>
+        <if test="gender != null">
+            gender,
+        </if>
+        create_time)values(
+        <if test="username != null and username != ''">
+            #{username},
+        </if>
+        <if test="password != null and password != ''">
+            #{password},
+        </if>
+        <if test="nickname != null and nickname != ''">
+            #{nickname},
+        </if>
+        <if test="phone != null and phone != ''">
+            #{phone},
+        </if>
+        <if test="status != null">
+            #{status},
+        </if>
+        <if test="gender != null">
+            #{gender},
+        </if>
+        sysdate())
+    </insert>
+
+    <delete id="deleteByIds">
+        DELETE
+        FROM `smart-parking-lot`.member WHERE id IN
+        <foreach collection="array" item="memberId" open="(" separator="," close=")">
+            #{memberId}
+        </foreach>
+    </delete>
+
+    <update id="updateMember">
+        UPDATE `smart-parking-lot`.member
+        <set>
+            <if test="password != null and password != ''">
+                `password` = #{password},
+            </if>
+            <if test="nickname != null and nickname != ''">
+                nickname = #{nickname},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>

@@ -9,12 +9,12 @@ spring:
     nacos:
       config:
         file-extension: yml
-        server-addr: nacos:8848
+        server-addr: 192.168.6.6:8848
         # 共享配置
         shared-configs:
           - common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
       discovery:
-        server-addr: nacos:8848
+        server-addr: 192.168.6.6:8848
   servlet:
     multipart:
       # 单个文件最大
