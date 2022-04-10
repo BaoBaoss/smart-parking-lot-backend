@@ -2,10 +2,9 @@ package com.cetuer.parking.app.mapper;
 
 import com.cetuer.parking.app.domain.BeaconCoordinate;
 import com.cetuer.parking.app.domain.BeaconRssi;
-import com.cetuer.parking.app.domain.KNNBean;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
 * 信标RSSI值数据操作
@@ -27,4 +26,18 @@ public interface BeaconCoordinateMapper {
      * @return mac和rssi
      */
     List<BeaconRssi> selectMacRssiByCoordinateId(Integer coordinateId);
+
+    /**
+     * 根据坐标id和信标id查找数据
+     * @param coordinateId 坐标id
+     * @param beaconId 信标id
+     * @return 数据
+     */
+    BeaconCoordinate selectByCoordIdAndBeaconId(@Param("coordinateId") Integer coordinateId, @Param("beaconId") Integer beaconId);
+
+    /**
+     * 修改数据
+     * @param beaconCoordinate 数据
+     */
+    void updateBeaconCoordinate(BeaconCoordinate beaconCoordinate);
 }

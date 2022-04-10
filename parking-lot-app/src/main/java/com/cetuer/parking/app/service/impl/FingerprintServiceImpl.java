@@ -45,8 +45,16 @@ public class FingerprintServiceImpl implements FingerprintService {
                 coordinateMapper.insertCoordinate(c);
                 coordinateId = c.getId();
             }
+            //获取所有信标
             for (String mac : beaconValue.keySet()) {
-                beaconCoordinateMapper.insertBeaconCoordinate(new BeaconCoordinate(null, coordinateId, beaconMapper.selectIdByMac(mac), beaconValue.get(mac)));
+                //信标id
+                Integer beaconId = beaconMapper.selectIdByMac(mac);
+                //已有数据则更新
+                if(beaconCoordinateMapper.selectByCoordIdAndBeaconId(coordinateId, beaconId) != null) {
+                    beaconCoordinateMapper.updateBeaconCoordinate(new BeaconCoordinate(null, coordinateId, beaconId, beaconValue.get(mac)));
+                    continue;
+                }
+                beaconCoordinateMapper.insertBeaconCoordinate(new BeaconCoordinate(null, coordinateId, beaconId, beaconValue.get(mac)));
             }
         }
     }

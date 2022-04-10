@@ -20,4 +20,12 @@
                      LEFT JOIN `smart-parking-lot`.beacon_device bd ON bc.beacon_id = bd.id
         WHERE coordinate_id = #{coordinateId}
     </select>
+
+    <select id="selectByCoordIdAndBeaconId" resultType="com.cetuer.parking.app.domain.BeaconCoordinate">
+        SELECT * FROM `smart-parking-lot`.beacon_coordinate WHERE coordinate_id = #{coordinateId} AND  beacon_id = #{beaconId}
+    </select>
+
+    <update id="updateBeaconCoordinate">
+        UPDATE `smart-parking-lot`.beacon_coordinate SET rssi = #{rssi} WHERE beacon_id = #{beaconId} AND coordinate_id = #{coordinateId}
+    </update>
 </mapper>
