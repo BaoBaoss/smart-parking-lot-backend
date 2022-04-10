@@ -17,6 +17,14 @@ public class Member extends BaseEntity {
 
     private static final long serialVersionUID = -6596799178022358734L;
 
+    public Member() {
+    }
+
+    public Member(Integer id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
     /**
      * 主键
      */

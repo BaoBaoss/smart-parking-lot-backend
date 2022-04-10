@@ -18,6 +18,7 @@
     <sql id="selectVo">
         SELECT id,
                username,
+               `password`,
                nickname,
                phone,
                `status`,

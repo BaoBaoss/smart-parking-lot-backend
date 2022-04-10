@@ -4,10 +4,12 @@ import com.cetuer.parking.app.api.domain.Member;
 import com.cetuer.parking.app.api.domain.vo.MemberLoginVo;
 import com.cetuer.parking.app.api.model.LoginMember;
 import com.cetuer.parking.app.service.MemberService;
+import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.domain.ResultData;
 import com.cetuer.parking.common.core.domain.TableInfo;
 import com.cetuer.parking.common.core.enums.ResultCode;
 import com.cetuer.parking.common.core.exception.ServiceException;
+import com.cetuer.parking.common.security.utils.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -62,6 +64,12 @@ public class MemberController {
         }
         memberService.insert(loginVo);
         return ResultData.success();
+    }
+
+    @ApiOperation("获取当前用户信息")
+    @GetMapping("/getInfo")
+    public ResultData<Member> getInfo(@RequestHeader(TokenConstants.USERNAME) String username) {
+        return ResultData.success(memberService.selectByUsername(username));
     }
 
     /**
@@ -155,4 +163,32 @@ public class MemberController {
         return ResultData.success();
     }
 
+    /**
+     * 重置当前用户密码
+     *
+     * @param id id
+     * @param password 密码
+     * @return 无
+     */
+    @ApiOperation("重置当前用户密码")
+    @GetMapping("/resetCurPwd")
+    public ResultData<Void> resetCurPwd(@RequestHeader(TokenConstants.USER_ID) Integer id, String password) {
+        memberService.resetPwd(new Member(id, password));
+        return ResultData.success();
+    }
+
+    @ApiOperation("检查密码是否匹配")
+    @GetMapping("/checkMatchPwd")
+    public ResultData<Boolean> checkMatchPwd(@RequestHeader(TokenConstants.USERNAME) String username, String password) {
+        Member member = memberService.selectByUsername(username);
+        return ResultData.success(SecurityUtil.matchesPassword(password, member.getPassword()));
+    }
+
+    @ApiOperation("app端修改会员")
+    @PostMapping("/updateMember")
+    public ResultData<Void> updateMember(@RequestHeader(TokenConstants.USER_ID) Integer userId, @RequestBody Member member) {
+        member.setId(userId);
+        memberService.updateMember(member);
+        return ResultData.success();
+    }
 }
