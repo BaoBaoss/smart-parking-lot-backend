@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 停车场相关接口
  *
@@ -23,6 +25,13 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ParkingLotController {
     private final RemoteParkingLotService remoteParkingLotService;
+
+    @ApiOperation("获得所有停车场信息")
+    @GetMapping("/list")
+    @RequirePermission({"app:space:add", "app:beacon:add"})
+    public ResultData<List<ParkingLot>> list() {
+        return remoteParkingLotService.list();
+    }
 
     @ApiOperation("获得所有停车场信息")
     @GetMapping("/listByPage")

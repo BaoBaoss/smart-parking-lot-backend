@@ -176,7 +176,7 @@ public class UserController {
     @ApiOperation("修改用户")
     @PutMapping("/edit")
     @RequirePermission("system:user:edit")
-    public ResultData<Void> edit(@Validated(UserGroup.AddGroup.class) @RequestBody User user, @RequestHeader(TokenConstants.USER_ID) Integer currentUserId) {
+    public ResultData<Void> edit(@Validated(UserGroup.EditGroup.class) @RequestBody User user, @RequestHeader(TokenConstants.USER_ID) Integer currentUserId) {
         if (AdminUtil.isAdminUser(user.getId()) && !AdminUtil.isAdminUser(currentUserId)) {
             throw new ServiceException(ResultCode.ADMIN_ACCOUNT_OPERATION_ERROR);
         }

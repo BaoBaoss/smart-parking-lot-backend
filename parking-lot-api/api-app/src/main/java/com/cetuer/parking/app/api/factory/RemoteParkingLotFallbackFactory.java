@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 停车场服务降级处理
  *
@@ -22,6 +24,11 @@ public class RemoteParkingLotFallbackFactory implements FallbackFactory<RemotePa
     public RemoteParkingLotService create(Throwable cause) {
         log.error("停车场服务调用失败:{}", cause.getMessage());
         return new RemoteParkingLotService() {
+            @Override
+            public ResultData<List<ParkingLot>> list() {
+                return ResultData.fail(ResultCode.SERVICE_DEMOTION);
+            }
+
             @Override
             public ResultData<TableInfo<ParkingLot>> listByPage(Integer pageNum, Integer pageSize, ParkingLot parkingLot) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);

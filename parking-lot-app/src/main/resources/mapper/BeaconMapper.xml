@@ -126,6 +126,9 @@
             <if test="y != null">
                 y = #{y},
             </if>
+            <if test="parkingLotId != null">
+                parking_lot_id = #{parkingLotId},
+            </if>
             update_time = sysdate()
         </set>
         WHERE id = #{id}

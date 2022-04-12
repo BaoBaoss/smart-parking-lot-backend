@@ -66,6 +66,11 @@ public class ParkingSpaceServiceImpl implements ParkingSpaceService{
     }
 
     @Override
+    public void updateNoLocation(ParkingSpace parkingSpace) {
+        parkingSpaceMapper.updateNoLocation(parkingSpace);
+    }
+
+    @Override
     public void del(Integer[] ids) {
         parkingSpaceMapper.delByIds(ids);
     }

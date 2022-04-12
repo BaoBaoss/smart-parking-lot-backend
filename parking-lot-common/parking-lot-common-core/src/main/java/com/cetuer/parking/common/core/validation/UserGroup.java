@@ -15,6 +15,12 @@ public class UserGroup {
     }
 
     /**
+     * 修改校验组
+     */
+    public interface EditGroup {
+    }
+
+    /**
      * 重置密码校验组
      */
     public interface ResetPwdGroup {

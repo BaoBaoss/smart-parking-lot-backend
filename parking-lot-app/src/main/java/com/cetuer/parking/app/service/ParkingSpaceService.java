@@ -78,8 +78,15 @@ public interface ParkingSpaceService {
     void update(ParkingSpace parkingSpace);
 
     /**
+     * 修改车位信息(不修改坐标)
+     * @param parkingSpace 车位
+     */
+    void updateNoLocation(ParkingSpace parkingSpace);
+
+    /**
      * 批量删除车位
      * @param ids 车位编号列表
      */
     void del(Integer[] ids);
+
 }

@@ -18,7 +18,7 @@ public interface ParkingSpaceMapper {
      * @param parkingLotId 停车场编号
      * @return 车位列表
      */
-    List<ParkingSpace> selectByParkingId(Integer parkingLotId);
+    List<ParkingSpace> selectByParkingId(@Param("parkingId") Integer parkingLotId);
 
     /**
      * 根据停车场编号和车位坐标更改车位状态
@@ -70,4 +70,10 @@ public interface ParkingSpaceMapper {
      * @param ids 车位编号列表
      */
     void delByIds(Integer[] ids);
+
+    /**
+     * 修改车位但不更新坐标
+     * @param parkingSpace 车位信息
+     */
+    void updateNoLocation(ParkingSpace parkingSpace);
 }

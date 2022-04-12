@@ -98,7 +98,8 @@ public class ParkingSpaceController {
     @PutMapping("/update")
     public ResultData<Void> update(@RequestBody ParkingSpace parkingSpace) {
         if(parkingSpaceService.hasSpace(parkingSpace.getParkingLotId(), parkingSpace.getX(), parkingSpace.getY())) {
-            throw new ServiceException(ResultCode.HAS_SPACE_ERROR);
+            parkingSpaceService.updateNoLocation(parkingSpace);
+            return ResultData.success();
         }
         parkingSpaceService.update(parkingSpace);
         return ResultData.success();

@@ -47,7 +47,7 @@ public class User extends BaseEntity {
     private String email;
 
     @ApiModelProperty(value = "昵称")
-    @NotBlank(message = "昵称不能为空", groups = UserGroup.AddGroup.class)
+    @NotBlank(message = "昵称不能为空", groups = {UserGroup.AddGroup.class, UserGroup.EditGroup.class})
     private String nickname;
 
     @ApiModelProperty(value = "备注信息")

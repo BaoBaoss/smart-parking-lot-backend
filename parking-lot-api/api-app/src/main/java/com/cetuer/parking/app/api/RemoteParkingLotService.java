@@ -11,6 +11,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 远程调用停车场服务
  *
@@ -19,11 +21,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @FeignClient(contextId = "remoteParkingLotService", value = ServiceNameConstants.APP_SERVICE, fallbackFactory = RemoteParkingLotFallbackFactory.class)
 public interface RemoteParkingLotService {
-    /**
-     * 分页查询所有停车场信息
-     *
-     * @return 所有停车场信息
-     */
+
+    @ApiOperation("查询所有停车场信息")
+    @GetMapping("/parkingLot/list")
+    ResultData<List<ParkingLot>> list();
+
+    @ApiOperation("分页查询所有停车场信息")
     @GetMapping("/parkingLot/listByPage")
     ResultData<TableInfo<ParkingLot>> listByPage(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @SpringQueryMap ParkingLot parkingLot);
 
