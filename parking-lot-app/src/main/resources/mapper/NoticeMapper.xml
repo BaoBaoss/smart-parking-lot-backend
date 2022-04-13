@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.app.mapper.NoticeMapper">
+    <sql id="selectVo">
+        SELECT id,
+               parking_lot_id,
+               title,
+               content,
+               `show`,
+               `level`,
+               create_time,
+               update_time
+        FROM `smart-parking-lot`.notice
+    </sql>
+
+    <select id="selectAll" resultType="com.cetuer.parking.app.api.domain.Notice">
+        <include refid="selectVo"/>
+        <where>
+            <if test="parkingLotId != null">
+                parking_lot_id = #{parkingLotId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO `smart-parking-lot`.notice(parking_lot_id, title, content, `show`, `level`, create_time)
+        VALUES (#{parkingLotId}, #{title}, #{content}, #{show}, #{level}, sysdate())
+    </insert>
+
+    <select id="selectById" resultType="com.cetuer.parking.app.api.domain.Notice">
+        <include refid="selectVo"/>
+        WHERE id = #{noticeId}
+    </select>
+
+    <update id="update">
+        UPDATE `smart-parking-lot`.notice
+        SET parking_lot_id = #{parkingLotId},
+            title          = #{title},
+            content        =#{content},
+            `show`         = #{show},
+            `level`        = #{level}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delByIds">
+        DELETE
+        FROM `smart-parking-lot`.notice
+        WHERE id IN
+        <foreach collection="array" item="noticeId" open="(" separator="," close=")">
+            #{noticeId}
+        </foreach>
+    </delete>
+</mapper>

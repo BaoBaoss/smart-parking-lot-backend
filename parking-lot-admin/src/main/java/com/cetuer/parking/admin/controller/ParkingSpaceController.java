@@ -34,7 +34,7 @@ public class ParkingSpaceController {
     @ApiOperation("分页查询车位信息")
     @GetMapping("/listByPage")
     @RequirePermission("app:space:list")
-    public ResultData<TableInfo<ParkingSpace>> listByPage(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam("parkingId") Integer parkingId) {
+    public ResultData<TableInfo<ParkingSpace>> listByPage(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, @RequestParam(value = "parkingId", required = false) Integer parkingId) {
         return remoteParkingSpaceService.listByPage(pageNum, pageSize, parkingId);
     }
 

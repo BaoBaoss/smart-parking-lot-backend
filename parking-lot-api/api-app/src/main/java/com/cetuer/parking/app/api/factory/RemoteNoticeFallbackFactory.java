@@ -1,7 +1,7 @@
 package com.cetuer.parking.app.api.factory;
 
-import com.cetuer.parking.app.api.RemoteParkingSpaceService;
-import com.cetuer.parking.app.api.domain.ParkingSpace;
+import com.cetuer.parking.app.api.RemoteNoticeService;
+import com.cetuer.parking.app.api.domain.Notice;
 import com.cetuer.parking.common.core.domain.ResultData;
 import com.cetuer.parking.common.core.domain.TableInfo;
 import com.cetuer.parking.common.core.enums.ResultCode;
@@ -10,41 +10,36 @@ import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * 停车位服务降级处理
+ * 公告服务降级处理
  *
  * @author Cetuer
  * @date 2021/12/17 10:39
  */
 @Component
 @Slf4j
-public class RemoteParkingSpaceFallbackFactory implements FallbackFactory<RemoteParkingSpaceService> {
+public class RemoteNoticeFallbackFactory implements FallbackFactory<RemoteNoticeService> {
 
     @Override
-    public RemoteParkingSpaceService create(Throwable cause) {
-        log.error("停车位服务调用失败:{}", cause.getMessage());
-        return new RemoteParkingSpaceService() {
+    public RemoteNoticeService create(Throwable cause) {
+        log.error("公告服务调用失败:{}", cause.getMessage());
+        return new RemoteNoticeService() {
             @Override
-            public ResultData<Void> delAll(Integer parkingId) {
+            public ResultData<TableInfo<Notice>> listByPage(Integer pageNum, Integer pageSize, Integer parkingId) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);
             }
 
             @Override
-            public ResultData<TableInfo<ParkingSpace>> listByPage(Integer pageNum, Integer pageSize, Integer parkingId) {
+            public ResultData<Void> add(Notice notice) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);
             }
 
             @Override
-            public ResultData<Void> add(ParkingSpace parkingSpace) {
+            public ResultData<Notice> infoById(Integer noticeId) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);
             }
 
             @Override
-            public ResultData<ParkingSpace> infoById(Integer spaceId) {
-                return ResultData.fail(ResultCode.SERVICE_DEMOTION);
-            }
-
-            @Override
-            public ResultData<Void> update(ParkingSpace parkingSpace) {
+            public ResultData<Void> update(Notice notice) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);
             }
 
@@ -52,7 +47,6 @@ public class RemoteParkingSpaceFallbackFactory implements FallbackFactory<Remote
             public ResultData<Void> del(Integer[] ids) {
                 return ResultData.fail(ResultCode.SERVICE_DEMOTION);
             }
-
         };
     }
 }
