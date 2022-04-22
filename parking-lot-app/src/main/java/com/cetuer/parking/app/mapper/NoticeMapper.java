@@ -49,4 +49,11 @@ public interface NoticeMapper {
      * @param ids 公告id列表
      */
     void delByIds(Integer[] ids);
+
+    /**
+     * 根据停车场ID查询展示的公告
+     * @param parkingLotId 停车场ID
+     * @return 公告列表
+     */
+    List<Notice> selectShowByParking(@Param("parkingLotId") Integer parkingLotId);
 }

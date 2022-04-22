@@ -43,4 +43,11 @@ public interface NoticeService {
      * @param ids 公告id列表
      */
     void delByIds(Integer[] ids);
+
+    /**
+     * 根据停车场查询公告列表
+     * @param parkingLotId  停车场id
+     * @return 公告列表
+     */
+    List<Notice> selectListByParking(Integer parkingLotId);
 }

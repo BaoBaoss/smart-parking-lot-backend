@@ -44,4 +44,9 @@ public class NoticeServiceImpl implements NoticeService{
     public void delByIds(Integer[] ids) {
         noticeMapper.delByIds(ids);
     }
+
+    @Override
+    public List<Notice> selectListByParking(Integer parkingLotId) {
+        return noticeMapper.selectShowByParking(parkingLotId);
+    }
 }

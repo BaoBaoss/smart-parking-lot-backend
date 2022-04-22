@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cetuer.parking.app.mapper.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.api.domain.Notice">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="parking_lot_id" jdbcType="INTEGER" property="parkingLotId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="show" jdbcType="INTEGER" property="show"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <result column="parkingLotId" jdbcType="INTEGER" property="parkingLotId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
     <sql id="selectVo">
         SELECT id,
                parking_lot_id,
@@ -13,7 +24,7 @@
         FROM `smart-parking-lot`.notice
     </sql>
 
-    <select id="selectAll" resultType="com.cetuer.parking.app.api.domain.Notice">
+    <select id="selectAll" resultMap="BaseResultMap">
         <include refid="selectVo"/>
         <where>
             <if test="parkingLotId != null">
@@ -27,7 +38,7 @@
         VALUES (#{parkingLotId}, #{title}, #{content}, #{show}, #{level}, sysdate())
     </insert>
 
-    <select id="selectById" resultType="com.cetuer.parking.app.api.domain.Notice">
+    <select id="selectById" resultMap="BaseResultMap">
         <include refid="selectVo"/>
         WHERE id = #{noticeId}
     </select>
@@ -50,4 +61,16 @@
             #{noticeId}
         </foreach>
     </delete>
+
+    <select id="selectShowByParking" resultMap="BaseResultMap">
+        <include refid="selectVo"/>
+        <where>
+            `show` = 1
+            <if test="parkingLotId != null">
+                AND parking_lot_id = #{parkingLotId}
+            </if>
+
+        </where>
+        ORDER BY level
+    </select>
 </mapper>

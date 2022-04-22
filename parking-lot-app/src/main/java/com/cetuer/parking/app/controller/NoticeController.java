@@ -39,6 +39,12 @@ public class NoticeController {
         return ResultData.success(TableInfo.getInstance(noticeList));
     }
 
+    @ApiOperation("根据停车场id查询公告信息")
+    @GetMapping("/listByParking")
+    public ResultData<List<Notice>> listByParking(Integer parkingLotId) {
+        return ResultData.success(noticeService.selectListByParking(parkingLotId));
+    }
+
     @ApiOperation("新增公告信息")
     @PostMapping("/add")
     public ResultData<Void> add(@RequestBody Notice notice) {

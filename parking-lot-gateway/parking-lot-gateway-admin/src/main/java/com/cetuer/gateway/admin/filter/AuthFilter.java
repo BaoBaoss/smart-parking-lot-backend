@@ -54,18 +54,22 @@ public class AuthFilter implements GlobalFilter, Ordered {
         if(count > 0) {
             return chain.filter(exchange);
         }
+        //获取请求头携带的Token
         String token = getToken(request);
         if(StrUtil.isEmpty(token)) {
             return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_NULL);
         }
         JWT jwt;
         try {
+            //解析Token
             jwt = JWTUtil.parseToken(token);
         } catch (Exception e) {
             e.printStackTrace();
             return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_ERROR);
         }
+        //获取Token信息
         String userKey = (String) jwt.getPayload(TokenConstants.USER_KEY);
+        //检查Redis缓存是否存在用户信息
         boolean isLogin = redisService.hasKey(TokenConstants.LOGIN_TOKEN_KEY + userKey);
         if(!isLogin) {
             return unauthorizedResponse(exchange, ResultCode.UNAUTHORIZED_TOKEN_EXPIRE);

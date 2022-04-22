@@ -35,6 +35,7 @@ public class LoginService {
      * @return 用户信息
      */
     public LoginUser login(String username, String password) {
+        //远程调用用户服务获取用户信息
         ResultData<LoginUser> resultData = remoteUserService.getUserInfo(username);
         if(ResultCode.ACCOUNT_NOT_EXIST.getCode() == resultData.getStatus() || null == resultData.getData()) {
             throw new ServiceException(ResultCode.ACCOUNT_NOT_EXIST);

@@ -28,7 +28,13 @@ public class ParkingLotServiceImpl implements ParkingLotService {
 
     @Override
     public List<ParkingLot> list() {
-        return parkingLotMapper.selectAll();
+        return parkingLotMapper.selectAll().stream().peek(parking -> {
+            List<ParkingSpace> parkingSpaces = parkingSpaceMapper.selectByParkingId(parking.getId());
+            //车位总数
+            parking.setCarportCount(parkingSpaces.size());
+            //空余车位
+            parking.setEmptyParking((int) parkingSpaces.stream().filter(space -> space.getAvailable() == 1).count());
+        }).collect(Collectors.toList());
     }
 
     @Override
