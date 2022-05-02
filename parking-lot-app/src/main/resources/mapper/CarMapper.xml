@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cetuer.parking.app.mapper.CarMapper">
+    <resultMap id="BaseResultMap" type="com.cetuer.parking.app.api.domain.Car">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="car_id" jdbcType="VARCHAR" property="carId"/>
+        <result column="member_id" jdbcType="INTEGER" property="memberId"/>
+        <result column="space_id" jdbcType="INTEGER" property="spaceId"/>
+        <result column="brand" jdbcType="VARCHAR" property="brand"/>
+        <result column="price" jdbcType="INTEGER" property="price"/>
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="selectVO">
+        SELECT id,
+               car_id,
+               member_id,
+               space_id,
+               brand,
+               price,
+               color,
+               create_time,
+               update_time
+        FROM `smart-parking-lot`.car
+    </sql>
+
+    <select id="selectCarByMemberId" resultMap="BaseResultMap">
+        <include refid="selectVO"/>
+        WHERE member_id = #{memberId}
+    </select>
+
+    <update id="update">
+        UPDATE `smart-parking-lot`.car
+        <set>
+            <if test="carId != null and carId != ''">
+                car_id = #{carId},
+            </if>
+            <if test="brand != null and brand != ''">
+                brand = #{brand},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="color != null and color != ''">
+                color = #{color},
+            </if>
+            update_time = sysdate()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO `smart-parking-lot`.car(car_id, member_id,
+        <if test="brand != null and brand != ''">
+            brand,
+        </if>
+        <if test="price != null">
+            price,
+        </if>
+        <if test="color != null and color != ''">
+            color,
+        </if>
+        create_time)VALUES (#{carId}, #{memberId},
+        <if test="brand != null and brand != ''">
+            #{brand},
+        </if>
+        <if test="price != null">
+            #{price},
+        </if>
+        <if test="color != null and color != ''">
+            #{color},
+        </if>
+        sysdate())
+    </insert>
+
+    <select id="selectCarByCarId" resultMap="BaseResultMap">
+        <include refid="selectVO"/>
+        WHERE car_id = #{carId}
+    </select>
+
+    <update id="updateSpaceId">
+        UPDATE `smart-parking-lot`.car
+        SET space_id = #{spaceId}
+        WHERE id = #{id}
+    </update>
+</mapper>

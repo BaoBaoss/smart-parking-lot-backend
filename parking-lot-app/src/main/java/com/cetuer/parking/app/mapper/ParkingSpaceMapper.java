@@ -76,4 +76,12 @@ public interface ParkingSpaceMapper {
      * @param parkingSpace 车位信息
      */
     void updateNoLocation(ParkingSpace parkingSpace);
+
+    /**
+     * 根据车位id修改停在此处的车牌号
+     * @param spaceId 车位编号
+     * @param carId 车牌号
+     * @param available 是否可用
+     */
+    void updateCarIdById(@Param("spaceId") Integer spaceId, @Param("carId") String carId, @Param("available") Integer available);
 }

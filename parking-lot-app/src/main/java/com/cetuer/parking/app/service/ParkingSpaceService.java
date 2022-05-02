@@ -89,4 +89,24 @@ public interface ParkingSpaceService {
      */
     void del(Integer[] ids);
 
+    /**
+     * 停车
+     * @param userId 用户ID
+     * @param spaceId 车位id
+     */
+    void parking(Integer userId, Integer spaceId);
+
+    /**
+     * 根据用户id获取停车车位
+     * @param userId 用户id
+     * @return 停车车位
+     */
+    ParkingSpace carSpace(Integer userId);
+
+    /**
+     * 寻车成功，更改车辆和车位状态
+     * @param userId 用户id
+     * @param spaceId 之前所停放车位
+     */
+    void findCar(Integer userId, Integer spaceId);
 }

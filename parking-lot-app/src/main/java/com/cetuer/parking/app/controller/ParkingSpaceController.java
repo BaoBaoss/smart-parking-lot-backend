@@ -2,6 +2,7 @@ package com.cetuer.parking.app.controller;
 
 import com.cetuer.parking.app.api.domain.ParkingSpace;
 import com.cetuer.parking.app.service.ParkingSpaceService;
+import com.cetuer.parking.common.core.constant.TokenConstants;
 import com.cetuer.parking.common.core.domain.ResultData;
 import com.cetuer.parking.common.core.domain.TableInfo;
 import com.cetuer.parking.common.core.enums.ResultCode;
@@ -110,5 +111,25 @@ public class ParkingSpaceController {
     public ResultData<Void> del(@PathVariable("ids") Integer[] ids) {
         parkingSpaceService.del(ids);
         return ResultData.success();
+    }
+
+    @ApiOperation("停车")
+    @GetMapping("/parking")
+    public ResultData<Void> parking(@RequestHeader(TokenConstants.USER_ID) Integer userId, @RequestParam("spaceId") Integer spaceId) {
+        parkingSpaceService.parking(userId, spaceId);
+        return ResultData.success();
+    }
+
+    @ApiOperation("寻车")
+    @GetMapping("/findCar")
+    public ResultData<Void> findCar(@RequestHeader(TokenConstants.USER_ID) Integer userId, @RequestParam("spaceId") Integer spaceId) {
+        parkingSpaceService.findCar(userId, spaceId);
+        return ResultData.success();
+    }
+
+    @ApiOperation("获取停车车位")
+    @GetMapping("/carSpace")
+    public ResultData<ParkingSpace> carSpace(@RequestHeader(TokenConstants.USER_ID) Integer userId) {
+        return ResultData.success(parkingSpaceService.carSpace(userId));
     }
 }

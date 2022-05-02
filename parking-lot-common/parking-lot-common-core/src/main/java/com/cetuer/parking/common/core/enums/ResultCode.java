@@ -129,6 +129,11 @@ public enum ResultCode {
     HAS_BEACON_ERROR(40512, "此信标已存在"),
 
     /**
+     * 此车牌已存在
+     */
+    HAS_CAR_ID_ERROR(40511, "此车牌已存在"),
+
+    /**
      * 用户上传文件出错
      */
     FILE_UPLOAD_ERROR(40700, "用户上传文件出错"),

@@ -57,8 +57,8 @@
     <select id="selectByLocation" resultType="com.cetuer.parking.app.api.domain.ParkingSpace">
         <include refid="selectVo"/>
         WHERE parking_lot_id = #{parkingId}
-        AND x = #{x}
-        AND y = #{y}
+          AND x = #{x}
+          AND y = #{y}
     </select>
 
     <select id="selectById" resultMap="BaseResultMap">
@@ -113,4 +113,10 @@
             #{spaceId}
         </foreach>
     </delete>
+
+    <update id="updateCarIdById">
+        UPDATE `smart-parking-lot`.parking_space
+        SET car_id = #{carId}, available = #{available}
+        WHERE id = #{spaceId}
+    </update>
 </mapper>
